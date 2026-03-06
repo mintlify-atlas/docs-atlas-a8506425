@@ -46,20 +46,11 @@ uipro init [options]
   Skip GitHub download and use bundled assets only. Useful when working without internet connection.
 </ParamField>
 
-<ParamField path="--legacy" type="boolean" default="false">
-  Use the old ZIP-based installation method instead of template generation. This flag attempts to download from GitHub releases first, then falls back to bundled assets.
-</ParamField>
 
-## Installation Methods
 
-UI/UX Pro Max uses intelligent installation methods:
+## How It Works
 
-1. **Template Generation (Default)** - Generates skill files from templates for optimal performance
-2. **Legacy Mode** - Downloads from GitHub releases or uses bundled assets (requires `--legacy` flag)
-
-### Template Generation
-
-By default, `uipro init` generates skill files from built-in templates:
+`uipro init` generates skill files from built-in templates:
 
 ```bash
 uipro init
@@ -70,19 +61,6 @@ This method:
 - Works completely offline
 - Installs in under a second
 - Produces minimal output folders
-
-### Legacy Installation
-
-Use `--legacy` flag for the traditional installation method:
-
-```bash
-uipro init --legacy
-```
-
-This method:
-1. Attempts to download latest release from GitHub
-2. Falls back to bundled assets if GitHub is unavailable
-3. Can be forced offline with `--offline` flag
 
 ## Examples
 
