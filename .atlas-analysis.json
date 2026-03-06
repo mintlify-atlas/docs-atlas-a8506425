@@ -1,0 +1,121 @@
+{
+  "projectType": "cli-tool",
+  "projectName": "UI/UX Pro Max",
+  "projectDescription": "An AI-powered design intelligence toolkit providing searchable databases of UI styles, color palettes, font pairings, and UX guidelines for building professional UI/UX across multiple platforms.",
+  "theme": "willow",
+  "primaryColor": "#4a77d9",
+  "lightColor": "#a47c7c",
+  "darkColor": null,
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Documentation",
+        "groups": [
+          {
+            "group": "Get Started",
+            "pages": [
+              "introduction",
+              "installation",
+              "quickstart"
+            ]
+          },
+          {
+            "group": "Core Concepts",
+            "pages": [
+              "concepts/design-system-generation",
+              "concepts/search-engine",
+              "concepts/reasoning-rules",
+              "concepts/skill-vs-workflow"
+            ]
+          },
+          {
+            "group": "Usage Guides",
+            "pages": [
+              "guides/cli-commands",
+              "guides/design-system-workflow",
+              "guides/domain-search",
+              "guides/stack-guidelines",
+              "guides/persist-design-system"
+            ]
+          },
+          {
+            "group": "Platform Support",
+            "pages": [
+              "platforms/overview",
+              "platforms/claude-code",
+              "platforms/cursor",
+              "platforms/windsurf",
+              "platforms/other-platforms"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "Reference",
+        "groups": [
+          {
+            "group": "CLI Reference",
+            "pages": [
+              "cli/init",
+              "cli/update",
+              "cli/versions"
+            ]
+          },
+          {
+            "group": "Search Domains",
+            "pages": [
+              "domains/overview",
+              "domains/product",
+              "domains/style",
+              "domains/color",
+              "domains/typography",
+              "domains/landing",
+              "domains/chart",
+              "domains/ux"
+            ]
+          },
+          {
+            "group": "Design Resources",
+            "pages": [
+              "resources/styles",
+              "resources/color-palettes",
+              "resources/font-pairings",
+              "resources/reasoning-rules",
+              "resources/tech-stacks"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/architecture",
+              "contributing/development-setup",
+              "contributing/sync-workflow"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "keyFeatures": [
+    "Design System Generator with 100 industry-specific reasoning rules",
+    "67 UI styles from Glassmorphism to Brutalism",
+    "96 color palettes for different industries",
+    "57 curated font pairings with Google Fonts imports",
+    "BM25 search engine for intelligent recommendations",
+    "CLI tool for quick installation across 15+ AI platforms",
+    "Support for 13 tech stacks including React, Vue, SwiftUI, Flutter",
+    "Hierarchical design system persistence (Master + Overrides pattern)",
+    "99 UX guidelines and best practices",
+    "25 chart type recommendations for dashboards"
+  ],
+  "publicApiSurface": [
+    "uipro init --ai <platform>",
+    "uipro update",
+    "uipro versions",
+    "python3 scripts/search.py \"<query>\" --design-system",
+    "python3 scripts/search.py \"<query>\" --domain <domain>",
+    "python3 scripts/search.py \"<query>\" --stack <stack>",
+    "python3 scripts/search.py \"<query>\" --design-system --persist",
+    "/ui-ux-pro-max <prompt> (workflow mode)"
+  ]
+}
