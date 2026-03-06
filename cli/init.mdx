@@ -1,0 +1,318 @@
+---
+title: 'uipro init'
+description: 'Install UI/UX Pro Max skill to your project'
+---
+
+## Overview
+
+The `uipro init` command installs UI/UX Pro Max skill files into your current project directory. It automatically detects your AI coding assistant or prompts you to select one, then generates the appropriate skill files and folder structure.
+
+## Syntax
+
+```bash
+uipro init [options]
+```
+
+## Options
+
+<ParamField path="--ai" type="string" default="auto-detect">
+  Specify the AI assistant type to install for. Valid values:
+  
+  - `claude` - Claude Code
+  - `cursor` - Cursor
+  - `windsurf` - Windsurf
+  - `antigravity` - Antigravity Kit
+  - `copilot` - GitHub Copilot
+  - `kiro` - Kiro
+  - `roocode` - Roo Code
+  - `codex` - Codex
+  - `qoder` - Qoder
+  - `gemini` - Google Gemini
+  - `trae` - Trae
+  - `opencode` - OpenCode
+  - `continue` - Continue
+  - `codebuddy` - CodeBuddy
+  - `droid` - Droid (Factory)
+  - `all` - Install for all platforms
+  
+  If not specified, the command will auto-detect your environment or prompt you to select.
+</ParamField>
+
+<ParamField path="--force" type="boolean" default="false">
+  Overwrite existing files if they already exist in the target directory.
+</ParamField>
+
+<ParamField path="--offline" type="boolean" default="false">
+  Skip GitHub download and use bundled assets only. Useful when working without internet connection.
+</ParamField>
+
+<ParamField path="--legacy" type="boolean" default="false">
+  Use the old ZIP-based installation method instead of template generation. This flag attempts to download from GitHub releases first, then falls back to bundled assets.
+</ParamField>
+
+## Installation Methods
+
+UI/UX Pro Max uses intelligent installation methods:
+
+1. **Template Generation (Default)** - Generates skill files from templates for optimal performance
+2. **Legacy Mode** - Downloads from GitHub releases or uses bundled assets (requires `--legacy` flag)
+
+### Template Generation
+
+By default, `uipro init` generates skill files from built-in templates:
+
+```bash
+uipro init
+```
+
+This method:
+- Generates fresh skill files tailored to your platform
+- Works completely offline
+- Installs in under a second
+- Produces minimal output folders
+
+### Legacy Installation
+
+Use `--legacy` flag for the traditional installation method:
+
+```bash
+uipro init --legacy
+```
+
+This method:
+1. Attempts to download latest release from GitHub
+2. Falls back to bundled assets if GitHub is unavailable
+3. Can be forced offline with `--offline` flag
+
+## Examples
+
+### Basic Installation
+
+Install with auto-detection:
+
+```bash
+uipro init
+```
+
+**Expected Output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Installer
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Detected: claude
+? Select AI assistant to install for: › Claude Code
+
+ℹ Installing for: Claude Code
+✔ Generated from templates!
+
+ℹ Installed folders:
+  + .claude
+
+✔ UI/UX Pro Max installed successfully!
+
+Next steps:
+  1. Restart your AI coding assistant
+  2. Try: "Build a landing page for a SaaS product"
+```
+
+### Install for Specific Platform
+
+Install for Cursor without prompting:
+
+```bash
+uipro init --ai cursor
+```
+
+**Expected Output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Installer
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ℹ Installing for: Cursor
+✔ Generated from templates!
+
+ℹ Installed folders:
+  + .cursor
+  + .shared
+
+✔ UI/UX Pro Max installed successfully!
+
+Next steps:
+  1. Restart your AI coding assistant
+  2. Try: "Build a landing page for a SaaS product"
+```
+
+### Install for All Platforms
+
+Install for all supported AI assistants:
+
+```bash
+uipro init --ai all
+```
+
+This creates skill folders for every supported platform in your project.
+
+### Force Overwrite Existing Files
+
+Overwrite existing installation:
+
+```bash
+uipro init --force
+```
+
+Useful when updating or fixing a corrupted installation.
+
+### Offline Installation
+
+Install without internet access (legacy mode):
+
+```bash
+uipro init --offline --legacy
+```
+
+Uses bundled assets packaged with the CLI.
+
+## Folder Structure
+
+After running `uipro init`, the following folders are created based on your AI assistant:
+
+### Claude Code
+```
+.claude/
+└── skills/
+    └── ui-ux-pro-max/
+        ├── SKILL.md          # Skill instructions
+        ├── data/             # Design databases
+        └── scripts/          # Search tools
+```
+
+### Cursor / Windsurf / Most Others
+```
+.cursor/ (or .windsurf/, .kiro/, etc.)
+└── workflows/
+    └── ui-ux-pro-max.md
+
+.shared/
+└── ui-ux-pro-max/
+    ├── data/
+    └── scripts/
+```
+
+### GitHub Copilot
+```
+.github/
+└── copilot-instructions.md
+
+.shared/
+└── ui-ux-pro-max/
+    ├── data/
+    └── scripts/
+```
+
+## Error Scenarios
+
+### Invalid AI Type
+
+```bash
+uipro init --ai invalid
+```
+
+**Error:**
+```
+Invalid AI type: invalid
+Valid types: claude, cursor, windsurf, antigravity, copilot, kiro, roocode, codex, qoder, gemini, trae, opencode, continue, codebuddy, droid, all
+```
+
+**Solution:** Use one of the valid AI types listed.
+
+### Installation Cancelled
+
+If you cancel the AI selection prompt:
+
+```
+⚠ Installation cancelled
+```
+
+**Solution:** Run `uipro init` again and complete the prompt.
+
+### GitHub Rate Limit (Legacy Mode)
+
+When using `--legacy` and hitting GitHub rate limits:
+
+```
+⚠ GitHub rate limit reached, using template generation...
+✔ Generated from templates!
+```
+
+The CLI automatically falls back to template generation.
+
+### Network Error (Legacy Mode)
+
+When using `--legacy` without internet:
+
+```
+⚠ Network error, using template generation...
+✔ Generated from templates!
+```
+
+The CLI gracefully handles network failures.
+
+## Troubleshooting
+
+### Files Already Exist
+
+If skill files already exist in your project:
+
+```bash
+# Use --force to overwrite
+uipro init --force
+```
+
+### Permission Denied
+
+If you encounter permission errors:
+
+```bash
+# Run with appropriate permissions
+sudo uipro init
+```
+
+Or ensure you have write permissions in the current directory.
+
+### Command Not Found
+
+If `uipro` command is not found:
+
+```bash
+# Install the CLI globally
+npm install -g uipro-cli
+
+# Or use with npx
+npx uipro-cli init
+```
+
+### Restart Required
+
+After installation, you must restart your AI coding assistant for the skill to load:
+
+1. **Claude Code**: Reload window or restart VS Code
+2. **Cursor**: Restart Cursor application
+3. **Windsurf**: Restart Windsurf application
+4. **Others**: Follow platform-specific restart procedures
+
+## Next Steps
+
+After successful installation:
+
+1. **Restart your AI assistant** - Skills only load on startup
+2. **Test the skill** - Try: "Build a landing page for a SaaS product"
+3. **Explore capabilities** - Ask: "What UI styles are available?"
+4. **Update regularly** - Run [`uipro update`](/cli/update) to get latest features
+
+## See Also
+
+- [uipro update](/cli/update) - Update to latest version
+- [uipro versions](/cli/versions) - List available versions
+- [Search Command](/core-concepts/search) - Using the search tool

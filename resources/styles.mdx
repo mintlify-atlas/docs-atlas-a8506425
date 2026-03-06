@@ -1,0 +1,456 @@
+---
+title: "UI Styles Reference"
+description: "Complete reference for all 67 UI styles with keywords, examples, and implementation guidelines"
+---
+
+# UI Styles Reference
+
+UI/UX Pro Max includes **67 curated UI styles** across three categories: General Styles (49), Landing Page Styles (8), and BI/Analytics Dashboard Styles (10).
+
+## How to Use This Reference
+
+Each style includes:
+- **Keywords** - Search terms for style discovery
+- **Color Palette** - Primary and secondary color recommendations
+- **Best For** - Ideal use cases and industries
+- **Performance & Accessibility** - Technical metrics
+- **Implementation Checklist** - Validation requirements
+- **AI Prompt Keywords** - Natural language prompts for generation
+- **CSS/Technical Keywords** - Implementation patterns
+
+## General Styles (49)
+
+These versatile styles work across multiple platforms and use cases.
+
+<Accordion title="1. Minimalism & Swiss Style">
+
+**Category:** General  
+**Era:** 1950s Swiss  
+**Complexity:** Low
+
+### Keywords
+Clean, simple, spacious, functional, white space, high contrast, geometric, sans-serif, grid-based, essential
+
+### Color Palette
+- **Primary:** Monochromatic, Black #000000, White #FFFFFF
+- **Secondary:** Neutral (Beige #F5F1E8, Grey #808080, Taupe #B38B6D)
+- **Effects:** Subtle hover (200-250ms), smooth transitions, sharp shadows
+
+### Best For
+- Enterprise apps, dashboards, documentation sites
+- SaaS platforms, professional tools
+- **Performance:** ⚡ Excellent
+- **Accessibility:** ✓ WCAG AAA
+- **Mobile-Friendly:** ✓ High
+
+### Do NOT Use For
+Creative portfolios, entertainment, playful brands, artistic experiments
+
+### AI Prompt Template
+```
+Design a minimalist landing page. Use: white space, geometric layouts, 
+sans-serif fonts, high contrast, grid-based structure, essential elements 
+only. Avoid shadows and gradients. Focus on clarity and functionality.
+```
+
+### CSS/Technical Keywords
+```css
+display: grid;
+gap: 2rem;
+font-family: sans-serif;
+color: #000 or #FFF;
+max-width: 1200px;
+clean borders, no box-shadow unless necessary
+```
+
+### Implementation Checklist
+- ☐ Grid-based layout 12-16 columns
+- ☐ Typography hierarchy clear
+- ☐ No unnecessary decorations
+- ☐ WCAG AAA contrast verified
+- ☐ Mobile responsive grid
+
+### Design System Variables
+```css
+--spacing: 2rem
+--border-radius: 0px
+--font-weight: 400-700
+--shadow: none
+--accent-color: single primary only
+```
+
+</Accordion>
+
+<Accordion title="2. Neumorphism">
+
+**Category:** General  
+**Era:** 2020s Modern  
+**Complexity:** Medium
+
+### Keywords
+Soft UI, embossed, debossed, convex, concave, light source, subtle depth, rounded (12-16px), monochromatic
+
+### Color Palette
+- **Primary:** Light pastels (Soft Blue #C8E0F4, Soft Pink #F5E0E8, Soft Grey #E8E8E8)
+- **Secondary:** Tints/shades (±30%), gradient subtlety
+- **Effects:** Soft box-shadow (multiple layers), smooth press (150ms)
+
+### Best For
+- Health/wellness apps, meditation platforms
+- Fitness trackers, minimal interaction UIs
+- **Performance:** ⚡ Good
+- **Accessibility:** ⚠ Low contrast
+- **Mobile-Friendly:** ✓ Good
+
+### Do NOT Use For
+Complex apps, critical accessibility, data-heavy dashboards, high-contrast required
+
+### AI Prompt Template
+```
+Create a neumorphic UI with soft 3D effects. Use light pastels, rounded 
+corners (12-16px), subtle soft shadows (multiple layers), no hard lines, 
+monochromatic color scheme with light/dark variations. Embossed/debossed 
+effect on interactive elements.
+```
+
+### CSS/Technical Keywords
+```css
+border-radius: 12-16px;
+box-shadow: -5px -5px 15px rgba(0,0,0,0.1), 5px 5px 15px rgba(255,255,255,0.8);
+background: linear-gradient(145deg, color1, color2);
+transform: scale on press
+```
+
+### Implementation Checklist
+- ☐ Rounded corners 12-16px consistent
+- ☐ Multiple shadow layers (2-3)
+- ☐ Pastel color verified
+- ☐ Monochromatic palette checked
+- ☐ Press animation smooth 150ms
+
+</Accordion>
+
+<Accordion title="3. Glassmorphism">
+
+**Category:** General  
+**Era:** 2020s Modern  
+**Complexity:** Medium
+
+### Keywords
+Frosted glass, transparent, blurred background, layered, vibrant background, light source, depth, multi-layer
+
+### Color Palette
+- **Primary:** Translucent white rgba(255,255,255,0.1-0.3)
+- **Secondary:** Vibrant (Electric Blue #0080FF, Neon Purple #8B00FF, Vivid Pink #FF1493, Teal #20B2AA)
+- **Effects:** Backdrop blur (10-20px), subtle border (1px solid rgba white 0.2)
+
+### Best For
+- Modern SaaS, financial dashboards
+- High-end corporate, lifestyle apps
+- Modal overlays, navigation
+- **Performance:** ⚠ Good
+- **Accessibility:** ⚠ Ensure 4.5:1 contrast
+- **Conversion-Focused:** ✓ High
+
+### Do NOT Use For
+Low-contrast backgrounds, critical accessibility, performance-limited, dark text on dark
+
+### AI Prompt Template
+```
+Design a glassmorphic interface with frosted glass effect. Use backdrop 
+blur (10-20px), translucent overlays (rgba 10-30% opacity), vibrant 
+background colors, subtle borders, light source reflection, layered depth. 
+Perfect for modern overlays and cards.
+```
+
+### CSS/Technical Keywords
+```css
+backdrop-filter: blur(15px);
+background: rgba(255, 255, 255, 0.15);
+border: 1px solid rgba(255,255,255,0.2);
+-webkit-backdrop-filter: blur(15px);
+z-index layering for depth
+```
+
+### Implementation Checklist
+- ☐ Backdrop-filter blur 10-20px
+- ☐ Translucent white 15-30% opacity
+- ☐ Subtle border 1px light
+- ☐ Vibrant background verified
+- ☐ Text contrast 4.5:1 checked
+
+</Accordion>
+
+<Accordion title="4. Brutalism">
+
+**Category:** General  
+**Era:** 1950s Brutalist  
+**Complexity:** Low
+
+### Keywords
+Raw, unpolished, stark, high contrast, plain text, default fonts, visible borders, asymmetric, anti-design
+
+### Color Palette
+- **Primary:** Red #FF0000, Blue #0000FF, Yellow #FFFF00, Black #000000, White #FFFFFF
+- **Secondary:** Limited (Neon Green #00FF00, Hot Pink #FF00FF)
+- **Effects:** No smooth transitions (instant), sharp corners (0px), bold typography (700+)
+
+### Best For
+- Design portfolios, artistic projects
+- Counter-culture brands, editorial/media sites
+- Tech blogs
+- **Performance:** ⚡ Excellent
+- **Accessibility:** ✓ WCAG AAA
+
+### Do NOT Use For
+Corporate environments, conservative industries, critical accessibility, customer-facing professional
+
+### AI Prompt Template
+```
+Create a brutalist design with raw, unpolished, stark aesthetic. Use pure 
+primary colors (red, blue, yellow), black & white, no smooth transitions 
+(instant), sharp corners, bold large typography, visible grid lines, default 
+system fonts, intentional 'broken' design elements.
+```
+
+### CSS/Technical Keywords
+```css
+border-radius: 0px;
+transition: none or 0s;
+font-family: system-ui or monospace;
+font-weight: 700+;
+border: visible 2-4px;
+colors: #FF0000, #0000FF, #FFFF00, #000000, #FFFFFF
+```
+
+### Implementation Checklist
+- ☐ No border-radius (0px)
+- ☐ No transitions (instant)
+- ☐ Bold typography (700+)
+- ☐ Pure primary colors used
+- ☐ Visible grid/borders
+- ☐ Asymmetric layout intentional
+
+</Accordion>
+
+<Accordion title="View All 49 General Styles">
+
+The complete catalog includes:
+
+5. 3D & Hyperrealism
+6. Vibrant & Block-based
+7. Dark Mode (OLED)
+8. Accessible & Ethical
+9. Claymorphism
+10. Aurora UI
+11. Retro-Futurism
+12. Flat Design
+13. Skeuomorphism
+14. Liquid Glass
+15. Motion-Driven
+16. Micro-interactions
+17. Inclusive Design
+18. Zero Interface
+19. Soft UI Evolution
+20. Neubrutalism
+21. Bento Box Grid
+22. Y2K Aesthetic
+23. Cyberpunk UI
+24. Organic Biophilic
+25. AI-Native UI
+26. Memphis Design
+27. Vaporwave
+28. Dimensional Layering
+29. Exaggerated Minimalism
+30. Kinetic Typography
+31. Parallax Storytelling
+32. Swiss Modernism 2.0
+33. HUD / Sci-Fi FUI
+34. Pixel Art
+35. Bento Grids
+36. Spatial UI (VisionOS)
+37. E-Ink / Paper
+38. Gen Z Chaos / Maximalism
+39. Biomimetic / Organic 2.0
+40. Anti-Polish / Raw Aesthetic
+41. Tactile Digital / Deformable UI
+42. Nature Distilled
+43. Interactive Cursor Design
+44. Voice-First Multimodal
+45. 3D Product Preview
+46. Gradient Mesh / Aurora Evolved
+47. Editorial Grid / Magazine
+48. Chromatic Aberration / RGB Split
+49. Vintage Analog / Retro Film
+
+Use the search command to explore specific styles:
+```bash
+python3 scripts/search.py "glassmorphism" --domain style
+python3 scripts/search.py "dark mode gaming" --domain style
+```
+
+</Accordion>
+
+## Landing Page Styles (8)
+
+Specialized styles optimized for conversion and user acquisition.
+
+<Accordion title="Landing Page Styles Overview">
+
+### 1. Hero-Centric Design
+**Best For:** Products with strong visual identity  
+**Features:** Large hero section, compelling headline, high-contrast CTA, product showcase
+
+### 2. Conversion-Optimized
+**Best For:** Lead generation, sales pages  
+**Features:** Form-focused, minimalist design, single CTA focus, urgency elements, trust signals
+
+### 3. Feature-Rich Showcase
+**Best For:** SaaS, complex products  
+**Features:** Multiple feature sections, grid layout, benefit cards, interactive elements
+
+### 4. Minimal & Direct
+**Best For:** Simple products, apps  
+**Features:** Minimal text, white space heavy, single column layout, direct messaging
+
+### 5. Social Proof-Focused
+**Best For:** Services, B2C products  
+**Features:** Testimonials prominent, client logos, case studies, reviews/ratings
+
+### 6. Interactive Product Demo
+**Best For:** Software, tools  
+**Features:** Embedded product mockup/video, interactive elements, product walkthrough
+
+### 7. Trust & Authority
+**Best For:** B2B, enterprise, consulting  
+**Features:** Certificates/badges, expert credentials, case studies with metrics
+
+### 8. Storytelling-Driven
+**Best For:** Brands, agencies, nonprofits  
+**Features:** Narrative flow, visual story progression, section transitions
+
+</Accordion>
+
+## BI/Analytics Dashboard Styles (10)
+
+Data-focused styles for business intelligence and analytics.
+
+<Accordion title="Dashboard Styles Overview">
+
+### 1. Data-Dense Dashboard
+**Best For:** Complex data analysis  
+**Features:** Multiple charts/widgets, data tables, KPI cards, minimal padding
+
+### 2. Heat Map & Heatmap Style
+**Best For:** Geographic/behavior data  
+**Features:** Color-coded grid/matrix, data intensity visualization
+
+### 3. Executive Dashboard
+**Best For:** C-suite summaries  
+**Features:** High-level KPIs, large key metrics, minimal detail, summary view
+
+### 4. Real-Time Monitoring
+**Best For:** Operations, DevOps  
+**Features:** Live data updates, status indicators, alert notifications
+
+### 5. Drill-Down Analytics
+**Best For:** Multi-dimensional data exploration  
+**Features:** Hierarchical data exploration, expandable sections
+
+### 6. Comparative Analysis Dashboard
+**Best For:** Side-by-side comparisons  
+**Features:** Period-over-period metrics, A/B test results
+
+### 7. Predictive Analytics
+**Best For:** Forecasting, ML insights  
+**Features:** Forecast lines, confidence intervals, trend projections
+
+### 8. User Behavior Analytics
+**Best For:** UX research, product analytics  
+**Features:** User flow visualization, funnel analysis
+
+### 9. Financial Dashboard
+**Best For:** Finance, accounting  
+**Features:** P&L visualization, budget tracking
+
+### 10. Sales Intelligence Dashboard
+**Best For:** Sales teams, CRM  
+**Features:** Pipeline visualization, conversion metrics
+
+</Accordion>
+
+## Style Search
+
+Find the perfect style for your project:
+
+```bash
+# Search by mood
+python3 scripts/search.py "elegant luxury premium" --domain style
+
+# Search by technique
+python3 scripts/search.py "glassmorphism blur transparent" --domain style
+
+# Search by use case
+python3 scripts/search.py "healthcare accessible calm" --domain style
+
+# Get top 10 results
+python3 scripts/search.py "modern saas dashboard" --domain style -n 10
+```
+
+## Framework Compatibility
+
+All styles include compatibility ratings for major frameworks:
+
+- **Tailwind CSS:** 8-10/10 (most styles)
+- **Bootstrap:** 7-9/10
+- **Material UI (MUI):** 8-9/10
+- **Chakra UI:** 8-9/10
+- **Custom CSS/CSS-in-JS:** 7-10/10
+
+## Performance Considerations
+
+### Excellent Performance ⚡
+- Minimalism & Swiss Style
+- Flat Design
+- Brutalism
+- Accessible & Ethical
+- Dark Mode (OLED)
+
+### Good Performance ⚠
+- Glassmorphism (backdrop-filter)
+- Neumorphism (multiple shadows)
+- Claymorphism
+- Aurora UI
+
+### Moderate/Poor Performance ❌
+- 3D & Hyperrealism (WebGL)
+- Liquid Glass (complex animations)
+- Motion-Driven (heavy animations)
+- Skeuomorphism (texture overlays)
+
+## Accessibility Levels
+
+### WCAG AAA ✓
+- Minimalism & Swiss Style
+- Accessible & Ethical
+- Inclusive Design
+- Brutalism
+
+### WCAG AA ✓
+- Glassmorphism (with proper contrast)
+- Flat Design
+- Dark Mode
+- Soft UI Evolution
+
+### Limited Accessibility ⚠
+- Neumorphism (low contrast)
+- 3D & Hyperrealism
+- Skeuomorphism
+- Liquid Glass
+
+## Related Resources
+
+- [Color Palettes](/resources/color-palettes) - 96 industry-specific color schemes
+- [Font Pairings](/resources/font-pairings) - 57 typography combinations
+- [Tech Stacks](/resources/tech-stacks) - Framework-specific guidelines
+- [Reasoning Rules](/resources/reasoning-rules) - 100 industry-specific rules

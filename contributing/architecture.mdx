@@ -1,0 +1,261 @@
+---
+title: Architecture
+description: Understanding UI/UX Pro Max's source-of-truth architecture and file organization
+---
+
+## Overview
+
+UI/UX Pro Max uses a **source-of-truth pattern** where all canonical data, scripts, and templates are maintained in a single location (`src/ui-ux-pro-max/`), then distributed to different environments through symlinks or bundled into the CLI installer.
+
+## Directory Structure
+
+```
+ui-ux-pro-max-skill/
+├── src/ui-ux-pro-max/           # SOURCE OF TRUTH
+│   ├── data/                   # Canonical CSV databases
+│   │   ├── products.csv        # 100 product types
+│   │   ├── styles.csv          # 67 UI styles
+│   │   ├── colors.csv          # 96 color palettes
+│   │   ├── typography.csv      # 57 font pairings
+│   │   ├── landing.csv         # 24 landing patterns
+│   │   ├── charts.csv          # 25 chart types
+│   │   ├── ux-guidelines.csv   # 99 UX guidelines
+│   │   ├── ui-reasoning.csv    # 100 reasoning rules
+│   │   └── stacks/            # Stack-specific guidelines
+│   │       ├── html-tailwind.csv
+│   │       ├── react.csv
+│   │       ├── nextjs.csv
+│   │       └── ...
+│   ├── scripts/               # Python search engine
+│   │   ├── search.py         # CLI entry point
+│   │   ├── core.py           # BM25 + regex hybrid search
+│   │   └── design_system.py  # Design system generator
+│   └── templates/            # Template system
+│       ├── base/            # Base content templates
+│       │   ├── skill-content.md
+│       │   └── quick-reference.md
+│       └── platforms/       # Platform-specific configs
+│           ├── claude.json
+│           ├── cursor.json
+│           ├── opencode.json
+│           └── ...
+│
+├── cli/                      # CLI Installer (uipro-cli on npm)
+│   ├── src/
+│   │   ├── commands/
+│   │   │   └── init.ts       # Install command
+│   │   └── utils/
+│   │       └── template.ts   # Template rendering engine
+│   └── assets/              # Bundled assets (~564KB)
+│       ├── data/            # Copy of src/ui-ux-pro-max/data/
+│       ├── scripts/         # Copy of src/ui-ux-pro-max/scripts/
+│       └── templates/       # Copy of src/ui-ux-pro-max/templates/
+│
+├── .claude/skills/ui-ux-pro-max/    # Claude Code skill (symlinks)
+├── .factory/skills/ui-ux-pro-max/   # Droid (Factory) skill (symlinks)
+└── .shared/ui-ux-pro-max/           # Shared symlink
+```
+
+## Source of Truth Pattern
+
+### Core Principle
+
+All modifications must be made in `src/ui-ux-pro-max/`. This directory contains:
+
+- **Data**: CSV databases with searchable design knowledge
+- **Scripts**: Python search engine using BM25 ranking + regex matching
+- **Templates**: Base content and platform configurations
+
+### Distribution Methods
+
+#### 1. Symlinks (Development)
+
+For local development and testing, symlinks point to the source:
+
+```bash
+.claude/skills/ui-ux-pro-max/ -> src/ui-ux-pro-max/
+.factory/skills/ui-ux-pro-max/ -> src/ui-ux-pro-max/
+.shared/ui-ux-pro-max/ -> src/ui-ux-pro-max/
+```
+
+**Benefits:**
+- Changes in `src/` are immediately available
+- No manual sync needed during development
+- Test changes in real AI assistant environments
+
+#### 2. Bundled Assets (Production)
+
+The CLI bundles a copy of all assets for distribution:
+
+```bash
+cli/assets/
+├── data/       # Static copy
+├── scripts/    # Static copy
+└── templates/  # Static copy
+```
+
+**When users run:**
+```bash
+npm install -g uipro-cli
+uipro init --ai claude
+```
+
+The CLI generates platform-specific files from templates and copies data/scripts into the installation directory.
+
+## Template Generation System
+
+### How It Works
+
+```
+┌──────────────────────────────────────────────────────────────┐
+│  1. User runs: uipro init --ai claude                        │
+└──────────────────────────────────────────────────────────────┘
+                        │
+                        ▼
+┌──────────────────────────────────────────────────────────────┐
+│  2. CLI loads: templates/platforms/claude.json               │
+│     {                                                         │
+│       "platform": "claude",                                  │
+│       "folderStructure": {                                   │
+│         "root": ".claude",                                   │
+│         "skillPath": "skills/ui-ux-pro-max",                │
+│         "filename": "SKILL.md"                               │
+│       },                                                      │
+│       "sections": { "quickReference": true },               │
+│       ...                                                     │
+│     }                                                         │
+└──────────────────────────────────────────────────────────────┘
+                        │
+                        ▼
+┌──────────────────────────────────────────────────────────────┐
+│  3. Render SKILL.md from base template                       │
+│     - Load templates/base/skill-content.md                   │
+│     - Load templates/base/quick-reference.md (if enabled)    │
+│     - Replace {{TITLE}}, {{DESCRIPTION}}, {{SCRIPT_PATH}}    │
+│     - Add platform-specific frontmatter                      │
+└──────────────────────────────────────────────────────────────┘
+                        │
+                        ▼
+┌──────────────────────────────────────────────────────────────┐
+│  4. Copy data/ and scripts/ into skill directory            │
+│     .claude/skills/ui-ux-pro-max/                            │
+│     ├── SKILL.md                                             │
+│     ├── data/                                                │
+│     └── scripts/                                             │
+└──────────────────────────────────────────────────────────────┘
+```
+
+### Platform Configurations
+
+Each platform has a JSON config defining:
+
+```json
+{
+  "platform": "opencode",
+  "displayName": "OpenCode",
+  "installType": "full",
+  "folderStructure": {
+    "root": ".opencode",
+    "skillPath": "skills/ui-ux-pro-max",
+    "filename": "SKILL.md"
+  },
+  "scriptPath": ".opencode/skills/ui-ux-pro-max/scripts/search.py",
+  "frontmatter": {
+    "name": "ui-ux-pro-max",
+    "version": "2.0"
+  },
+  "sections": {
+    "quickReference": false
+  },
+  "title": "UI/UX Pro Max",
+  "description": "AI-powered design intelligence toolkit",
+  "skillOrWorkflow": "skill"
+}
+```
+
+**Supported platforms:** Claude Code, Cursor, Windsurf, Antigravity, OpenCode, Continue, GitHub Copilot, Kiro, Codex CLI, Gemini CLI, Qoder, Roo Code, Trae, CodeBuddy, Droid (Factory)
+
+## Search Engine Architecture
+
+### BM25 + Regex Hybrid
+
+The search engine (`scripts/search.py`) uses a two-phase approach:
+
+**Phase 1: BM25 Ranking**
+- Tokenize query and documents
+- Calculate term frequency (TF) and inverse document frequency (IDF)
+- Rank results by relevance score
+
+**Phase 2: Regex Matching**
+- Boost exact phrase matches
+- Highlight keyword matches
+- Support wildcards and patterns
+
+**Example:**
+```bash
+python3 scripts/search.py "glassmorphism" --domain style
+```
+
+Searches across `data/styles.csv` and returns top matches with:
+- Style name and description
+- AI prompts for code generation
+- CSS keywords
+- Performance and accessibility ratings
+
+### Design System Generator
+
+The reasoning engine (`scripts/design_system.py`) performs multi-domain searches:
+
+```python
+# Parallel searches across 5 domains
+product_match = search(query, domain="product")
+style_match = search(query, domain="style")
+color_match = search(query, domain="color")
+typography_match = search(query, domain="typography")
+landing_match = search(query, domain="landing")
+
+# Apply 100 reasoning rules
+rules = load_reasoning_rules("data/ui-reasoning.csv")
+matched_rule = find_matching_rule(product_match, rules)
+
+# Generate complete design system
+design_system = {
+    "pattern": landing_match,
+    "style": style_match,
+    "colors": color_match,
+    "typography": typography_match,
+    "effects": matched_rule.effects,
+    "antiPatterns": matched_rule.antiPatterns
+}
+```
+
+## Data Format
+
+All knowledge is stored in CSV files for easy editing and version control:
+
+**styles.csv:**
+```csv
+Name,Category,Description,Keywords,AIPrompt,Performance,Accessibility
+Glassmorphism,General,Translucent frosted glass effect,...,glass blur backdrop-filter,Excellent,WCAG AA
+```
+
+**colors.csv:**
+```csv
+Product,Primary,Secondary,CTA,Background,Text,Notes
+SaaS,#3B82F6,#10B981,#EF4444,#FFFFFF,#1F2937,Professional blue with green accents
+```
+
+<Warning>
+Never edit CSV files directly in `cli/assets/`. Always edit in `src/ui-ux-pro-max/data/` and run the sync workflow.
+</Warning>
+
+## No External Dependencies
+
+The Python scripts use only standard library modules:
+- `argparse` - Command-line parsing
+- `csv` - CSV file reading
+- `json` - JSON parsing
+- `re` - Regular expressions
+- `math` - BM25 calculations
+
+This ensures the toolkit works on any Python 3.x installation without `pip install`.

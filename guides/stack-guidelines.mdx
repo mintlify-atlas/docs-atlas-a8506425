@@ -1,0 +1,599 @@
+---
+title: Stack Guidelines
+description: Implementation-specific best practices for React, Next.js, Vue, Svelte, SwiftUI, and more
+---
+
+UI/UX Pro Max provides **stack-specific guidelines** for 13 technology stacks. Use stack search to get implementation patterns, performance optimizations, and common pitfalls.
+
+## Available Stacks
+
+| Stack | Focus Areas | Guidelines |
+|-------|-------------|------------|
+| `html-tailwind` | Tailwind utilities, responsive, a11y | 45 rules |
+| `react` | State, hooks, performance, patterns | 38 rules |
+| `nextjs` | SSR, routing, images, API routes | 32 rules |
+| `astro` | Islands, SSG, integrations | 28 rules |
+| `vue` | Composition API, Pinia, Vue Router | 35 rules |
+| `nuxtjs` | SSR, routing, modules | 30 rules |
+| `nuxt-ui` | Nuxt UI components, theming | 25 rules |
+| `svelte` | Runes, stores, SvelteKit | 30 rules |
+| `swiftui` | Views, State, Navigation, Animation | 40 rules |
+| `react-native` | Components, Navigation, Lists | 35 rules |
+| `flutter` | Widgets, State, Layout, Theming | 42 rules |
+| `shadcn` | shadcn/ui components, theming, forms | 28 rules |
+| `jetpack-compose` | Composables, Modifiers, State Hoisting | 38 rules |
+
+## Basic Syntax
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "<query>" --stack <stack> [-n <max_results>]
+```
+
+## Stack Deep Dives
+
+### HTML + Tailwind (Default)
+
+**Best for:** Static sites, landing pages, simple web apps
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "responsive layout form" --stack html-tailwind
+```
+
+**Common guidelines:**
+
+<CodeGroup>
+```html Responsive Padding
+<!-- Good: Adjust padding for screen sizes -->
+<div class="px-4 sm:px-6 lg:px-8">
+  <div class="max-w-7xl mx-auto">
+    <!-- Content -->
+  </div>
+</div>
+
+<!-- Bad: Same padding all sizes -->
+<div class="px-8">
+  <!-- Content -->
+</div>
+```
+
+```html Focus States
+<!-- Good: Visible focus ring -->
+<button class="focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+  Click me
+</button>
+
+<!-- Bad: No focus indicator -->
+<button class="focus:outline-none">
+  Click me
+</button>
+```
+
+```html Dark Mode Support
+<!-- Good: Dark mode variants -->
+<div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  <p class="text-gray-600 dark:text-gray-300">Content</p>
+</div>
+
+<!-- Bad: No dark mode -->
+<div class="bg-white text-gray-900">
+  <p class="text-gray-600">Content</p>
+</div>
+```
+</CodeGroup>
+
+**Key rules:**
+- Use Tailwind spacing scale (p-4, m-6, gap-8) not arbitrary values
+- Add `transition-colors duration-200` to interactive elements
+- Use `aspect-video` or `aspect-square` for images
+- Limit container width with `max-w-7xl mx-auto`
+- Use `space-y-4` instead of margin on each child
+
+### React
+
+**Best for:** Interactive UIs, SPAs, component libraries
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "state hooks performance" --stack react
+```
+
+**Common guidelines:**
+
+<CodeGroup>
+```tsx Avoid Unnecessary Rerenders
+// Good: Memoize expensive components
+const ExpensiveComponent = React.memo(({ data }) => {
+  return <div>{/* Complex rendering */}</div>;
+});
+
+// Bad: Rerenders on every parent update
+const ExpensiveComponent = ({ data }) => {
+  return <div>{/* Complex rendering */}</div>;
+};
+```
+
+```tsx Proper Key Usage
+// Good: Unique stable keys
+{items.map(item => (
+  <div key={item.id}>{item.name}</div>
+))}
+
+// Bad: Index as key (causes rerender bugs)
+{items.map((item, index) => (
+  <div key={index}>{item.name}</div>
+))}
+```
+
+```tsx Loading States
+// Good: Disable button with loading state
+<button 
+  disabled={isLoading}
+  className="disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  {isLoading ? 'Loading...' : 'Submit'}
+</button>
+
+// Bad: No loading feedback
+<button onClick={handleSubmit}>Submit</button>
+```
+</CodeGroup>
+
+**Key rules:**
+- Use `React.memo()` for components that render often with same props
+- Avoid inline function definitions in JSX (causes rerenders)
+- Use `useCallback()` and `useMemo()` for expensive computations
+- Always provide stable `key` prop in lists (not array index)
+- Show loading/disabled states for async actions
+
+### Next.js
+
+**Best for:** SEO-critical sites, full-stack apps, content platforms
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "image optimization routing" --stack nextjs
+```
+
+**Common guidelines:**
+
+<CodeGroup>
+```tsx Image Optimization
+// Good: Use next/image with sizes
+import Image from 'next/image';
+
+<Image
+  src="/hero.jpg"
+  alt="Hero image"
+  width={1200}
+  height={600}
+  priority
+  sizes="(max-width: 768px) 100vw, 1200px"
+/>
+
+// Bad: Regular <img> tag
+<img src="/hero.jpg" alt="Hero" />
+```
+
+```tsx Server Components (App Router)
+// Good: Fetch data in Server Component
+async function ProductPage({ params }) {
+  const product = await fetchProduct(params.id);
+  return <ProductDetails product={product} />;
+}
+
+// Bad: useEffect in Client Component
+'use client';
+function ProductPage() {
+  const [product, setProduct] = useState(null);
+  useEffect(() => {
+    fetchProduct().then(setProduct);
+  }, []);
+  return <ProductDetails product={product} />;
+}
+```
+
+```tsx Metadata for SEO
+// Good: Export metadata object
+export const metadata = {
+  title: 'Product Name - Company',
+  description: 'Product description for SEO',
+  openGraph: {
+    images: ['/og-image.jpg'],
+  },
+};
+
+// Bad: No metadata (poor SEO)
+export default function Page() {
+  return <div>Content</div>;
+}
+```
+</CodeGroup>
+
+**Key rules:**
+- Always use `next/image` for images (automatic optimization)
+- Prefer Server Components (App Router) for data fetching
+- Export `metadata` object for SEO instead of `<Head>`
+- Use `loading.tsx` and `error.tsx` for loading/error states
+- Use `generateStaticParams` for static routes
+
+### Vue
+
+**Best for:** Progressive enhancement, enterprise apps, admin dashboards
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "composition api reactive" --stack vue
+```
+
+**Common guidelines:**
+
+<CodeGroup>
+```vue Composition API
+<!-- Good: Use Composition API (Vue 3) -->
+<script setup>
+import { ref, computed } from 'vue';
+
+const count = ref(0);
+const doubled = computed(() => count.value * 2);
+</script>
+
+<!-- Bad: Options API (Vue 2 style) -->
+<script>
+export default {
+  data() {
+    return { count: 0 };
+  },
+  computed: {
+    doubled() {
+      return this.count * 2;
+    }
+  }
+};
+</script>
+```
+
+```vue Reactive References
+<!-- Good: Use .value in script, not in template -->
+<script setup>
+const count = ref(0);
+const increment = () => {
+  count.value++; // .value required
+};
+</script>
+
+<template>
+  <button @click="increment">{{ count }}</button> <!-- No .value -->
+</template>
+```
+
+```vue Props with TypeScript
+<!-- Good: Type-safe props -->
+<script setup lang="ts">
+interface Props {
+  title: string;
+  count?: number;
+}
+
+const props = withDefaults(defineProps<Props>(), {
+  count: 0,
+});
+</script>
+```
+</CodeGroup>
+
+**Key rules:**
+- Use Composition API (`<script setup>`) over Options API
+- Use `ref()` for primitives, `reactive()` for objects
+- Access `.value` in `<script>`, not in `<template>`
+- Use `computed()` for derived state (not methods)
+- Use Pinia for state management (not Vuex)
+
+### SwiftUI
+
+**Best for:** iOS, macOS, watchOS, visionOS apps
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "state binding navigation" --stack swiftui
+```
+
+**Common guidelines:**
+
+<CodeGroup>
+```swift State Management
+// Good: @State for local state, @Binding for child
+struct ParentView: View {
+    @State private var isOn = false
+    
+    var body: some View {
+        ToggleView(isOn: $isOn)
+    }
+}
+
+struct ToggleView: View {
+    @Binding var isOn: Bool
+    
+    var body: some View {
+        Toggle("Enable", isOn: $isOn)
+    }
+}
+
+// Bad: Passing value without binding
+ToggleView(isOn: isOn) // Won't update parent
+```
+
+```swift View Composition
+// Good: Extract to computed properties or @ViewBuilder
+struct ContentView: View {
+    var body: some View {
+        VStack {
+            headerView
+            contentList
+        }
+    }
+    
+    private var headerView: some View {
+        Text("Header").font(.title)
+    }
+}
+
+// Bad: Complex nested views in body
+struct ContentView: View {
+    var body: some View {
+        VStack {
+            HStack {
+                VStack {
+                    // Too nested
+                }
+            }
+        }
+    }
+}
+```
+</CodeGroup>
+
+**Key rules:**
+- Use `@State` for view-local state
+- Use `@Binding` for child view state
+- Use `@StateObject` for reference types (ObservableObject)
+- Extract complex views into computed properties
+- Use `.task { }` for async work, not `.onAppear`
+
+### React Native
+
+**Best for:** Cross-platform mobile apps (iOS + Android)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "flatlist performance navigation" --stack react-native
+```
+
+**Common guidelines:**
+
+<CodeGroup>
+```tsx FlatList Performance
+// Good: Use FlatList with getItemLayout
+<FlatList
+  data={items}
+  renderItem={({ item }) => <Item {...item} />}
+  keyExtractor={item => item.id}
+  getItemLayout={(data, index) => ({
+    length: ITEM_HEIGHT,
+    offset: ITEM_HEIGHT * index,
+    index,
+  })}
+/>
+
+// Bad: ScrollView with map (loads all items)
+<ScrollView>
+  {items.map(item => <Item key={item.id} {...item} />)}
+</ScrollView>
+```
+
+```tsx Pressable over TouchableOpacity
+// Good: Use Pressable (newer API)
+<Pressable
+  onPress={handlePress}
+  style={({ pressed }) => [
+    styles.button,
+    pressed && styles.buttonPressed,
+  ]}
+>
+  <Text>Press me</Text>
+</Pressable>
+
+// Bad: TouchableOpacity (deprecated)
+<TouchableOpacity onPress={handlePress}>
+  <Text>Press me</Text>
+</TouchableOpacity>
+```
+</CodeGroup>
+
+**Key rules:**
+- Use `FlatList` for lists, never `ScrollView` with `.map()`
+- Use `Pressable` instead of `TouchableOpacity`
+- Provide `getItemLayout` for FlatList if items have fixed height
+- Use `React.memo()` on list items to prevent rerenders
+- Use React Navigation for routing, not manual navigation
+
+### shadcn/ui
+
+**Best for:** React apps with pre-built accessible components
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "form dialog theme" --stack shadcn
+```
+
+**Common guidelines:**
+
+<CodeGroup>
+```tsx Form with React Hook Form
+// Good: Use Form component with zod validation
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Form, FormField, FormItem, FormLabel, FormControl } from "@/components/ui/form";
+
+const formSchema = z.object({
+  email: z.string().email(),
+});
+
+function LoginForm() {
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+  });
+  
+  return (
+    <Form {...form}>
+      <FormField
+        control={form.control}
+        name="email"
+        render={({ field }) => (
+          <FormItem>
+            <FormLabel>Email</FormLabel>
+            <FormControl>
+              <Input {...field} />
+            </FormControl>
+          </FormItem>
+        )}
+      />
+    </Form>
+  );
+}
+```
+
+```tsx Dialog Component
+// Good: Use Dialog with proper structure
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+
+<Dialog>
+  <DialogTrigger asChild>
+    <Button>Open</Button>
+  </DialogTrigger>
+  <DialogContent>
+    <DialogHeader>
+      <DialogTitle>Dialog Title</DialogTitle>
+    </DialogHeader>
+    <p>Dialog content</p>
+  </DialogContent>
+</Dialog>
+```
+</CodeGroup>
+
+**Key rules:**
+- Use Form component with React Hook Form + zod validation
+- Use `asChild` prop to avoid wrapper divs
+- Customize theme in `tailwind.config.ts` (not component CSS)
+- Use `cn()` utility for conditional classes
+- Import components from `@/components/ui/` not `shadcn`
+
+## Default Stack
+
+<Note>
+  If user doesn't specify a stack, **default to `html-tailwind`** for universal compatibility.
+</Note>
+
+## Combining Stack + Domain Search
+
+Get stack-specific implementation for UX guidelines:
+
+```bash
+# 1. Get UX guideline
+python3 .shared/ui-ux-pro-max/scripts/search.py "loading button" --domain ux
+
+# 2. Get React implementation
+python3 .shared/ui-ux-pro-max/scripts/search.py "loading button" --stack react
+
+# 3. Get Next.js optimization
+python3 .shared/ui-ux-pro-max/scripts/search.py "image optimization" --stack nextjs
+```
+
+## Stack Detection
+
+**Auto-detect from project files:**
+
+| File/Folder | Detected Stack |
+|-------------|----------------|
+| `package.json` with `"next"` | `nextjs` |
+| `package.json` with `"react"` | `react` |
+| `package.json` with `"vue"` | `vue` |
+| `package.json` with `"svelte"` | `svelte` |
+| `astro.config.mjs` | `astro` |
+| `nuxt.config.ts` | `nuxtjs` |
+| `*.swift` files | `swiftui` |
+| `pubspec.yaml` | `flutter` |
+| `android/` + `ios/` | `react-native` |
+
+## JSON Output
+
+Get machine-readable JSON:
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "responsive" --stack html-tailwind --json
+```
+
+**Output:**
+```json
+{
+  "stack": "html-tailwind",
+  "query": "responsive",
+  "file": "stacks/html-tailwind.csv",
+  "count": 3,
+  "results": [
+    {
+      "No": "9",
+      "Category": "Layout",
+      "Guideline": "Responsive padding",
+      "Description": "Adjust padding for different screen sizes",
+      "Do": "px-4 md:px-6 lg:px-8",
+      "Don't": "Same padding all sizes",
+      "Code_Good": "px-4 sm:px-6 lg:px-8",
+      "Code_Bad": "px-8 (same all sizes)",
+      "Severity": "Medium"
+    }
+  ]
+}
+```
+
+## Common Anti-Patterns by Stack
+
+### React
+- Using array index as key
+- Inline function definitions in JSX
+- Not memoizing expensive components
+- Mutating state directly
+- Missing loading/error states
+
+### Next.js
+- Using `<img>` instead of `next/image`
+- Client-side data fetching (use Server Components)
+- Missing metadata for SEO
+- Not using `loading.tsx` and `error.tsx`
+- Fetching data in `useEffect` instead of Server Components
+
+### Tailwind
+- Arbitrary values like `p-[15px]` (use spacing scale)
+- No dark mode variants
+- Missing focus states (`focus:outline-none` without replacement)
+- Same padding/margin for all screen sizes
+- Using `@keyframes` for simple animations (use `animate-*`)
+
+### Vue
+- Using Options API instead of Composition API
+- Forgetting `.value` in `<script>` for refs
+- Using methods instead of `computed()` for derived state
+- Mutating props
+- Not using Pinia for global state
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Persist Design System" icon="floppy-disk" href="/guides/persist-design-system">
+    Save design systems for hierarchical retrieval across sessions
+  </Card>
+  <Card title="CLI Commands" icon="terminal" href="/guides/cli-commands">
+    Master the uipro-cli command-line tool
+  </Card>
+</CardGroup>

@@ -1,0 +1,374 @@
+---
+title: 'uipro versions'
+description: 'List all available UI/UX Pro Max versions'
+---
+
+## Overview
+
+The `uipro versions` command fetches and displays all available releases of UI/UX Pro Max from GitHub. Use this to see release history, publication dates, and identify specific versions for installation.
+
+## Syntax
+
+```bash
+uipro versions
+```
+
+This command takes no options or arguments.
+
+## Examples
+
+### List All Versions
+
+```bash
+uipro versions
+```
+
+**Expected Output:**
+```
+✔ Found 8 version(s)
+
+Available versions:
+
+  * v2.2.3 (3/6/2026) [latest]
+    v2.2.2 (2/28/2026)
+    v2.2.1 (2/15/2026)
+    v2.2.0 (2/1/2026)
+    v2.1.5 (1/20/2026)
+    v2.1.0 (1/10/2026)
+    v2.0.0 (12/15/2025)
+    v1.0.0 (11/1/2025)
+
+Use: uipro init --version <tag> to install a specific version
+```
+
+### Interpreting the Output
+
+Each version line shows:
+
+- **Green asterisk (*)** - Indicates the latest version
+- **Version tag** - The git tag (e.g., `v2.2.3`)
+- **Date** - Publication date in local format
+- **[latest] badge** - Explicitly marks the most recent release
+
+## Use Cases
+
+### Check Before Updating
+
+Before running `uipro update`, check what version you'll get:
+
+```bash
+uipro versions
+```
+
+The version marked `[latest]` is what `uipro update` will install.
+
+### View Release History
+
+See the release timeline and frequency:
+
+```bash
+uipro versions
+```
+
+Useful for understanding update patterns and stability.
+
+### Install Specific Version
+
+<Note>
+While the output suggests `uipro init --version <tag>`, this feature is currently not implemented in the CLI. The command exists for informational purposes only.
+
+To install a specific version, you would need to:
+1. Install that version of the CLI: `npm install -g uipro-cli@<version>`
+2. Then run: `uipro init`
+</Note>
+
+## Error Scenarios
+
+### No Releases Found
+
+If the GitHub repository has no releases:
+
+```bash
+uipro versions
+```
+
+**Output:**
+```
+⚠ No releases found
+```
+
+**Solution:** This typically means:
+- The repository is new and hasn't been released yet
+- GitHub API returned unexpected data
+- Check the [GitHub releases page](https://github.com/yourusername/ui-ux-pro-max/releases) directly
+
+### GitHub API Rate Limit
+
+When you've exceeded GitHub's API rate limit:
+
+```bash
+uipro versions
+```
+
+**Error:**
+```
+✖ Failed to fetch versions
+✖ GitHub API rate limit exceeded. Try again later.
+```
+
+**Solution:**
+- Wait 1 hour for rate limit reset
+- Authenticate with GitHub to increase rate limit
+- Check your rate limit status: `curl https://api.github.com/rate_limit`
+
+### Network Connection Error
+
+When running without internet connection:
+
+```bash
+uipro versions
+```
+
+**Error:**
+```
+✖ Failed to fetch versions
+✖ Network request failed
+```
+
+**Solution:**
+- Ensure you have an active internet connection
+- Check if GitHub is accessible: `curl https://api.github.com`
+- Try again after network is restored
+
+### GitHub API Unavailable
+
+If GitHub's API is down or returning errors:
+
+```bash
+uipro versions
+```
+
+**Error:**
+```
+✖ Failed to fetch versions
+✖ Failed to fetch releases from GitHub API
+```
+
+**Solution:**
+- Check [GitHub Status](https://www.githubstatus.com/)
+- Wait for service restoration
+- Try again in a few minutes
+
+## Technical Details
+
+### GitHub API Endpoint
+
+The command fetches releases from:
+
+```
+https://api.github.com/repos/{owner}/{repo}/releases
+```
+
+### Rate Limiting
+
+GitHub API rate limits:
+
+- **Unauthenticated**: 60 requests/hour
+- **Authenticated**: 5,000 requests/hour
+
+<Tip>
+To avoid rate limits, authenticate with GitHub:
+
+```bash
+# Set GitHub token
+export GITHUB_TOKEN="your_token_here"
+
+# Now API calls use authenticated rate limit
+uipro versions
+```
+</Tip>
+
+### Release Data
+
+Each release object contains:
+
+```typescript
+interface Release {
+  tag_name: string;        // e.g., "v2.2.3"
+  name: string;            // Release title
+  published_at: string;    // ISO 8601 date
+  html_url: string;        // GitHub release page
+  assets: Asset[];         // Downloadable files
+}
+```
+
+### Sorting
+
+Releases are displayed in reverse chronological order:
+- Latest release first (marked with `[latest]`)
+- Older releases follow
+- Matches GitHub's default release ordering
+
+## Comparison with Other Commands
+
+### vs `uipro --version`
+
+```bash
+# Shows CLI version installed locally
+uipro --version
+# Output: 2.2.3
+
+# Shows all available releases from GitHub
+uipro versions
+# Output: Full release list with dates
+```
+
+### vs `uipro update`
+
+```bash
+# Only shows information, doesn't modify anything
+uipro versions
+
+# Checks latest version AND installs it
+uipro update
+```
+
+### vs `npm view`
+
+```bash
+# Shows CLI package versions from npm
+npm view uipro-cli versions
+
+# Shows UI/UX Pro Max releases from GitHub
+uipro versions
+```
+
+## Automation & Scripting
+
+### Check for Updates in CI/CD
+
+```bash
+#!/bin/bash
+# Check if update is available
+
+CURRENT=$(uipro --version)
+LATEST=$(uipro versions | grep -oP 'v\K[0-9]+\.[0-9]+\.[0-9]+' | head -1)
+
+if [ "$CURRENT" != "$LATEST" ]; then
+  echo "Update available: $CURRENT -> $LATEST"
+  exit 1
+fi
+```
+
+### Parse Version List
+
+Extract version tags programmatically:
+
+```bash
+# Get all version tags
+uipro versions | grep -oP 'v[0-9]+\.[0-9]+\.[0-9]+'
+
+# Get only the latest
+uipro versions | grep -oP 'v[0-9]+\.[0-9]+\.[0-9]+' | head -1
+
+# Get version without 'v' prefix
+uipro versions | grep -oP '\Kv[0-9]+\.[0-9]+\.[0-9]+' | head -1 | sed 's/v//'
+```
+
+## Troubleshooting
+
+### Spinner Keeps Running
+
+If the command hangs with a spinner:
+
+```bash
+uipro versions
+# ⠋ Fetching available versions... (stuck)
+```
+
+**Solution:**
+- Press `Ctrl+C` to cancel
+- Check network connectivity
+- Try with timeout: `timeout 30 uipro versions`
+
+### Unexpected Output Format
+
+If output looks corrupted or wrong:
+
+```bash
+# Clear terminal formatting
+reset
+
+# Try again
+uipro versions
+```
+
+### Command Not Found
+
+```bash
+uipro versions
+# Command 'uipro' not found
+```
+
+**Solution:**
+```bash
+# Install CLI
+npm install -g uipro-cli
+
+# Or use with npx
+npx uipro-cli versions
+```
+
+### Permission Denied
+
+```bash
+uipro versions
+# Error: EACCES: permission denied
+```
+
+**Solution:**
+```bash
+# Fix npm permissions
+npm config set prefix ~/.npm-global
+export PATH=~/.npm-global/bin:$PATH
+
+# Reinstall CLI
+npm install -g uipro-cli
+```
+
+## Additional Information
+
+### Release Versioning
+
+UI/UX Pro Max follows [Semantic Versioning](https://semver.org/):
+
+- **Major (v3.0.0)** - Breaking changes, incompatible updates
+- **Minor (v2.3.0)** - New features, backward compatible
+- **Patch (v2.2.4)** - Bug fixes, backward compatible
+
+### Pre-release Versions
+
+If pre-release versions exist (alpha, beta, rc):
+
+```
+  * v2.3.0-beta.1 (3/10/2026) [latest]
+    v2.2.3 (3/6/2026) [stable]
+```
+
+These are shown but marked differently. Use stable versions for production.
+
+## Next Steps
+
+After checking versions:
+
+1. **Update if needed** - Run [`uipro update`](/cli/update) for latest version
+2. **Read changelog** - Check GitHub releases for what's new
+3. **Report issues** - File bugs for specific versions
+4. **Plan upgrades** - Schedule updates around major releases
+
+## See Also
+
+- [uipro init](/cli/init) - Install UI/UX Pro Max
+- [uipro update](/cli/update) - Update to latest version
+- [GitHub Releases](https://github.com/yourusername/ui-ux-pro-max/releases) - Full changelog
+- [Semantic Versioning](https://semver.org/) - Version numbering explained

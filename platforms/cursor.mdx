@@ -1,0 +1,362 @@
+---
+title: "Cursor"
+description: "Install UI/UX Pro Max in Cursor"
+---
+
+Cursor is an AI-first code editor with a powerful Composer agent. UI/UX Pro Max integrates as a skill that activates automatically for UI/UX requests.
+
+## Installation
+
+<Steps>
+  <Step title="Install CLI">
+    ```bash
+    npm install -g uipro-cli
+    ```
+  </Step>
+  <Step title="Navigate to Project">
+    ```bash
+    cd /path/to/your/project
+    ```
+  </Step>
+  <Step title="Install for Cursor">
+    ```bash
+    uipro init --ai cursor
+    ```
+
+    This creates two folders:
+    - `.cursor/skills/ui-ux-pro-max/` - Main skill files
+    - `.shared/ui-ux-pro-max/` - Shared reference data
+  </Step>
+  <Step title="Restart Cursor">
+    Close and reopen Cursor to load the skill.
+  </Step>
+</Steps>
+
+## File Structure
+
+```
+.cursor/
+└── skills/
+    └── ui-ux-pro-max/
+        ├── SKILL.md              # Main skill file
+        ├── data/
+        │   ├── styles.csv        # 67 UI styles
+        │   ├── colors.csv        # 96 color palettes
+        │   ├── typography.csv    # 57 font pairings
+        │   ├── landing.csv       # 24 landing page patterns
+        │   ├── products.csv      # 100 product categories
+        │   ├── charts.csv        # 25 chart types
+        │   ├── ux_guidelines.csv # 99 UX guidelines
+        │   └── stacks/           # Stack-specific guidelines
+        └── scripts/
+            ├── search.py         # CLI search tool
+            ├── core.py           # BM25 search engine
+            └── design_system.py  # Design system generator
+
+.shared/
+└── ui-ux-pro-max/
+    └── data/                     # Shared reference data
+```
+
+## How to Use
+
+### Automatic Activation
+
+UI/UX Pro Max activates automatically in Cursor's Composer when you mention UI/UX work:
+
+<CodeGroup>
+  ```bash Basic Landing Page
+  Build a landing page for my SaaS product
+  ```
+
+  ```bash Dashboard
+  Create a healthcare analytics dashboard with React
+  ```
+
+  ```bash Mobile App
+  Design a React Native e-commerce app
+  ```
+
+  ```bash Portfolio
+  Make a portfolio website with dark mode and glassmorphism
+  ```
+</CodeGroup>
+
+### With Composer
+
+Cursor's Composer agent works seamlessly with UI/UX Pro Max:
+
+1. Open Composer (Cmd+I / Ctrl+I)
+2. Type your UI/UX request
+3. The skill automatically loads design intelligence
+4. Composer generates code with proper design system
+
+### Example Workflow
+
+<Steps>
+  <Step title="Request UI">
+    ```
+    Build a fintech banking dashboard
+    ```
+  </Step>
+  <Step title="Design System Generated">
+    Cursor automatically generates a complete design system:
+    - Recommended style (e.g., Dark Mode OLED)
+    - Color palette (e.g., Trust Blue + Wealth Green)
+    - Typography (e.g., Inter / Roboto Mono)
+    - Anti-patterns (e.g., avoid bright colors in banking)
+  </Step>
+  <Step title="Code Implementation">
+    Composer generates code following the design system with:
+    - Proper colors and fonts
+    - Accessibility (WCAG AA)
+    - Responsive breakpoints
+    - Hover states and transitions
+    - Pre-delivery checklist validation
+  </Step>
+</Steps>
+
+## Features in Cursor
+
+### Multi-File Editing
+
+Cursor's Composer can generate multiple files at once with UI/UX Pro Max:
+
+```
+Build a complete landing page with separate components for:
+- Hero section
+- Features grid
+- Testimonials
+- Pricing table
+- Contact form
+```
+
+Composer will create:
+- `components/Hero.tsx`
+- `components/Features.tsx`
+- `components/Testimonials.tsx`
+- `components/Pricing.tsx`
+- `components/Contact.tsx`
+- `app/page.tsx`
+
+All following the same design system.
+
+### Iterative Refinement
+
+Use Cursor's chat to refine designs:
+
+```
+Make the hero section more minimal
+Add a glassmorphism effect to the navbar
+Change to a warm color palette
+Make it mobile-first responsive
+```
+
+### Context-Aware Suggestions
+
+Cursor's @ mentions work with UI/UX Pro Max:
+
+```
+@ui-ux-pro-max Build a dashboard using the SaaS style
+```
+
+## Advanced Usage
+
+### Direct Search Commands
+
+Run search commands directly in Cursor's terminal:
+
+```bash
+# Search UI styles
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+
+# Search color palettes
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "fintech" --domain color
+
+# Search font pairings
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "elegant serif" --domain typography
+
+# Generate design system
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "beauty spa" --design-system -p "Serenity Spa"
+```
+
+### Persistent Design Systems
+
+Create reusable design systems:
+
+```bash
+# Generate and persist
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "SaaS" --design-system --persist -p "MyApp"
+
+# Create page-specific overrides
+python3 .cursor/skills/ui-ux-pro-max/scripts/search.py "SaaS" --design-system --persist -p "MyApp" --page "dashboard"
+```
+
+Then reference in Cursor:
+
+```
+Build the pricing page using design-system/MASTER.md
+```
+
+### Stack-Specific Guidelines
+
+Specify your tech stack for tailored recommendations:
+
+<Tabs>
+  <Tab title="React">
+    ```
+    Build a React dashboard with shadcn/ui components
+    ```
+
+    UI/UX Pro Max will recommend:
+    - shadcn/ui components
+    - React-specific patterns
+    - Proper state management for UI
+  </Tab>
+  <Tab title="Next.js">
+    ```
+    Create a Next.js landing page with server components
+    ```
+
+    UI/UX Pro Max will recommend:
+    - Next.js App Router patterns
+    - Server component strategies
+    - Image optimization with next/image
+  </Tab>
+  <Tab title="Vue">
+    ```
+    Design a Vue 3 admin panel with Composition API
+    ```
+
+    UI/UX Pro Max will recommend:
+    - Vue 3 Composition API patterns
+    - Vue-specific UI libraries
+    - Proper reactivity for UI state
+  </Tab>
+  <Tab title="Svelte">
+    ```
+    Build a Svelte e-commerce site
+    ```
+
+    UI/UX Pro Max will recommend:
+    - Svelte store patterns
+    - Svelte-specific animations
+    - Minimal bundle size strategies
+  </Tab>
+</Tabs>
+
+## CLI Commands
+
+```bash
+# Update to latest version
+uipro update
+
+# List available versions
+uipro versions
+
+# Install offline (use bundled assets)
+uipro init --ai cursor --offline
+```
+
+## Tips for Cursor
+
+<AccordionGroup>
+  <Accordion title="Use Composer for Complex UI">
+    Composer is perfect for generating complete UI systems:
+
+    ```
+    Build a complete SaaS landing page with:
+    - Animated hero with gradient background
+    - Feature cards with icons
+    - Pricing table with toggle
+    - FAQ accordion
+    - Footer with newsletter signup
+    ```
+
+    Composer will generate all components following a unified design system.
+  </Accordion>
+  <Accordion title="Leverage @ Context">
+    Use @ mentions to include specific files:
+
+    ```
+    @globals.css Update colors to match the fintech palette
+    @components/Button.tsx Make this follow the glassmorphism style
+    ```
+  </Accordion>
+  <Accordion title="Iterate with Chat">
+    Use Cursor's chat for quick refinements:
+
+    ```
+    // After initial generation
+    Make the padding more spacious
+    Add hover animations
+    Make it darker for night mode
+    ```
+  </Accordion>
+  <Accordion title="Multi-Stack Projects">
+    Cursor works great with monorepos:
+
+    ```
+    Build:
+    - Frontend landing page with Next.js
+    - Admin dashboard with React
+    - Mobile app with React Native
+    
+    All using the same design system
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Skill Not Loading">
+    1. Verify `.cursor/skills/ui-ux-pro-max/SKILL.md` exists
+    2. Check file has proper `# ui-ux-pro-max` heading
+    3. Restart Cursor completely
+    4. Try explicit UI/UX keywords: "build landing page", "design dashboard"
+  </Accordion>
+  <Accordion title="Python Errors">
+    Ensure Python 3.x is installed:
+
+    ```bash
+    python3 --version
+
+    # If not installed:
+    # macOS
+    brew install python3
+
+    # Ubuntu/Debian
+    sudo apt install python3
+
+    # Windows
+    winget install Python.Python.3.12
+    ```
+  </Accordion>
+  <Accordion title="Composer Not Using Design System">
+    Be more explicit in your prompt:
+
+    ```
+    Build a landing page for my SaaS product.
+    Use UI/UX Pro Max to generate a design system first.
+    Then implement with proper colors, fonts, and spacing.
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="play" href="/getting-started">
+    Learn the basics of UI/UX Pro Max
+  </Card>
+  <Card title="Design Systems" icon="palette" href="/design-systems">
+    Generate complete design systems
+  </Card>
+  <Card title="UI Styles" icon="paintbrush" href="/ui-styles">
+    Explore 67 UI styles
+  </Card>
+  <Card title="Composer Tips" icon="wand-magic-sparkles" href="/guides/composer-workflow">
+    Master Cursor Composer workflows
+  </Card>
+</CardGroup>

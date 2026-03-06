@@ -1,0 +1,520 @@
+---
+title: Persist Design System
+description: Save design systems with the Master + Overrides pattern for hierarchical retrieval
+---
+
+UI/UX Pro Max supports **persistent design systems** using a Master + Overrides pattern for hierarchical retrieval across sessions and pages.
+
+## Persistence Architecture
+
+```
+project/
+└── design-system/
+    ├── MASTER.md              # Global Source of Truth
+    └── pages/
+        ├── dashboard.md       # Dashboard-specific overrides
+        ├── checkout.md        # Checkout-specific overrides
+        └── landing.md         # Landing page overrides
+```
+
+### Master File
+
+**Purpose:** Global design system - colors, typography, spacing, components
+
+**Contains:**
+- Complete design system recommendation
+- Landing page pattern
+- UI style guidelines
+- Color palette (hex codes)
+- Typography pairing (Google Fonts)
+- Key effects and animations
+- Anti-patterns to avoid
+- Pre-delivery checklist
+
+### Page Overrides
+
+**Purpose:** Page-specific deviations from Master rules
+
+**Contains:**
+- Only rules that differ from Master
+- Page-specific color variations
+- Unique typography for special sections
+- Page-specific components
+
+## Basic Workflow
+
+<Steps>
+  <Step title="Generate and persist Master design system">
+    Creates `design-system/MASTER.md` with global rules
+  </Step>
+  
+  <Step title="Create page-specific overrides (optional)">
+    Creates `design-system/pages/{page}.md` with deviations
+  </Step>
+  
+  <Step title="Retrieve hierarchically when building pages">
+    Check page file first, fall back to Master
+  </Step>
+</Steps>
+
+## Commands
+
+### Persist Master Design System
+
+Generate and save to `design-system/MASTER.md`:
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "<query>" --design-system --persist -p "Project Name"
+```
+
+**Example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "saas dashboard analytics" --design-system --persist -p "DataFlow"
+```
+
+**Terminal output:**
+```ansi
++----------------------------------------------------------------------------------------+
+|  TARGET: DataFlow - RECOMMENDED DESIGN SYSTEM                                          |
++----------------------------------------------------------------------------------------+
+|  [Full design system output]                                                           |
++----------------------------------------------------------------------------------------+
+
+============================================================
+✅ Design system persisted to design-system/dataflow/
+   📄 design-system/dataflow/MASTER.md (Global Source of Truth)
+
+📖 Usage: When building a page, check design-system/dataflow/pages/[page].md first.
+   If exists, its rules override MASTER.md. Otherwise, use MASTER.md.
+============================================================
+```
+
+**Creates:**
+- `design-system/dataflow/MASTER.md`
+
+### Persist with Page Override
+
+Generate Master + page-specific override:
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "<query>" --design-system --persist -p "Project Name" --page "<page-name>"
+```
+
+**Example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "checkout payment secure" --design-system --persist -p "DataFlow" --page "checkout"
+```
+
+**Terminal output:**
+```ansi
+============================================================
+✅ Design system persisted to design-system/dataflow/
+   📄 design-system/dataflow/MASTER.md (Global Source of Truth)
+   📄 design-system/dataflow/pages/checkout.md (Page Overrides)
+
+📖 Usage: When building a page, check design-system/dataflow/pages/[page].md first.
+   If exists, its rules override MASTER.md. Otherwise, use MASTER.md.
+============================================================
+```
+
+**Creates:**
+- `design-system/dataflow/MASTER.md` (if doesn't exist)
+- `design-system/dataflow/pages/checkout.md`
+
+### Custom Output Directory
+
+Save to a custom directory:
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "<query>" --design-system --persist -p "Project" --output-dir /path/to/docs
+```
+
+## Hierarchical Retrieval
+
+### Retrieval Logic
+
+<Steps>
+  <Step title="Check for page-specific override">
+    Read `design-system/{project}/pages/{page}.md`
+  </Step>
+  
+  <Step title="If page override exists, use it with Master as fallback">
+    Page rules override Master rules
+  </Step>
+  
+  <Step title="If no page override, use Master exclusively">
+    Read `design-system/{project}/MASTER.md`
+  </Step>
+</Steps>
+
+### Context-Aware Prompt
+
+When building a page, use this prompt pattern:
+
+```
+I am building the [Page Name] page. Please read design-system/{project}/MASTER.md.
+Also check if design-system/{project}/pages/{page-name}.md exists.
+If the page file exists, prioritize its rules.
+If not, use the Master rules exclusively.
+Now, generate the code...
+```
+
+**Example:**
+```
+I am building the Checkout page. Please read design-system/dataflow/MASTER.md.
+Also check if design-system/dataflow/pages/checkout.md exists.
+If the page file exists, prioritize its rules.
+If not, use the Master rules exclusively.
+Now, generate the checkout page with Stripe integration...
+```
+
+## Real-World Example
+
+### Scenario: E-commerce Platform
+
+#### Step 1: Generate Master Design System
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "ecommerce fashion luxury" --design-system --persist -p "Luxe Boutique"
+```
+
+**Creates:** `design-system/luxe-boutique/MASTER.md`
+
+**Contents:**
+```markdown
+# Luxe Boutique - Master Design System
+
+## Pattern
+Feature-Rich Showcase + Hero-Centric
+
+## Style
+Liquid Glass + Glassmorphism
+- Premium look with frosted glass effects
+- Subtle depth and shadows
+
+## Colors
+- Primary: #000000 (Black)
+- Secondary: #FFFFFF (White)
+- Accent: #D4AF37 (Gold)
+- Background: #FAFAFA (Off-White)
+- Text: #1A1A1A (Near Black)
+
+## Typography
+- Heading: Playfair Display (Serif, Elegant)
+- Body: Montserrat (Sans-serif, Clean)
+- Google Fonts: https://fonts.google.com/share?selection.family=...
+
+## Key Effects
+- Chromatic aberration on hero images
+- Fluid animations (400-600ms)
+- Subtle parallax on scroll
+
+## Anti-Patterns
+- Vibrant & Block-based design
+- Playful colors
+- Fast, bouncy animations
+```
+
+#### Step 2: Create Checkout Page Override
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "checkout payment secure trust" --design-system --persist -p "Luxe Boutique" --page "checkout"
+```
+
+**Creates:** `design-system/luxe-boutique/pages/checkout.md`
+
+**Contents:**
+```markdown
+# Checkout Page - Design Overrides
+
+## Override: Colors
+- Success: #10B981 (Green) - for payment success
+- Warning: #F59E0B (Amber) - for validation warnings
+- Danger: #EF4444 (Red) - for payment errors
+
+## Override: Style
+- Reduce glass effects (performance)
+- Use solid backgrounds for form inputs (readability)
+- Increase contrast for accessibility (WCAG AAA)
+
+## Override: Typography
+- Body: 16px minimum (up from 14px) for form labels
+- Error text: 14px bold in red
+
+## Additional Components
+- Trust badges (SSL, Payment icons)
+- Progress indicator (3 steps: Cart > Info > Payment)
+- Loading spinner for payment processing
+
+## Checkout-Specific Effects
+- Disable parallax (performance)
+- Faster transitions (150ms) for form validation
+- Subtle green glow on successful field validation
+```
+
+#### Step 3: Build Checkout Page with Hierarchical Retrieval
+
+**AI Prompt:**
+```
+I am building the Checkout page. Please read design-system/luxe-boutique/MASTER.md.
+Also check if design-system/luxe-boutique/pages/checkout.md exists.
+If the page file exists, prioritize its rules.
+If not, use the Master rules exclusively.
+Now, generate the checkout page with Stripe integration...
+```
+
+**AI Behavior:**
+1. Reads `design-system/luxe-boutique/MASTER.md`
+2. Finds `design-system/luxe-boutique/pages/checkout.md` exists
+3. Uses Master colors (Black, White, Gold) **except** for success/warning/danger (overridden to Green/Amber/Red)
+4. Uses Master typography (Playfair Display + Montserrat) but increases body text to 16px (override)
+5. Disables parallax (override) but keeps other Master effects
+6. Adds checkout-specific components (trust badges, progress indicator)
+
+## File Structure Examples
+
+### SaaS Product
+
+```
+design-system/
+└── dataflow/
+    ├── MASTER.md              # Global: Glassmorphism, Trust Blue, Inter
+    └── pages/
+        ├── dashboard.md       # Dark mode, data visualization colors
+        ├── settings.md        # Increased text size, clear labels
+        └── billing.md         # Trust colors, security badges
+```
+
+### Marketing Site
+
+```
+design-system/
+└── acme-inc/
+    ├── MASTER.md              # Global: Vibrant, Bold colors, Poppins
+    └── pages/
+        ├── landing.md         # Hero-centric, parallax effects
+        ├── pricing.md         # Comparison table, CTA emphasis
+        └── contact.md         # Form-focused, trust signals
+```
+
+### Multi-Brand Platform
+
+```
+design-system/
+├── brand-a/
+│   ├── MASTER.md
+│   └── pages/
+│       ├── home.md
+│       └── products.md
+└── brand-b/
+    ├── MASTER.md
+    └── pages/
+        ├── home.md
+        └── products.md
+```
+
+## Markdown Format
+
+By default, persisted files use **Markdown** format for readability:
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "fintech" --design-system --persist -p "FinApp" -f markdown
+```
+
+**Output format:**
+```markdown
+# FinApp - Master Design System
+
+## Recommended Pattern
+Conversion-Optimized
+
+## UI Style
+Glassmorphism + Dark Mode (OLED)
+- Dark tech colors with vibrant accents
+- Real-time chart animations
+
+## Color Palette
+- Primary: #1E3A5F (Navy Blue)
+- Secondary: #2C3E50 (Slate)
+- CTA: #3498DB (Trust Blue)
+- Background: #121212 (Dark)
+- Text: #FFFFFF (White)
+
+## Typography
+- Heading: IBM Plex Sans (Bold 700)
+- Body: Inter (Regular 400)
+- Google Fonts: https://fonts.google.com/share?selection.family=...
+
+## Key Effects
+- Real-time chart animations
+- Alert pulse/glow for notifications
+- Smooth state transitions
+
+## Anti-Patterns
+- Light backgrounds
+- No security indicators
+- AI purple/pink gradients
+
+## Pre-Delivery Checklist
+- [ ] No emojis as icons (use SVG: Heroicons/Lucide)
+- [ ] cursor-pointer on all clickable elements
+- [ ] Hover states with smooth transitions (150-300ms)
+- [ ] Dark mode: text contrast 4.5:1 minimum
+- [ ] Focus states visible for keyboard nav
+- [ ] prefers-reduced-motion respected
+- [ ] Responsive: 375px, 768px, 1024px, 1440px
+```
+
+## When to Use Persistence
+
+<Note>
+  **Use persistence when:**
+  - Building multi-page applications
+  - Working on long-term projects
+  - Maintaining design consistency across sessions
+  - Collaborating with team members
+  - Different pages need different design rules
+</Note>
+
+<Warning>
+  **Don't use persistence for:**
+  - Single-page prototypes
+  - Quick experiments
+  - One-off landing pages
+  - When design system is still evolving rapidly
+</Warning>
+
+## Version Control
+
+Commit design system files to version control:
+
+```bash
+git add design-system/
+git commit -m "feat: add DataFlow design system with checkout overrides"
+git push
+```
+
+**Benefits:**
+- Track design system evolution
+- Collaborate with designers/developers
+- Revert to previous design decisions
+- Branch for design experiments
+
+## Team Collaboration
+
+### Designer → Developer Workflow
+
+<Steps>
+  <Step title="Designer generates design system">
+    ```bash
+    python3 .shared/ui-ux-pro-max/scripts/search.py "beauty spa" --design-system --persist -p "Serenity"
+    ```
+  </Step>
+  
+  <Step title="Designer commits to repo">
+    ```bash
+    git add design-system/serenity/
+    git commit -m "feat: add Serenity Spa design system"
+    git push
+    ```
+  </Step>
+  
+  <Step title="Developer pulls and uses in prompts">
+    ```
+    I am building the Booking page. Read design-system/serenity/MASTER.md...
+    ```
+  </Step>
+</Steps>
+
+### AI Assistant → AI Assistant
+
+Different AI assistants can use the same design system:
+
+1. **Claude Code** generates Master design system
+2. **Cursor** uses Master to build dashboard
+3. **Windsurf** uses Master + checkout override to build checkout
+
+All assistants read from `design-system/` folder.
+
+## Updating Design Systems
+
+### Update Master
+
+Regenerate Master file (overwrites existing):
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "saas dashboard dark" --design-system --persist -p "DataFlow"
+```
+
+**Warning:** This overwrites `design-system/dataflow/MASTER.md`
+
+### Update Page Override
+
+Regenerate page override (overwrites existing):
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "checkout secure payment" --design-system --persist -p "DataFlow" --page "checkout"
+```
+
+**Warning:** This overwrites `design-system/dataflow/pages/checkout.md`
+
+### Manual Editing
+
+You can manually edit Markdown files:
+
+```bash
+# Edit Master
+vim design-system/dataflow/MASTER.md
+
+# Edit page override
+vim design-system/dataflow/pages/checkout.md
+```
+
+## Troubleshooting
+
+### Design System Not Found
+
+**Problem:** AI can't find design system files
+
+**Solution:** Check file paths
+```bash
+ls -la design-system/
+ls -la design-system/{project}/
+ls -la design-system/{project}/pages/
+```
+
+### Page Override Not Working
+
+**Problem:** AI uses Master rules instead of page overrides
+
+**Solution:** Verify prompt includes page file check
+```
+Also check if design-system/{project}/pages/{page}.md exists.
+If the page file exists, prioritize its rules.
+```
+
+### Multiple Projects Conflict
+
+**Problem:** Mixing design systems from different projects
+
+**Solution:** Use project-specific folders
+```
+design-system/
+├── project-a/
+│   ├── MASTER.md
+│   └── pages/
+└── project-b/
+    ├── MASTER.md
+    └── pages/
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Design System Workflow" icon="palette" href="/guides/design-system-workflow">
+    Learn the complete design system generation workflow
+  </Card>
+  <Card title="CLI Commands" icon="terminal" href="/guides/cli-commands">
+    Master the uipro-cli command-line tool
+  </Card>
+</CardGroup>

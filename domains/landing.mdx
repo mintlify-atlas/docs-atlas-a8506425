@@ -1,0 +1,353 @@
+---
+title: "Landing Page Domain"
+description: "Landing page patterns, section order, CTA placement, and conversion optimization strategies"
+---
+
+## Overview
+
+The **landing domain** provides proven landing page patterns optimized for conversion. Each pattern includes section order, CTA placement, color strategies, and conversion optimization tips.
+
+**Database:** `landing.csv` (15+ patterns)  
+**Search columns:** Pattern Name, Keywords, Conversion Optimization, Section Order  
+**Output columns:** Pattern Name, Keywords, Section Order, Primary CTA Placement, Color Strategy, Recommended Effects, Conversion Optimization
+
+## When to Use
+
+- Designing a new landing page
+- Optimizing conversion rates
+- Structuring page sections
+- Positioning CTAs effectively
+- Choosing page layout patterns
+
+## Search Examples
+
+### Example 1: Hero-Centric Landing
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "hero cta features" --domain landing
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "landing",
+  "results": [
+    {
+      "Pattern Name": "Hero + Features + CTA",
+      "Keywords": "hero, hero-centric, features, feature-rich, cta, call-to-action",
+      "Section Order": "1. Hero with headline/image, 2. Value prop, 3. Key features (3-5), 4. CTA section, 5. Footer",
+      "Primary CTA Placement": "Hero (sticky) + Bottom",
+      "Color Strategy": "Hero: Brand primary or vibrant. Features: Card bg #FAFAFA. CTA: Contrasting accent color",
+      "Recommended Effects": "Hero parallax, feature card hover lift, CTA glow on hover",
+      "Conversion Optimization": "Deep CTA placement. Use contrasting color (at least 7:1 contrast ratio). Sticky navbar CTA."
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 2: Social Proof Landing
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "testimonials social proof trust" --domain landing
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "landing",
+  "results": [
+    {
+      "Pattern Name": "Hero + Testimonials + CTA",
+      "Keywords": "hero, testimonials, social-proof, trust, reviews, cta",
+      "Section Order": "1. Hero, 2. Problem statement, 3. Solution overview, 4. Testimonials carousel, 5. CTA",
+      "Primary CTA Placement": "Hero (sticky) + Post-testimonials",
+      "Color Strategy": "Hero: Brand color. Testimonials: Light bg #F5F5F5. Quotes: Italic, muted color #666. CTA: Vibrant",
+      "Recommended Effects": "Testimonial carousel slide animations, quote marks animations, avatar fade-in",
+      "Conversion Optimization": "Social proof before CTA. Use 3-5 testimonials. Include photo + name + role. CTA after social proof."
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 3: Product Demo Page
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "product demo video showcase" --domain landing
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "landing",
+  "results": [
+    {
+      "Pattern Name": "Product Demo + Features",
+      "Keywords": "demo, product-demo, features, showcase, interactive",
+      "Section Order": "1. Hero, 2. Product video/mockup (center), 3. Feature breakdown per section, 4. Comparison (optional), 5. CTA",
+      "Primary CTA Placement": "Video center + CTA right/bottom",
+      "Color Strategy": "Video surround: Brand color overlay. Features: Icon color #0080FF. Text: Dark #222",
+      "Recommended Effects": "Video play button pulse, feature scroll reveals, demo interaction highlights",
+      "Conversion Optimization": "Embedded product demo increases engagement. Use interactive mockup if possible. Auto-play video muted."
+    }
+  ]
+}
+```
+</Accordion>
+
+## CSV Structure
+
+| Column | Description | Example |
+|--------|-------------|----------|
+| `No` | Row number | 1 |
+| `Pattern Name` | Pattern identifier | "Hero + Features + CTA" |
+| `Keywords` | Search terms | "hero, features, cta" |
+| `Section Order` | Page structure | "1. Hero, 2. Value prop, 3. Features..." |
+| `Primary CTA Placement` | CTA locations | "Hero (sticky) + Bottom" |
+| `Color Strategy` | Color recommendations | "Hero: Brand primary, CTA: Contrasting" |
+| `Recommended Effects` | Visual effects | "Hero parallax, card hover lift" |
+| `Conversion Optimization` | Best practices | "Use 7:1 contrast ratio, sticky CTA" |
+
+## Landing Page Patterns
+
+<Accordion title="All Patterns">
+
+### 1. Hero + Features + CTA
+**Best for:** SaaS, general products  
+**Structure:** Hero → Value Prop → Features → CTA  
+**CTA Placement:** Hero + Bottom  
+**Conversion Rate:** High (industry standard)
+
+### 2. Hero + Testimonials + CTA
+**Best for:** Service businesses, trust-critical products  
+**Structure:** Hero → Problem → Solution → Testimonials → CTA  
+**CTA Placement:** After social proof  
+**Conversion Rate:** Very High (trust-driven)
+
+### 3. Product Demo + Features
+**Best for:** Complex products, software  
+**Structure:** Hero → Video/Demo → Features → CTA  
+**CTA Placement:** Near demo  
+**Conversion Rate:** High (visual engagement)
+
+### 4. Minimal Single Column
+**Best for:** Micro SaaS, simple products  
+**Structure:** Headline → Description → Benefits → CTA  
+**CTA Placement:** Center, large button  
+**Conversion Rate:** Medium (focus-driven)
+
+### 5. Funnel (3-Step Conversion)
+**Best for:** Lead generation, onboarding  
+**Structure:** Problem → Process → Solution → CTA progression  
+**CTA Placement:** Each step + final  
+**Conversion Rate:** Very High (guided flow)
+
+### 6. Comparison Table + CTA
+**Best for:** Competitive markets  
+**Structure:** Hero → Problem → Comparison → Pricing → CTA  
+**CTA Placement:** Below table  
+**Conversion Rate:** High (differentiation)
+
+### 7. Lead Magnet + Form
+**Best for:** Email capture, lead generation  
+**Structure:** Benefit → Preview → Form → CTA  
+**CTA Placement:** Form submit  
+**Conversion Rate:** Very High (value exchange)
+
+### 8. Pricing Page + CTA
+**Best for:** SaaS, subscription products  
+**Structure:** Hero → Plans → Features → FAQ → CTA  
+**CTA Placement:** Each card + sticky nav  
+**Conversion Rate:** High (decision-ready)
+
+### 9. Video-First Hero
+**Best for:** Visual products, lifestyle brands  
+**Structure:** Video Hero → Features → Benefits → CTA  
+**CTA Placement:** Overlay + bottom  
+**Conversion Rate:** Very High (86% higher engagement)
+
+</Accordion>
+
+## Section Order Best Practices
+
+### 1. Hero Section (Above the Fold)
+<Steps>
+  <Step title="Compelling Headline">
+    Clear value proposition in 5-10 words
+  </Step>
+  <Step title="Supporting Subheadline">
+    1-2 sentences explaining the benefit
+  </Step>
+  <Step title="Primary CTA">
+    High-contrast button with action verb
+  </Step>
+  <Step title="Hero Visual">
+    Product mockup, video, or illustration
+  </Step>
+  <Step title="Social Proof (Optional)">
+    Logo bar or quick stat
+  </Step>
+</Steps>
+
+### 2. Value Proposition
+- **What it does** - Core functionality
+- **Who it's for** - Target audience
+- **Why it matters** - Key benefit
+
+### 3. Features Section
+- **3-5 key features** - Most important capabilities
+- **Icon + Title + Description** - Scannable format
+- **Visual support** - Screenshots or illustrations
+
+### 4. Social Proof
+- **Testimonials** - 3-5 customer quotes
+- **Case studies** - Success stories
+- **Trust badges** - Awards, certifications, logos
+
+### 5. Final CTA
+- **Contrasting color** - 7:1+ contrast ratio
+- **Action-oriented** - "Start Free Trial" > "Learn More"
+- **Remove friction** - "No credit card required"
+
+## CTA Placement Strategies
+
+### High-Converting Placements
+
+| Placement | Conversion Rate | Best For |
+|-----------|----------------|----------|
+| **Hero + Bottom** | Baseline | General products |
+| **After Social Proof** | +20-30% | Trust-critical products |
+| **After Demo/Video** | +40-50% | Complex products |
+| **Sticky Navbar** | +15-25% | All pages |
+| **Exit Intent Popup** | +10-20% | Leaving visitors |
+| **Multi-step (Funnel)** | +30-50% | Lead generation |
+
+### CTA Button Best Practices
+
+<Tabs>
+  <Tab title="Text">
+    **Action verbs:**
+    - ✅ "Start Free Trial"
+    - ✅ "Get Started"
+    - ✅ "Download Now"
+    - ❌ "Submit"
+    - ❌ "Click Here"
+    - ❌ "Learn More"
+  </Tab>
+  <Tab title="Color">
+    **Contrasting colors:**
+    - Blue site → Orange CTA (#F97316)
+    - Green site → Orange CTA (#F97316)
+    - Dark site → Bright CTA (#10B981)
+    - Light site → Bold CTA (#2563EB)
+    
+    **Minimum 7:1 contrast ratio**
+  </Tab>
+  <Tab title="Size">
+    **Desktop:** 48-64px height, 200-300px width  
+    **Mobile:** 44-56px height, full width or 80%  
+    **Font size:** 16-20px (never smaller than 16px)
+  </Tab>
+  <Tab title="Effects">
+    ```css
+    /* Hover state */
+    .cta-button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.2);
+    }
+    
+    /* Active state */
+    .cta-button:active {
+      transform: translateY(0);
+    }
+    ```
+  </Tab>
+</Tabs>
+
+## Color Strategies by Pattern
+
+### Hero-Centric
+```css
+/* Hero background */
+--hero-bg: var(--brand-primary); /* Brand color */
+--hero-text: #FFFFFF;
+--hero-cta: var(--accent-contrast); /* Orange/Contrasting */
+```
+
+### Social Proof-Focused
+```css
+/* Testimonials section */
+--testimonial-bg: #F5F5F5; /* Light grey */
+--testimonial-text: #333333;
+--testimonial-quote: #666666; /* Muted */
+--testimonial-border: #E0E0E0;
+```
+
+### Product Demo
+```css
+/* Video section */
+--video-overlay: rgba(0, 0, 0, 0.6); /* Dark overlay */
+--video-play-btn: var(--brand-primary);
+--video-text: #FFFFFF;
+```
+
+## Conversion Optimization Tips
+
+<AccordionGroup>
+  <Accordion title="Reduce Friction">
+    - **Remove unnecessary form fields** - Max 3 fields for best conversion
+    - **"No credit card required"** - Remove payment barrier
+    - **"Cancel anytime"** - Reduce commitment anxiety
+    - **Auto-fill support** - Use `autocomplete` attributes
+  </Accordion>
+  
+  <Accordion title="Build Trust">
+    - **Social proof above fold** - Logos, testimonials, ratings
+    - **Security badges** - SSL, payment icons, certifications
+    - **Real photos** - Avoid stock photos for testimonials
+    - **Specific numbers** - "10,000+ users" > "Thousands"
+  </Accordion>
+  
+  <Accordion title="Create Urgency">
+    - **Limited time offers** - Countdown timers
+    - **Scarcity** - "Only 3 spots left"
+    - **FOMO** - "Join 10,000+ users"
+    - **Seasonal** - "Black Friday: 50% off"
+  </Accordion>
+  
+  <Accordion title="Optimize for Mobile">
+    - **Thumb-friendly CTAs** - 44x44px minimum
+    - **One-column layout** - Stack sections vertically
+    - **Larger text** - 16px minimum body text
+    - **Sticky CTA bar** - Always visible on mobile
+  </Accordion>
+</AccordionGroup>
+
+## A/B Testing Priorities
+
+Test these elements first for maximum impact:
+
+1. **CTA button color** (20-30% lift)
+2. **Headline copy** (15-25% lift)
+3. **CTA placement** (15-20% lift)
+4. **Form field count** (10-20% lift)
+5. **Hero image** (10-15% lift)
+6. **Social proof location** (10-15% lift)
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Product Types" href="/domains/product">
+    Find recommended landing patterns for your product
+  </Card>
+  <Card title="Color Palettes" href="/domains/color">
+    Choose high-contrast CTA colors
+  </Card>
+  <Card title="Typography" href="/domains/typography">
+    Select readable fonts for landing pages
+  </Card>
+  <Card title="UX Guidelines" href="/domains/ux">
+    Check conversion best practices
+  </Card>
+</CardGroup>

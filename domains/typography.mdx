@@ -1,0 +1,368 @@
+---
+title: "Typography Domain"
+description: "57 font pairings with Google Fonts integration and Tailwind configuration"
+---
+
+## Overview
+
+The **typography domain** provides carefully curated font pairings optimized for different moods, industries, and use cases. Each pairing includes Google Fonts URLs, CSS imports, and Tailwind config.
+
+**Database:** `typography.csv` (57 pairings)  
+**Search columns:** Font Pairing Name, Category, Mood/Style Keywords, Best For, Heading Font, Body Font  
+**Output columns:** All font details including Google Fonts URL, CSS import, Tailwind config, notes
+
+## When to Use
+
+- Selecting fonts for a new project
+- Matching typography to brand personality
+- Finding Google Fonts alternatives
+- Setting up Tailwind font configuration
+- Ensuring readability and accessibility
+
+## Search Examples
+
+### Example 1: Modern Professional
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "modern professional clean" --domain typography
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "typography",
+  "results": [
+    {
+      "Font Pairing Name": "Modern Professional",
+      "Category": "Sans + Sans",
+      "Heading Font": "Poppins",
+      "Body Font": "Open Sans",
+      "Mood/Style Keywords": "modern, professional, clean, corporate, friendly, approachable",
+      "Best For": "SaaS, corporate sites, business apps, startups, professional services",
+      "Google Fonts URL": "https://fonts.google.com/share?selection.family=Open+Sans:wght@300;400;500;600;700|Poppins:wght@400;500;600;700",
+      "CSS Import": "@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');",
+      "Tailwind Config": "fontFamily: { heading: ['Poppins', 'sans-serif'], body: ['Open Sans', 'sans-serif'] }",
+      "Notes": "Geometric Poppins for headings, humanist Open Sans for readability."
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 2: Elegant Luxury
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "elegant luxury sophisticated" --domain typography
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "typography",
+  "results": [
+    {
+      "Font Pairing Name": "Classic Elegant",
+      "Category": "Serif + Sans",
+      "Heading Font": "Playfair Display",
+      "Body Font": "Inter",
+      "Mood/Style Keywords": "elegant, luxury, sophisticated, timeless, premium, editorial",
+      "Best For": "Luxury brands, fashion, spa, beauty, editorial, magazines, high-end e-commerce",
+      "Google Fonts URL": "https://fonts.google.com/share?selection.family=Inter:wght@300;400;500;600;700|Playfair+Display:wght@400;500;600;700",
+      "CSS Import": "@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');",
+      "Tailwind Config": "fontFamily: { serif: ['Playfair Display', 'serif'], sans: ['Inter', 'sans-serif'] }",
+      "Notes": "High contrast between elegant heading and clean body. Perfect for luxury/premium."
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 3: Playful Creative
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "playful fun creative friendly" --domain typography
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "typography",
+  "results": [
+    {
+      "Font Pairing Name": "Playful Creative",
+      "Category": "Display + Sans",
+      "Heading Font": "Fredoka",
+      "Body Font": "Nunito",
+      "Mood/Style Keywords": "playful, friendly, fun, creative, warm, approachable",
+      "Best For": "Children's apps, educational, gaming, creative tools, entertainment",
+      "Google Fonts URL": "https://fonts.google.com/share?selection.family=Fredoka:wght@400;500;600;700|Nunito:wght@300;400;500;600;700",
+      "CSS Import": "@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@300;400;500;600;700&display=swap');",
+      "Tailwind Config": "fontFamily: { heading: ['Fredoka', 'sans-serif'], body: ['Nunito', 'sans-serif'] }",
+      "Notes": "Rounded, friendly fonts perfect for playful UIs."
+    }
+  ]
+}
+```
+</Accordion>
+
+## CSV Structure
+
+| Column | Description | Example |
+|--------|-------------|----------|
+| `No` | Row number | 1 |
+| `Font Pairing Name` | Pairing name | "Classic Elegant" |
+| `Category` | Font combination | "Serif + Sans" |
+| `Heading Font` | Font for headings | "Playfair Display" |
+| `Body Font` | Font for body text | "Inter" |
+| `Mood/Style Keywords` | Personality keywords | "elegant, luxury, sophisticated" |
+| `Best For` | Use cases | "Luxury brands, fashion, spa" |
+| `Google Fonts URL` | Direct link to fonts | "https://fonts.google.com/share?..." |
+| `CSS Import` | @import statement | "@import url('...');" |
+| `Tailwind Config` | Tailwind configuration | "fontFamily: &#123;...&#125;" |
+| `Notes` | Additional context | "High contrast pairing" |
+
+## Font Categories
+
+<Accordion title="All Categories">
+
+### Serif + Sans (High Contrast)
+- **Classic Elegant** - Playfair Display + Inter
+- **Wellness Calm** - Lora + Raleway
+- **Timeless Professional** - Merriweather + Work Sans
+- **Editorial Premium** - Libre Baskerville + Source Sans Pro
+
+**Best for:** Luxury brands, editorial content, premium products
+
+### Sans + Sans (Modern)
+- **Modern Professional** - Poppins + Open Sans
+- **Tech Startup** - Space Grotesk + DM Sans
+- **Minimal Swiss** - Inter + Inter (single font)
+- **Corporate Clean** - Montserrat + Roboto
+
+**Best for:** SaaS, startups, corporate sites, tech products
+
+### Serif + Serif (Traditional)
+- **Editorial Classic** - Cormorant Garamond + Libre Baskerville
+- **Academic Traditional** - Crimson Text + EB Garamond
+
+**Best for:** Publishing, blogs, literary content, traditional media
+
+### Display + Sans (Creative)
+- **Playful Creative** - Fredoka + Nunito
+- **Bold Statement** - Bebas Neue + Source Sans 3
+- **Artistic Bold** - Righteous + Nunito Sans
+
+**Best for:** Creative agencies, entertainment, gaming, marketing
+
+### Mono + Sans (Developer)
+- **Developer Mono** - JetBrains Mono + IBM Plex Sans
+- **Code Editor** - Fira Code + Inter
+
+**Best for:** Developer tools, documentation, code editors, technical blogs
+
+</Accordion>
+
+## Implementation Guide
+
+### Step 1: Add CSS Import
+
+Add to your HTML `<head>` or CSS file:
+
+```html
+<head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+```
+
+Or in CSS:
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@300;400;500;600;700&display=swap');
+```
+
+### Step 2: Configure Tailwind
+
+Add to `tailwind.config.js`:
+
+```js
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        heading: ['Poppins', 'sans-serif'],
+        body: ['Open Sans', 'sans-serif'],
+        // Or for single font:
+        sans: ['Inter', 'sans-serif'],
+      },
+    },
+  },
+}
+```
+
+### Step 3: Apply in HTML
+
+```html
+<h1 class="font-heading text-4xl font-semibold">
+  Modern Professional Heading
+</h1>
+<p class="font-body text-base font-normal">
+  Clean, readable body text with Open Sans.
+</p>
+```
+
+### Step 4: CSS Custom Properties
+
+```css
+:root {
+  --font-heading: 'Poppins', sans-serif;
+  --font-body: 'Open Sans', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+body, p, span, div {
+  font-family: var(--font-body);
+}
+```
+
+## Typography Best Practices
+
+### Font Sizes
+
+| Element | Size (px) | Tailwind Class | Usage |
+|---------|-----------|----------------|---------|
+| H1 | 48-64 | `text-5xl` / `text-6xl` | Hero headings |
+| H2 | 36-48 | `text-4xl` / `text-5xl` | Section headings |
+| H3 | 24-32 | `text-2xl` / `text-3xl` | Subsections |
+| H4 | 20-24 | `text-xl` / `text-2xl` | Card titles |
+| Body | 16-18 | `text-base` / `text-lg` | Body text |
+| Small | 14 | `text-sm` | Captions, notes |
+| Tiny | 12 | `text-xs` | Legal text |
+
+<Warning>
+  **Never use body text smaller than 16px on mobile** - This prevents iOS zoom on input focus and ensures readability.
+</Warning>
+
+### Line Height
+
+| Text Type | Line Height | Tailwind Class |
+|-----------|-------------|----------------|
+| Headings | 1.1-1.3 | `leading-tight` / `leading-snug` |
+| Body | 1.5-1.75 | `leading-normal` / `leading-relaxed` |
+| Legal/Dense | 1.3-1.5 | `leading-snug` / `leading-normal` |
+
+### Line Length
+
+<Info>
+  **Optimal readability:** 65-75 characters per line (45-90 range)  
+  Use `max-w-prose` (65ch) in Tailwind or `max-width: 65ch` in CSS
+</Info>
+
+```html
+<article class="max-w-prose">
+  <p>This paragraph will automatically limit to ~65 characters per line for optimal readability.</p>
+</article>
+```
+
+### Font Weights
+
+| Weight | Value | Tailwind | Usage |
+|--------|-------|----------|-------|
+| Light | 300 | `font-light` | Secondary text |
+| Normal | 400 | `font-normal` | Body text |
+| Medium | 500 | `font-medium` | Emphasis |
+| Semibold | 600 | `font-semibold` | Headings |
+| Bold | 700 | `font-bold` | Strong emphasis |
+
+## Performance Optimization
+
+### Font Loading Strategy
+
+```html
+<!-- Preconnect for faster loading -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<!-- Load only weights you use -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+```
+
+### Font Display Strategy
+
+```css
+/* Prevent FOIT (Flash of Invisible Text) */
+@font-face {
+  font-family: 'Inter';
+  font-display: swap; /* Show fallback immediately */
+  src: url('...');
+}
+```
+
+### Variable Fonts (Recommended)
+
+Use variable fonts for better performance:
+
+```html
+<!-- Single file, all weights -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap" rel="stylesheet">
+```
+
+## Accessibility
+
+### Minimum Contrast
+- **Normal text (< 24px):** 4.5:1 contrast ratio (WCAG AA)
+- **Large text (≥ 24px):** 3:1 contrast ratio (WCAG AA)
+- **AAA compliance:** 7:1 for normal, 4.5:1 for large
+
+### Readable Fonts
+Avoid:
+- Thin weights (< 300) for body text
+- Script/cursive fonts for long text
+- All-caps for paragraphs
+- Low-contrast colors
+
+### Dyslexia-Friendly
+Recommended fonts:
+- **Inter** - Variable font, good spacing
+- **Open Sans** - Humanist, clear letterforms
+- **Lexend** - Specifically designed for readability
+
+## Font Pairing by Industry
+
+<Accordion title="Industry Recommendations">
+
+| Industry | Pairing | Heading Font | Body Font |
+|----------|---------|--------------|------------|
+| **SaaS** | Modern Professional | Poppins | Open Sans |
+| **E-commerce** | Modern Clean | Montserrat | Roboto |
+| **Luxury** | Classic Elegant | Playfair Display | Inter |
+| **Healthcare** | Wellness Calm | Lora | Raleway |
+| **Finance** | Corporate Professional | Inter | Inter |
+| **Tech/Startup** | Tech Startup | Space Grotesk | DM Sans |
+| **Education** | Playful Creative | Fredoka | Nunito |
+| **Developer Tools** | Developer Mono | JetBrains Mono | IBM Plex Sans |
+| **Fashion** | Editorial Elegant | Cormorant | Josefin Sans |
+| **Gaming** | Bold Statement | Bebas Neue | Source Sans 3 |
+
+</Accordion>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Color Palettes" href="/domains/color">
+    Match colors to your typography
+  </Card>
+  <Card title="Style Implementation" href="/domains/style">
+    Apply fonts in different UI styles
+  </Card>
+  <Card title="UX Guidelines" href="/domains/ux">
+    Verify typography accessibility
+  </Card>
+  <Card title="Product Types" href="/domains/product">
+    Find recommended fonts for your product
+  </Card>
+</CardGroup>

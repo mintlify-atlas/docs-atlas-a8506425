@@ -1,0 +1,422 @@
+---
+title: "Windsurf"
+description: "Install UI/UX Pro Max in Windsurf"
+---
+
+Windsurf is Codeium's agentic IDE with Cascade, a powerful AI agent. UI/UX Pro Max integrates as a skill that works seamlessly with Cascade's multi-step workflows.
+
+## Installation
+
+<Steps>
+  <Step title="Install CLI">
+    ```bash
+    npm install -g uipro-cli
+    ```
+  </Step>
+  <Step title="Navigate to Project">
+    ```bash
+    cd /path/to/your/project
+    ```
+  </Step>
+  <Step title="Install for Windsurf">
+    ```bash
+    uipro init --ai windsurf
+    ```
+
+    This creates two folders:
+    - `.windsurf/skills/ui-ux-pro-max/` - Main skill files
+    - `.shared/ui-ux-pro-max/` - Shared reference data
+  </Step>
+  <Step title="Restart Windsurf">
+    Close and reopen Windsurf to load the skill.
+  </Step>
+</Steps>
+
+## File Structure
+
+```
+.windsurf/
+└── skills/
+    └── ui-ux-pro-max/
+        ├── SKILL.md              # Main skill file
+        ├── data/
+        │   ├── styles.csv        # 67 UI styles
+        │   ├── colors.csv        # 96 color palettes
+        │   ├── typography.csv    # 57 font pairings
+        │   ├── landing.csv       # 24 landing page patterns
+        │   ├── products.csv      # 100 product categories
+        │   ├── charts.csv        # 25 chart types
+        │   ├── ux_guidelines.csv # 99 UX guidelines
+        │   └── stacks/           # Stack-specific guidelines
+        └── scripts/
+            ├── search.py         # CLI search tool
+            ├── core.py           # BM25 search engine
+            └── design_system.py  # Design system generator
+
+.shared/
+└── ui-ux-pro-max/
+    └── data/                     # Shared reference data
+```
+
+## How to Use
+
+### Automatic Activation with Cascade
+
+UI/UX Pro Max activates automatically when you mention UI/UX work in Windsurf's Cascade:
+
+<CodeGroup>
+  ```bash SaaS Landing Page
+  Build a landing page for my SaaS product
+  ```
+
+  ```bash Healthcare Dashboard
+  Create a healthcare analytics dashboard
+  ```
+
+  ```bash E-commerce App
+  Design a mobile e-commerce app with React Native
+  ```
+
+  ```bash Portfolio Site
+  Make a portfolio website with dark mode
+  ```
+</CodeGroup>
+
+### With Cascade Agent
+
+Cascade's multi-step reasoning works perfectly with UI/UX Pro Max:
+
+<Steps>
+  <Step title="Initiate Request">
+    ```
+    Build a fintech banking dashboard with dark theme
+    ```
+  </Step>
+  <Step title="Cascade Plans">
+    Cascade creates a multi-step plan:
+    1. Generate design system (style, colors, fonts)
+    2. Create component structure
+    3. Implement UI with design tokens
+    4. Add interactions and animations
+    5. Validate accessibility
+  </Step>
+  <Step title="Design System Generated">
+    UI/UX Pro Max provides:
+    - Style: Dark Mode OLED
+    - Colors: Trust Blue (#1E3A8A), Wealth Green (#047857)
+    - Typography: Inter / Roboto Mono
+    - Anti-patterns: Avoid bright colors, use subtle gradients
+  </Step>
+  <Step title="Implementation">
+    Cascade implements code following the design system across multiple files.
+  </Step>
+</Steps>
+
+## Features in Windsurf
+
+### Multi-Step UI Generation
+
+Cascade excels at complex, multi-step UI generation:
+
+```
+Build a complete e-commerce site with:
+1. Homepage with hero and featured products
+2. Product listing with filters and search
+3. Product detail page with image gallery
+4. Shopping cart with quantity controls
+5. Checkout flow with form validation
+```
+
+Cascade will:
+- Generate a unified design system
+- Create all components with consistent styling
+- Implement responsive layouts
+- Add proper accessibility
+- Follow UX best practices
+
+### Intelligent Refinement
+
+Cascade can refine designs iteratively:
+
+```
+Make the hero section more engaging
+Add micro-interactions to buttons
+Optimize for mobile-first experience
+Improve color contrast for accessibility
+```
+
+### Context-Aware Design
+
+Cascade understands project context:
+
+```
+// If you have existing components
+Extend the current design system to add a new pricing page
+
+// If you have a design file
+Implement this Figma design with our color palette
+```
+
+## Advanced Usage
+
+### Direct Search Commands
+
+Run search commands in Windsurf's integrated terminal:
+
+<Tabs>
+  <Tab title="Style Search">
+    ```bash
+    python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+    ```
+
+    Returns:
+    - Style name and description
+    - CSS keywords and properties
+    - AI generation prompts
+    - Best use cases
+    - Performance notes
+  </Tab>
+  <Tab title="Color Search">
+    ```bash
+    python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "fintech" --domain color
+    ```
+
+    Returns:
+    - Industry-specific palettes
+    - Primary, secondary, accent colors
+    - Background and text colors
+    - Color psychology notes
+  </Tab>
+  <Tab title="Typography Search">
+    ```bash
+    python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "elegant" --domain typography
+    ```
+
+    Returns:
+    - Font pairings
+    - Google Fonts import URLs
+    - Font mood and personality
+    - Best use cases
+  </Tab>
+  <Tab title="Design System">
+    ```bash
+    python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "beauty spa" --design-system -p "Serenity Spa"
+    ```
+
+    Generates complete design system with:
+    - Recommended pattern
+    - UI style
+    - Color palette
+    - Typography
+    - Key effects
+    - Anti-patterns
+  </Tab>
+</Tabs>
+
+### Persistent Design Systems
+
+Create reusable design systems for your project:
+
+```bash
+# Generate master design system
+python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "SaaS dashboard" --design-system --persist -p "MyApp"
+
+# Create page-specific overrides
+python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "SaaS dashboard" --design-system --persist -p "MyApp" --page "pricing"
+python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "SaaS dashboard" --design-system --persist -p "MyApp" --page "dashboard"
+```
+
+Hierarchical structure:
+```
+design-system/
+├── MASTER.md           # Global source of truth
+└── pages/
+    ├── pricing.md      # Pricing page overrides
+    └── dashboard.md    # Dashboard page overrides
+```
+
+Then reference in Cascade:
+
+```
+Build the pricing page following design-system/MASTER.md and design-system/pages/pricing.md
+```
+
+### Stack-Specific Guidance
+
+Specify your tech stack for optimized recommendations:
+
+<Tabs>
+  <Tab title="Next.js">
+    ```
+    Build a Next.js 14 landing page with:
+    - App Router
+    - Server Components
+    - Parallel routes for modals
+    - Streaming with Suspense
+    ```
+
+    UI/UX Pro Max provides Next.js-specific patterns:
+    - Image optimization with next/image
+    - Font optimization with next/font
+    - Layout nesting strategies
+    - Loading states
+  </Tab>
+  <Tab title="React + shadcn/ui">
+    ```
+    Create a React dashboard with shadcn/ui components
+    ```
+
+    UI/UX Pro Max recommends:
+    - shadcn/ui components to use
+    - Proper composition patterns
+    - Theming with CSS variables
+    - Dark mode implementation
+  </Tab>
+  <Tab title="Vue + Nuxt">
+    ```
+    Design a Nuxt 3 e-commerce site with Nuxt UI
+    ```
+
+    UI/UX Pro Max provides:
+    - Nuxt 3 composables
+    - Nuxt UI component patterns
+    - Server route strategies
+    - Auto-import optimizations
+  </Tab>
+  <Tab title="Mobile (React Native)">
+    ```
+    Build a React Native fitness app
+    ```
+
+    UI/UX Pro Max recommends:
+    - Mobile-first navigation
+    - Touch-optimized interactions
+    - Platform-specific patterns (iOS/Android)
+    - Performance optimizations
+  </Tab>
+</Tabs>
+
+## CLI Commands
+
+```bash
+# Update to latest version
+uipro update
+
+# List available versions
+uipro versions
+
+# Install offline (use bundled assets)
+uipro init --ai windsurf --offline
+```
+
+## Tips for Windsurf
+
+<AccordionGroup>
+  <Accordion title="Leverage Cascade's Planning">
+    Let Cascade plan complex UI systems:
+
+    ```
+    Build a complete SaaS application with:
+    - Marketing landing page
+    - User authentication (login, signup, forgot password)
+    - Dashboard with analytics
+    - Settings page with multiple tabs
+    - Profile page with avatar upload
+    ```
+
+    Cascade will create a comprehensive plan and execute it step by step.
+  </Accordion>
+  <Accordion title="Use Natural Language Refinements">
+    Cascade understands conversational refinements:
+
+    ```
+    // After initial generation
+    Actually, make it more minimal
+    The colors are too bright, tone them down
+    Add more whitespace between sections
+    Make the CTA buttons more prominent
+    ```
+  </Accordion>
+  <Accordion title="Multi-File Operations">
+    Cascade excels at coordinated multi-file changes:
+
+    ```
+    Update the design system:
+    - Change primary color to blue
+    - Update all components to use the new color
+    - Adjust hover states
+    - Update documentation
+    ```
+  </Accordion>
+  <Accordion title="Design System Evolution">
+    Evolve your design system over time:
+
+    ```
+    Review design-system/MASTER.md and suggest improvements:
+    - More accessible color contrast
+    - Consistent spacing scale
+    - Better mobile breakpoints
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Skill Not Loading">
+    1. Verify `.windsurf/skills/ui-ux-pro-max/SKILL.md` exists
+    2. Check file has proper `# ui-ux-pro-max` heading
+    3. Restart Windsurf completely
+    4. Clear Windsurf cache if issues persist
+  </Accordion>
+  <Accordion title="Python Not Found">
+    Install Python 3.x:
+
+    ```bash
+    python3 --version
+
+    # macOS
+    brew install python3
+
+    # Ubuntu/Debian
+    sudo apt install python3
+
+    # Windows
+    winget install Python.Python.3.12
+    ```
+  </Accordion>
+  <Accordion title="Cascade Not Using Design System">
+    Be explicit about using UI/UX Pro Max:
+
+    ```
+    Build a landing page for my SaaS product.
+    First, generate a design system using UI/UX Pro Max.
+    Then implement the page following the design system.
+    ```
+  </Accordion>
+  <Accordion title="Search Script Fails">
+    Check script permissions:
+
+    ```bash
+    chmod +x .windsurf/skills/ui-ux-pro-max/scripts/search.py
+    python3 .windsurf/skills/ui-ux-pro-max/scripts/search.py "test" --domain style
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="play" href="/getting-started">
+    Learn the basics of UI/UX Pro Max
+  </Card>
+  <Card title="Design Systems" icon="palette" href="/design-systems">
+    Generate complete design systems
+  </Card>
+  <Card title="UI Styles" icon="paintbrush" href="/ui-styles">
+    Explore 67 UI styles
+  </Card>
+  <Card title="Cascade Workflows" icon="layer-group" href="/guides/cascade-workflow">
+    Master Windsurf Cascade workflows
+  </Card>
+</CardGroup>

@@ -1,0 +1,406 @@
+---
+title: Sync Workflow
+description: Learn how to sync changes from source to CLI and maintain consistency across platforms
+---
+
+## Overview
+
+UI/UX Pro Max uses a **source-of-truth pattern** where `src/ui-ux-pro-max/` contains all canonical files. Changes must be synced to the CLI before publishing to npm.
+
+## When to Sync
+
+Sync is required when you modify any of these:
+
+- **CSV data files** (`src/ui-ux-pro-max/data/*.csv`)
+- **Python scripts** (`src/ui-ux-pro-max/scripts/*.py`)
+- **Templates** (`src/ui-ux-pro-max/templates/`)
+
+## Source of Truth Diagram
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  src/ui-ux-pro-max/  (SOURCE OF TRUTH)                      │
+│  ├── data/           ← Edit here                            │
+│  ├── scripts/        ← Edit here                            │
+│  └── templates/      ← Edit here                            │
+└─────────────────────────────────────────────────────────────┘
+                        │
+                        │ SYNC (manual copy)
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│  cli/assets/         (Bundled for npm)                      │
+│  ├── data/           ← Synced copy                          │
+│  ├── scripts/        ← Synced copy                          │
+│  └── templates/      ← Synced copy                          │
+└─────────────────────────────────────────────────────────────┘
+                        │
+                        │ npm publish
+                        │
+                        ▼
+┌─────────────────────────────────────────────────────────────┐
+│  User installs: npm install -g uipro-cli                    │
+│  User runs: uipro init --ai claude                          │
+│  CLI generates: .claude/skills/ui-ux-pro-max/               │
+└─────────────────────────────────────────────────────────────┘
+```
+
+## Sync Commands
+
+<Warning>
+**Critical:** Always sync before building the CLI for release. Forgetting to sync means users will get outdated data.
+</Warning>
+
+### Basic Sync
+
+```bash
+# From repository root
+cp -r src/ui-ux-pro-max/data/* cli/assets/data/
+cp -r src/ui-ux-pro-max/scripts/* cli/assets/scripts/
+cp -r src/ui-ux-pro-max/templates/* cli/assets/templates/
+```
+
+### Verify Sync
+
+```bash
+# Check if files are in sync
+diff -r src/ui-ux-pro-max/data/ cli/assets/data/
+diff -r src/ui-ux-pro-max/scripts/ cli/assets/scripts/
+diff -r src/ui-ux-pro-max/templates/ cli/assets/templates/
+
+# No output = files are in sync
+```
+
+### Automated Sync Script
+
+Create a sync script for convenience:
+
+```bash
+#!/bin/bash
+# sync.sh
+
+set -e  # Exit on error
+
+echo "Syncing src/ui-ux-pro-max/ to cli/assets/..."
+
+cp -r src/ui-ux-pro-max/data/* cli/assets/data/
+cp -r src/ui-ux-pro-max/scripts/* cli/assets/scripts/
+cp -r src/ui-ux-pro-max/templates/* cli/assets/templates/
+
+echo "✓ Sync complete!"
+echo ""
+echo "Next steps:"
+echo "  1. cd cli && bun run build"
+echo "  2. Test with: node dist/index.js init --ai claude --offline"
+echo "  3. Commit and push if tests pass"
+```
+
+Make it executable:
+
+```bash
+chmod +x sync.sh
+./sync.sh
+```
+
+## Sync Workflow Steps
+
+<Steps>
+  <Step title="Make changes in source">
+    Edit files in `src/ui-ux-pro-max/`:
+    
+    ```bash
+    # Example: Add a new color palette
+    echo "E-commerce Luxury,#1A1A1A,#D4AF37,#C41E3A,#F5F5F5,#2C2C2C,Black and gold" >> src/ui-ux-pro-max/data/colors.csv
+    ```
+  </Step>
+
+  <Step title="Test changes locally">
+    Test the search engine directly:
+    
+    ```bash
+    python3 src/ui-ux-pro-max/scripts/search.py "luxury" --domain color
+    ```
+    
+    Verify your new entry appears in results.
+  </Step>
+
+  <Step title="Sync to CLI assets">
+    ```bash
+    cp -r src/ui-ux-pro-max/data/* cli/assets/data/
+    cp -r src/ui-ux-pro-max/scripts/* cli/assets/scripts/
+    cp -r src/ui-ux-pro-max/templates/* cli/assets/templates/
+    ```
+  </Step>
+
+  <Step title="Build the CLI">
+    ```bash
+    cd cli
+    bun run build
+    ```
+    
+    This creates `cli/dist/index.js` with bundled assets.
+  </Step>
+
+  <Step title="Test CLI installation">
+    ```bash
+    # Create test directory
+    mkdir /tmp/test-sync && cd /tmp/test-sync
+    
+    # Install using local CLI build
+    node ~/path/to/ui-ux-pro-max-skill/cli/dist/index.js init --ai claude --offline
+    
+    # Test the search with your new data
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "luxury" --domain color
+    ```
+    
+    Your new color palette should appear in the results.
+  </Step>
+
+  <Step title="Commit and push">
+    ```bash
+    git add src/ui-ux-pro-max/ cli/assets/
+    git commit -m "feat: add luxury e-commerce color palette"
+    git push
+    ```
+  </Step>
+</Steps>
+
+## What NOT to Sync
+
+<Warning>
+**Do not manually edit these directories:**
+
+- `.claude/skills/ui-ux-pro-max/` - Uses symlinks to source (development only)
+- `.factory/skills/ui-ux-pro-max/` - Uses symlinks to source (development only)
+- `.shared/ui-ux-pro-max/` - Symlink to source (development only)
+
+These are for local testing only and are automatically updated via symlinks.
+</Warning>
+
+## Sync Rules by File Type
+
+### CSV Data Files
+
+**Always sync after editing:**
+
+```bash
+src/ui-ux-pro-max/data/
+├── products.csv         → cli/assets/data/products.csv
+├── styles.csv          → cli/assets/data/styles.csv
+├── colors.csv          → cli/assets/data/colors.csv
+├── typography.csv      → cli/assets/data/typography.csv
+├── landing.csv         → cli/assets/data/landing.csv
+├── charts.csv          → cli/assets/data/charts.csv
+├── ux-guidelines.csv   → cli/assets/data/ux-guidelines.csv
+├── ui-reasoning.csv    → cli/assets/data/ui-reasoning.csv
+└── stacks/*.csv        → cli/assets/data/stacks/*.csv
+```
+
+**Why:** CLI bundles these files for offline use. Without syncing, users get outdated data.
+
+### Python Scripts
+
+**Always sync after editing:**
+
+```bash
+src/ui-ux-pro-max/scripts/
+├── search.py         → cli/assets/scripts/search.py
+├── core.py           → cli/assets/scripts/core.py
+└── design_system.py  → cli/assets/scripts/design_system.py
+```
+
+**Why:** CLI copies scripts to user installations. Bug fixes won't reach users without syncing.
+
+### Template Files
+
+**Always sync after editing:**
+
+```bash
+src/ui-ux-pro-max/templates/
+├── base/
+│   ├── skill-content.md     → cli/assets/templates/base/skill-content.md
+│   └── quick-reference.md   → cli/assets/templates/base/quick-reference.md
+└── platforms/
+    ├── claude.json          → cli/assets/templates/platforms/claude.json
+    ├── opencode.json        → cli/assets/templates/platforms/opencode.json
+    └── ...                  → cli/assets/templates/platforms/...
+```
+
+**Why:** CLI uses templates to generate platform-specific files. Template changes won't apply without syncing.
+
+## Common Sync Scenarios
+
+### Scenario 1: Add New UI Style
+
+```bash
+# 1. Edit source
+echo "Neon Glow,General,Vibrant neon colors with glow effects,..." >> src/ui-ux-pro-max/data/styles.csv
+
+# 2. Test locally
+python3 src/ui-ux-pro-max/scripts/search.py "neon" --domain style
+
+# 3. Sync to CLI
+cp src/ui-ux-pro-max/data/styles.csv cli/assets/data/styles.csv
+
+# 4. Build and test
+cd cli && bun run build
+cd /tmp/test && node ~/ui-ux-pro-max-skill/cli/dist/index.js init --ai claude --offline
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "neon" --domain style
+```
+
+### Scenario 2: Fix Search Engine Bug
+
+```bash
+# 1. Edit source
+vim src/ui-ux-pro-max/scripts/core.py
+
+# 2. Test fix
+python3 src/ui-ux-pro-max/scripts/search.py "test query" --domain style
+
+# 3. Sync to CLI
+cp src/ui-ux-pro-max/scripts/core.py cli/assets/scripts/core.py
+
+# 4. Build and test
+cd cli && bun run build
+cd /tmp/test && node ~/ui-ux-pro-max-skill/cli/dist/index.js init --ai claude --offline
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "test query" --domain style
+```
+
+### Scenario 3: Update Template for New Platform
+
+```bash
+# 1. Create new platform config
+cat > src/ui-ux-pro-max/templates/platforms/newai.json <<EOF
+{
+  "platform": "newai",
+  "displayName": "NewAI",
+  "installType": "full",
+  "folderStructure": {
+    "root": ".newai",
+    "skillPath": "skills/ui-ux-pro-max",
+    "filename": "SKILL.md"
+  },
+  "scriptPath": ".newai/skills/ui-ux-pro-max/scripts/search.py",
+  "frontmatter": null,
+  "sections": {
+    "quickReference": false
+  },
+  "title": "UI/UX Pro Max",
+  "description": "AI-powered design intelligence toolkit",
+  "skillOrWorkflow": "skill"
+}
+EOF
+
+# 2. Sync to CLI
+cp src/ui-ux-pro-max/templates/platforms/newai.json cli/assets/templates/platforms/newai.json
+
+# 3. Update CLI TypeScript to support new platform
+vim cli/src/utils/template.ts  # Add 'newai' to AI_TO_PLATFORM
+vim cli/src/types/index.ts     # Add 'newai' to AIType
+
+# 4. Build and test
+cd cli && bun run build
+node dist/index.js init --ai newai --offline
+```
+
+## Pre-Release Checklist
+
+Before publishing to npm:
+
+- [ ] All changes made in `src/ui-ux-pro-max/`
+- [ ] Synced to `cli/assets/` using `cp -r` commands
+- [ ] Verified sync with `diff -r` (no differences)
+- [ ] CLI built successfully (`cd cli && bun run build`)
+- [ ] Tested installation in clean directory with `--offline` flag
+- [ ] Search functionality works with new/modified data
+- [ ] Design system generation works correctly
+- [ ] All platform configs generate valid files
+
+## Troubleshooting
+
+### "Changes not appearing after uipro init"
+
+**Cause:** Forgot to sync before building CLI.
+
+**Fix:**
+```bash
+cp -r src/ui-ux-pro-max/* cli/assets/
+cd cli && bun run build
+```
+
+### "Search returns old results"
+
+**Cause:** CSV files in `cli/assets/data/` are outdated.
+
+**Fix:**
+```bash
+cp -r src/ui-ux-pro-max/data/* cli/assets/data/
+cd cli && bun run build
+```
+
+### "Template not rendering correctly"
+
+**Cause:** Template files in `cli/assets/templates/` are outdated.
+
+**Fix:**
+```bash
+cp -r src/ui-ux-pro-max/templates/* cli/assets/templates/
+cd cli && bun run build
+```
+
+### "Symlinks broken in .claude/ or .factory/"
+
+**Cause:** Symlinks pointing to wrong location.
+
+**Fix:**
+```bash
+# Remove broken symlinks
+rm .claude/skills/ui-ux-pro-max
+rm .factory/skills/ui-ux-pro-max
+
+# Recreate symlinks
+ln -s ../../src/ui-ux-pro-max .claude/skills/ui-ux-pro-max
+ln -s ../../src/ui-ux-pro-max .factory/skills/ui-ux-pro-max
+```
+
+## Git Workflow Integration
+
+Always commit source and synced files together:
+
+```bash
+# 1. Make changes
+vim src/ui-ux-pro-max/data/styles.csv
+
+# 2. Sync
+cp -r src/ui-ux-pro-max/data/* cli/assets/data/
+
+# 3. Build
+cd cli && bun run build && cd ..
+
+# 4. Stage both source and synced files
+git add src/ui-ux-pro-max/data/styles.csv
+git add cli/assets/data/styles.csv
+
+# 5. Commit with descriptive message
+git commit -m "feat: add neon glow UI style"
+
+# 6. Create feature branch and push
+git checkout -b feat/neon-glow-style
+git push -u origin feat/neon-glow-style
+
+# 7. Create PR
+gh pr create --title "Add neon glow UI style" --body "Adds neon glow style with vibrant colors and glow effects"
+```
+
+<Warning>
+**Never push directly to `main`.** Always create a feature branch (`feat/...` or `fix/...`) and submit a pull request.
+</Warning>
+
+## Next Steps
+
+After syncing and testing:
+
+1. **Create a PR** - Follow the Git workflow above
+2. **Wait for review** - Maintainers will review your changes
+3. **Merge to main** - Once approved, changes will be merged
+4. **CLI release** - Maintainers will publish to npm with updated assets

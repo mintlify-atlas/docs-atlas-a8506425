@@ -1,0 +1,345 @@
+---
+title: 'uipro update'
+description: 'Update UI/UX Pro Max to the latest version'
+---
+
+## Overview
+
+The `uipro update` command updates your UI/UX Pro Max installation to the latest version. It checks for the newest release and reinstalls the skill files with the latest features, data, and improvements.
+
+## Syntax
+
+```bash
+uipro update [options]
+```
+
+## Options
+
+<ParamField path="--ai" type="string" default="auto-detect">
+  Specify the AI assistant type to update. Valid values:
+  
+  - `claude` - Claude Code
+  - `cursor` - Cursor
+  - `windsurf` - Windsurf
+  - `antigravity` - Antigravity Kit
+  - `copilot` - GitHub Copilot
+  - `kiro` - Kiro
+  - `roocode` - Roo Code
+  - `codex` - Codex
+  - `qoder` - Qoder
+  - `gemini` - Google Gemini
+  - `trae` - Trae
+  - `opencode` - OpenCode
+  - `continue` - Continue
+  - `codebuddy` - CodeBuddy
+  - `droid` - Droid (Factory)
+  - `all` - Update all platforms
+  
+  If not specified, the command will prompt you to select.
+</ParamField>
+
+## How It Works
+
+The update command performs the following steps:
+
+1. **Check Latest Release** - Fetches the latest version from GitHub
+2. **Display Version** - Shows the latest available version
+3. **Reinstall** - Runs `uipro init` with `--force` flag to overwrite existing files
+
+Internally, `uipro update` is equivalent to:
+
+```bash
+uipro init --force --ai <type>
+```
+
+## Examples
+
+### Basic Update
+
+Update with auto-detection:
+
+```bash
+uipro update
+```
+
+**Expected Output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Updater
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✔ Latest version: v2.2.3
+
+ℹ Running update (same as init with latest version)...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Installer
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Detected: claude
+? Select AI assistant to install for: › Claude Code
+
+ℹ Installing for: Claude Code
+✔ Generated from templates!
+
+ℹ Installed folders:
+  + .claude
+
+✔ UI/UX Pro Max installed successfully!
+
+Next steps:
+  1. Restart your AI coding assistant
+  2. Try: "Build a landing page for a SaaS product"
+```
+
+### Update Specific Platform
+
+Update for Cursor without prompting:
+
+```bash
+uipro update --ai cursor
+```
+
+**Expected Output:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Updater
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✔ Latest version: v2.2.3
+
+ℹ Running update (same as init with latest version)...
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Installer
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ℹ Installing for: Cursor
+✔ Generated from templates!
+
+ℹ Installed folders:
+  + .cursor
+  + .shared
+
+✔ UI/UX Pro Max installed successfully!
+
+Next steps:
+  1. Restart your AI coding assistant
+  2. Try: "Build a landing page for a SaaS product"
+```
+
+### Update All Platforms
+
+Update installations for all AI assistants:
+
+```bash
+uipro update --ai all
+```
+
+This updates all platform-specific folders in your project.
+
+## Update Frequency
+
+Recommended update schedule:
+
+- **Monthly** - Check for new features and design data
+- **After Major Releases** - Get breaking changes and improvements
+- **When Issues Arise** - Fix bugs and resolve problems
+
+### Check Current Version
+
+To see your currently installed CLI version:
+
+```bash
+uipro --version
+```
+
+**Output:**
+```
+2.2.3
+```
+
+### Check Available Versions
+
+To see all available versions:
+
+```bash
+uipro versions
+```
+
+See the [uipro versions](/cli/versions) documentation for details.
+
+## Error Scenarios
+
+### GitHub API Rate Limit
+
+```bash
+uipro update
+```
+
+**Error:**
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Updater
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✖ Update check failed
+✖ GitHub API rate limit exceeded
+```
+
+**Solution:** Wait an hour for rate limit reset, or run `uipro init --force` to update using template generation.
+
+### Network Connection Error
+
+When updating without internet connection:
+
+```
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+ UI/UX Pro Max Updater
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✖ Update check failed
+✖ Network request failed
+```
+
+**Solution:** Ensure internet connection or use `uipro init --force --offline` to update using bundled assets.
+
+### Invalid AI Type
+
+```bash
+uipro update --ai invalid
+```
+
+**Error:**
+```
+Invalid AI type: invalid
+Valid types: claude, cursor, windsurf, antigravity, copilot, kiro, roocode, codex, qoder, gemini, trae, opencode, continue, codebuddy, droid, all
+```
+
+**Solution:** Use one of the valid AI types listed.
+
+## Behavior Details
+
+### Force Overwrite
+
+The update command automatically uses the `--force` flag, which means:
+
+- Existing files will be overwritten
+- No confirmation prompt for overwrites
+- Previous customizations will be lost
+
+<Warning>
+If you've modified skill files manually, back them up before updating:
+
+```bash
+# Backup example for Claude Code
+cp -r .claude/skills/ui-ux-pro-max .claude/skills/ui-ux-pro-max.backup
+uipro update --ai claude
+```
+</Warning>
+
+### Update vs Init
+
+The only differences between `uipro update` and `uipro init`:
+
+| Feature | `uipro init` | `uipro update` |
+|---------|-------------|----------------|
+| Checks latest version | No | Yes |
+| Shows version info | No | Yes |
+| Force overwrites | Optional (`--force`) | Always |
+| Purpose | First install | Update existing |
+
+## Troubleshooting
+
+### Update Not Taking Effect
+
+If changes don't appear after updating:
+
+1. **Restart your AI assistant** - Skills only reload on restart
+2. **Clear cache** - Some platforms cache skill files
+3. **Verify files** - Check that files were actually updated:
+
+```bash
+ls -la .claude/skills/ui-ux-pro-max/
+```
+
+### Partial Update Failure
+
+If update partially completes:
+
+```bash
+# Clean install
+rm -rf .claude .cursor .shared  # or relevant folders
+uipro init --ai <type>
+```
+
+### Permission Issues
+
+If you encounter permission errors:
+
+```bash
+# Fix permissions first
+chmod -R u+w .claude .shared
+
+# Then update
+uipro update --ai claude
+```
+
+### CLI Version Out of Date
+
+If your CLI is outdated, update it first:
+
+```bash
+# Update the CLI itself
+npm update -g uipro-cli
+
+# Verify new version
+uipro --version
+
+# Then update skill files
+uipro update
+```
+
+## What Gets Updated
+
+When you run `uipro update`, the following components are updated:
+
+### Design Databases
+- Product type recommendations
+- UI style guides with AI prompts
+- Color palettes
+- Typography pairings
+- Landing page structures
+- Chart type recommendations
+- UX best practices
+
+### Scripts
+- Search engine improvements
+- Performance optimizations
+- Bug fixes
+
+### Templates
+- Skill instructions
+- Workflow definitions
+- Platform configurations
+
+### Stack Guidelines
+- Framework-specific best practices
+- Component library patterns
+- New stack support
+
+## Next Steps
+
+After updating:
+
+1. **Restart your AI assistant** - Load the updated skill
+2. **Test functionality** - Verify the update worked
+3. **Check changelog** - See what's new in the release
+4. **Report issues** - If something broke, file a GitHub issue
+
+## See Also
+
+- [uipro init](/cli/init) - Initial installation
+- [uipro versions](/cli/versions) - List available versions
+- [Search Command](/core-concepts/search) - Using the search tool
+- [GitHub Releases](https://github.com/yourusername/ui-ux-pro-max/releases) - View changelog

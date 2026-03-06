@@ -1,0 +1,152 @@
+---
+title: "Domain Overview"
+description: "Comprehensive guide to all searchable domains in UI/UX Pro Max"
+---
+
+## What are Domains?
+
+Domains are specialized search categories that target specific aspects of UI/UX design. Each domain searches a curated CSV database with BM25 ranking to provide the most relevant recommendations for your query.
+
+## Available Domains
+
+<CardGroup cols={2}>
+  <Card title="Product" icon="cube" href="/domains/product">
+    Product type recommendations and style matching for different industries
+  </Card>
+  <Card title="Style" icon="palette" href="/domains/style">
+    50+ UI styles with implementation details and AI prompts
+  </Card>
+  <Card title="Color" icon="droplet" href="/domains/color">
+    97 color palettes optimized by product type
+  </Card>
+  <Card title="Typography" icon="font" href="/domains/typography">
+    57 font pairings with Google Fonts integration
+  </Card>
+  <Card title="Landing" icon="browser" href="/domains/landing">
+    Landing page patterns and CTA strategies
+  </Card>
+  <Card title="Chart" icon="chart-simple" href="/domains/chart">
+    25+ chart types and data visualization recommendations
+  </Card>
+  <Card title="UX" icon="user" href="/domains/ux">
+    99 UX guidelines covering accessibility and best practices
+  </Card>
+</CardGroup>
+
+## How Domain Search Works
+
+### BM25 Ranking Algorithm
+
+UI/UX Pro Max uses the **BM25 (Best Matching 25)** algorithm to rank search results:
+
+1. **Tokenization** - Queries and documents are tokenized (lowercase, remove punctuation, filter short words)
+2. **Term Frequency (TF)** - How often query terms appear in each document
+3. **Inverse Document Frequency (IDF)** - Rarity of terms across all documents
+4. **Ranking** - Documents scored and sorted by relevance
+
+### Search Columns vs Output Columns
+
+Each domain has:
+- **Search columns** - Fields indexed for searching
+- **Output columns** - Fields returned in results
+
+This allows comprehensive search while returning only relevant details.
+
+## Search Syntax
+
+### Basic Domain Search
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "<query>" --domain <domain>
+```
+
+**Example:**
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "elegant luxury" --domain style
+```
+
+### Auto-Detection
+
+Omit `--domain` for automatic domain detection:
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "saas dashboard colors"
+# Automatically detects: domain=product or domain=color
+```
+
+### Limit Results
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "minimalism" --domain style -n 5
+# Returns top 5 results instead of default 3
+```
+
+## Domain Selection Guide
+
+| I need to... | Use Domain |
+|--------------|------------|
+| Find the right style for my product | `product` |
+| Get implementation details for a style | `style` |
+| Choose a color palette | `color` |
+| Pick font pairings | `typography` |
+| Structure a landing page | `landing` |
+| Select chart types | `chart` |
+| Check UX best practices | `ux` |
+
+## Priority-Based Approach
+
+When building UI, follow this priority order:
+
+| Priority | Domain | Why |
+|----------|---------|-----|
+| 1 | `ux` (Accessibility) | CRITICAL - Legal compliance, inclusivity |
+| 2 | `ux` (Touch & Interaction) | CRITICAL - Core usability |
+| 3 | `ux` (Performance) | HIGH - User retention |
+| 4 | `product` + `style` | HIGH - Sets design direction |
+| 5 | `color` + `typography` | MEDIUM - Visual consistency |
+| 6 | `landing` | MEDIUM - Conversion optimization |
+| 7 | `chart` | LOW - Data visualization |
+
+## Multi-Domain Workflow
+
+For comprehensive design systems, search multiple domains:
+
+```bash
+# 1. Start with product type
+python3 skills/ui-ux-pro-max/scripts/search.py "healthcare saas" --domain product
+
+# 2. Get style details
+python3 skills/ui-ux-pro-max/scripts/search.py "minimalism accessible" --domain style
+
+# 3. Find color palette
+python3 skills/ui-ux-pro-max/scripts/search.py "healthcare" --domain color
+
+# 4. Choose typography
+python3 skills/ui-ux-pro-max/scripts/search.py "professional clean" --domain typography
+
+# 5. Check UX guidelines
+python3 skills/ui-ux-pro-max/scripts/search.py "accessibility animation" --domain ux
+```
+
+**Or use Design System generation** (searches 5 domains automatically):
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "healthcare saas" --design-system
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Explore Product Domain" href="/domains/product">
+    Learn how to match styles to product types
+  </Card>
+  <Card title="Browse All Styles" href="/domains/style">
+    Discover 50+ UI styles with implementation guides
+  </Card>
+  <Card title="Color Palettes" href="/domains/color">
+    Find the perfect color scheme
+  </Card>
+  <Card title="UX Guidelines" href="/domains/ux">
+    Check critical accessibility and usability rules
+  </Card>
+</CardGroup>

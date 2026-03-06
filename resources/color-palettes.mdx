@@ -1,0 +1,509 @@
+---
+title: "Color Palettes Reference"
+description: "96 industry-specific color palettes with hex codes and implementation notes"
+---
+
+# Color Palettes Reference
+
+UI/UX Pro Max includes **96 curated color palettes** designed for specific product types and industries. Each palette includes primary, secondary, CTA, background, text, and border colors with detailed implementation notes.
+
+## How to Use This Reference
+
+Each palette includes:
+- **Primary & Secondary** - Brand and supporting colors
+- **CTA Color** - Call-to-action button color for maximum conversion
+- **Background & Text** - Page background and text colors with proper contrast
+- **Border Color** - Border and divider colors
+- **Notes** - Context and usage guidelines
+
+## Quick Access by Industry
+
+<CardGroup cols={3}>
+  <Card title="Tech & SaaS" icon="code" href="#tech-saas">
+    12 palettes for software products
+  </Card>
+  <Card title="Finance" icon="dollar-sign" href="#finance">
+    8 palettes for financial services
+  </Card>
+  <Card title="Healthcare" icon="heart-pulse" href="#healthcare">
+    6 palettes for health and wellness
+  </Card>
+  <Card title="E-commerce" icon="cart-shopping" href="#e-commerce">
+    5 palettes for retail and shopping
+  </Card>
+  <Card title="Services" icon="briefcase" href="#services">
+    15 palettes for service businesses
+  </Card>
+  <Card title="Creative" icon="palette" href="#creative">
+    8 palettes for creative industries
+  </Card>
+</CardGroup>
+
+## Tech & SaaS
+
+<Accordion title="1. SaaS (General)">
+
+### Color Values
+- **Primary:** #2563EB (Trust Blue)
+- **Secondary:** #3B82F6 (Light Blue)
+- **CTA:** #F97316 (Orange)
+- **Background:** #F8FAFC (Off-White)
+- **Text:** #1E293B (Charcoal)
+- **Border:** #E2E8F0 (Light Grey)
+
+### Usage Notes
+Trust blue + orange CTA contrast. Standard SaaS palette with high conversion potential.
+
+### CSS Variables
+```css
+:root {
+  --color-primary: #2563EB;
+  --color-secondary: #3B82F6;
+  --color-cta: #F97316;
+  --color-bg: #F8FAFC;
+  --color-text: #1E293B;
+  --color-border: #E2E8F0;
+}
+```
+
+### Tailwind Config
+```js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: '#2563EB',
+        secondary: '#3B82F6',
+        cta: '#F97316',
+      }
+    }
+  }
+}
+```
+
+### Example Usage
+```html
+<button class="bg-cta hover:bg-orange-600 text-white">
+  Get Started
+</button>
+<div class="bg-primary text-white">
+  Trust element
+</div>
+```
+
+</Accordion>
+
+<Accordion title="2. Micro SaaS">
+
+### Color Values
+- **Primary:** #6366F1 (Indigo)
+- **Secondary:** #818CF8 (Light Indigo)
+- **CTA:** #10B981 (Emerald Green)
+- **Background:** #F5F3FF (Lavender White)
+- **Text:** #1E1B4B (Deep Indigo)
+- **Border:** #E0E7FF (Light Indigo)
+
+### Usage Notes
+Indigo primary + emerald CTA. Modern, approachable palette for small SaaS products.
+
+### Color Contrast
+- Primary/Background: 7.2:1 (AAA)
+- Text/Background: 14.5:1 (AAA)
+- CTA/Background: 5.8:1 (AA)
+
+</Accordion>
+
+<Accordion title="3-12. More Tech & SaaS Palettes">
+
+**3. B2B Service** - Professional navy + blue CTA  
+**4. Analytics Dashboard** - Blue data + amber highlights  
+**5. Design System/Component Library** - Indigo brand + doc hierarchy  
+**6. AI/Chatbot Platform** - AI purple + cyan interactions  
+**7. Developer Tool / IDE** - Code dark + run green  
+**8. Cybersecurity Platform** - Matrix green + alert red  
+**9. Productivity Tool** - Teal focus + action orange  
+**10. Remote Work/Collaboration Tool** - Calm indigo + success green  
+**11. Knowledge Base/Documentation** - Neutral grey + link blue  
+**12. Creator Economy Platform** - Creator pink + engagement orange
+
+</Accordion>
+
+## Finance
+
+<Accordion title="Financial Dashboard">
+
+### Color Values
+- **Primary:** #0F172A (Dark Navy)
+- **Secondary:** #1E293B (Navy)
+- **CTA:** #22C55E (Success Green)
+- **Background:** #020617 (Deep Dark)
+- **Text:** #F8FAFC (Off-White)
+- **Border:** #334155 (Slate)
+
+### Usage Notes
+Dark bg + green positive indicators. Designed for dark-mode financial dashboards.
+
+### Semantic Colors
+```css
+--color-positive: #22C55E; /* Gains */
+--color-negative: #EF4444; /* Losses */
+--color-neutral: #6B7280; /* Unchanged */
+--color-warning: #F59E0B; /* Alerts */
+```
+
+### Chart Colors
+Use sequential shades for multi-line charts:
+- Line 1: #22C55E (Green)
+- Line 2: #3B82F6 (Blue)
+- Line 3: #F59E0B (Amber)
+- Line 4: #8B5CF6 (Purple)
+
+</Accordion>
+
+<Accordion title="More Finance Palettes">
+
+**Fintech/Crypto** - Gold trust + purple tech  
+**Banking/Traditional Finance** - Trust navy + premium gold  
+**Insurance Platform** - Security blue + protected green  
+**Trading Dashboard** - Dark with vibrant accent indicators  
+**Payment Gateway** - Trust blue + success green  
+**Investment Platform** - Sophisticated navy + gold accents  
+**Cryptocurrency Exchange** - Dark theme + neon accents  
+**Personal Finance App** - Friendly teal + growth green
+
+</Accordion>
+
+## Healthcare
+
+<Accordion title="Healthcare App">
+
+### Color Values
+- **Primary:** #0891B2 (Calm Cyan)
+- **Secondary:** #22D3EE (Light Cyan)
+- **CTA:** #059669 (Health Green)
+- **Background:** #ECFEFF (Cyan Tint)
+- **Text:** #164E63 (Deep Cyan)
+- **Border:** #A5F3FC (Light Cyan)
+
+### Usage Notes
+Calm cyan + health green. Designed for medical and wellness applications.
+
+### Accessibility Requirements
+- **WCAG Level:** AAA required
+- **Text Contrast:** 7:1 minimum
+- **Interactive Elements:** 44x44px minimum touch targets
+- **Color-Only Indicators:** Prohibited (use icons + color)
+
+### Medical Color Conventions
+```css
+--color-vital-normal: #22C55E;    /* Normal vitals */
+--color-vital-warning: #F59E0B;   /* Warning range */
+--color-vital-critical: #EF4444;  /* Critical range */
+--color-medication: #3B82F6;      /* Medication reminders */
+```
+
+</Accordion>
+
+<Accordion title="More Healthcare Palettes">
+
+**Medical Clinic** - Medical teal + health green  
+**Pharmacy/Drug Store** - Pharmacy green + trust blue  
+**Dental Practice** - Fresh blue + smile yellow  
+**Veterinary Clinic** - Caring teal + warm orange  
+**Mental Health App** - Calming lavender + wellness green  
+**Senior Care/Elderly** - Calm blue + reassuring green
+
+</Accordion>
+
+## E-commerce
+
+<Accordion title="E-commerce (General)">
+
+### Color Values
+- **Primary:** #059669 (Success Green)
+- **Secondary:** #10B981 (Emerald)
+- **CTA:** #F97316 (Urgency Orange)
+- **Background:** #ECFDF5 (Mint White)
+- **Text:** #064E3B (Forest Green)
+- **Border:** #A7F3D0 (Light Green)
+
+### Usage Notes
+Success green + urgency orange. Optimized for conversion and trust.
+
+### Conversion Optimization
+- **CTA Color:** High-contrast orange for maximum visibility
+- **Success Indicators:** Green for added to cart, purchase success
+- **Urgency Elements:** Orange/red for limited time offers
+- **Trust Badges:** Green checkmarks and shields
+
+### Product Page Colors
+```css
+--color-price: #059669;           /* Regular price */
+--color-sale: #DC2626;            /* Sale/discount price */
+--color-stock-low: #F59E0B;       /* Low stock warning */
+--color-stock-out: #6B7280;       /* Out of stock */
+--color-shipping: #10B981;        /* Free shipping badge */
+```
+
+</Accordion>
+
+<Accordion title="E-commerce Luxury">
+
+### Color Values
+- **Primary:** #1C1917 (Premium Black)
+- **Secondary:** #44403C (Dark Grey)
+- **CTA:** #CA8A04 (Gold)
+- **Background:** #FAFAF9 (Warm White)
+- **Text:** #0C0A09 (Rich Black)
+- **Border:** #D6D3D1 (Warm Grey)
+
+### Usage Notes
+Premium dark + gold accent. For luxury e-commerce brands.
+
+### Luxury Design Principles
+- Generous white space
+- Minimal color palette
+- Gold accents sparingly
+- High-quality imagery
+- Serif typography for elegance
+
+</Accordion>
+
+## Services
+
+<Accordion title="Service Business Palettes">
+
+### Beauty/Spa/Wellness Service
+- **Primary:** #EC4899 (Soft Pink)
+- **Secondary:** #F9A8D4 (Light Pink)
+- **CTA:** #8B5CF6 (Lavender)
+- **Notes:** Soft pink + lavender luxury
+
+### Restaurant/Food Service
+- **Primary:** #DC2626 (Appetizing Red)
+- **Secondary:** #F87171 (Light Red)
+- **CTA:** #CA8A04 (Warm Gold)
+- **Notes:** Appetite-stimulating palette
+
+### Real Estate/Property
+- **Primary:** #0F766E (Trust Teal)
+- **Secondary:** #14B8A6 (Bright Teal)
+- **CTA:** #0369A1 (Professional Blue)
+- **Notes:** Trust and professionalism
+
+### Legal Services
+- **Primary:** #1E3A8A (Authority Navy)
+- **Secondary:** #1E40AF (Navy Blue)
+- **CTA:** #B45309 (Trust Gold)
+- **Notes:** Authority and trust
+
+### Hotel/Hospitality
+- **Primary:** #1E3A8A (Luxury Navy)
+- **Secondary:** #3B82F6 (Sky Blue)
+- **CTA:** #CA8A04 (Gold Service)
+- **Notes:** Luxury and comfort
+
+</Accordion>
+
+## Creative
+
+<Accordion title="Creative Industry Palettes">
+
+### Creative Agency
+- **Primary:** #EC4899 (Bold Pink)
+- **Secondary:** #F472B6 (Light Pink)
+- **CTA:** #06B6D4 (Cyan)
+- **Notes:** Bold and creative
+
+### Portfolio/Personal
+- **Primary:** #18181B (Monochrome)
+- **Secondary:** #3F3F46 (Grey)
+- **CTA:** #2563EB (Blue Accent)
+- **Notes:** Clean and artistic
+
+### Photography Studio
+- **Primary:** #18181B (Pure Black)
+- **Secondary:** #27272A (Dark Grey)
+- **CTA:** #F8FAFC (White)
+- **Notes:** Maximum contrast for images
+
+### Gaming
+- **Primary:** #7C3AED (Neon Purple)
+- **Secondary:** #A78BFA (Light Purple)
+- **CTA:** #F43F5E (Rose Action)
+- **Notes:** High energy and excitement
+
+### Music Streaming
+- **Primary:** #1E1B4B (Dark Audio)
+- **Secondary:** #4338CA (Purple)
+- **CTA:** #22C55E (Play Green)
+- **Notes:** Dark immersive experience
+
+</Accordion>
+
+## Emerging Tech
+
+<Accordion title="NFT/Web3 Platform">
+
+### Color Values
+- **Primary:** #8B5CF6 (Purple Tech)
+- **Secondary:** #A78BFA (Light Purple)
+- **CTA:** #FBBF24 (Gold Value)
+- **Background:** #0F0F23 (Deep Dark)
+- **Text:** #F8FAFC (Off-White)
+- **Border:** #4C1D95 (Deep Purple)
+
+### Usage Notes
+Purple tech + gold value. Futuristic palette for Web3 applications.
+
+### Web3 Design Elements
+```css
+--color-wallet-connected: #22C55E;   /* Connected status */
+--color-wallet-disconnected: #6B7280; /* Disconnected */
+--color-gas-high: #EF4444;           /* High gas fees */
+--color-gas-low: #22C55E;            /* Low gas fees */
+--color-nft-rare: #FBBF24;           /* Rare items */
+--color-nft-common: #D1D5DB;         /* Common items */
+```
+
+</Accordion>
+
+<Accordion title="More Emerging Tech Palettes">
+
+**Quantum Computing** - Quantum cyan + interference purple  
+**Space Tech / Aerospace** - Star white + launch blue  
+**Autonomous Systems** - Terminal green + alert red  
+**Biohacking / Longevity** - Bio red/blue + vitality green  
+**Generative AI Art** - Canvas neutral + creative pink  
+**Spatial / Vision OS** - Glass white + system blue  
+**Climate Tech** - Nature green + solar gold
+
+</Accordion>
+
+## Color Search
+
+Find the perfect palette for your project:
+
+```bash
+# Search by industry
+python3 scripts/search.py "healthcare medical" --domain color
+
+# Search by mood
+python3 scripts/search.py "trust professional blue" --domain color
+
+# Search by specific color
+python3 scripts/search.py "#2563EB" --domain color
+
+# Search for dark palettes
+python3 scripts/search.py "dark mode oled" --domain color
+```
+
+## Color Accessibility Guidelines
+
+### Contrast Ratios (WCAG)
+
+**WCAG AA (Minimum)**
+- Normal text (< 24px): 4.5:1
+- Large text (≥ 24px): 3:1
+- UI components: 3:1
+
+**WCAG AAA (Enhanced)**
+- Normal text: 7:1
+- Large text: 4.5:1
+
+### Testing Contrast
+
+Use these tools:
+- [WebAIM Contrast Checker](https://webaim.org/resources/contrastchecker/)
+- Chrome DevTools Color Picker (shows contrast ratio)
+- [Coolors Contrast Checker](https://coolors.co/contrast-checker)
+
+### Color Blindness Considerations
+
+**Never use color alone to convey information:**
+- ✓ Icon + color (success checkmark in green)
+- ✗ Color only (green text for success)
+
+**Safe color combinations:**
+- Blue + Orange (safe for most types)
+- Purple + Yellow
+- Black + any bright color
+
+**Avoid:**
+- Red + Green (most common color blindness)
+- Blue + Purple
+- Light colors on light backgrounds
+
+## Implementation Best Practices
+
+### CSS Custom Properties
+
+```css
+:root {
+  /* Base colors */
+  --color-primary: #2563EB;
+  --color-secondary: #3B82F6;
+  --color-cta: #F97316;
+  
+  /* Semantic colors */
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+  
+  /* Neutral palette */
+  --color-bg: #F8FAFC;
+  --color-text: #1E293B;
+  --color-text-muted: #64748B;
+  --color-border: #E2E8F0;
+  
+  /* Interactive states */
+  --color-hover: #1E40AF;
+  --color-active: #1E3A8A;
+  --color-disabled: #9CA3AF;
+}
+```
+
+### Dark Mode Support
+
+```css
+:root {
+  --color-bg: #F8FAFC;
+  --color-text: #1E293B;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-bg: #0F172A;
+    --color-text: #F8FAFC;
+  }
+}
+```
+
+### Tailwind Configuration
+
+```js
+module.exports = {
+  theme: {
+    extend: {
+      colors: {
+        primary: {
+          50: '#eff6ff',
+          100: '#dbeafe',
+          500: '#2563EB',
+          600: '#1E40AF',
+          900: '#1e3a8a',
+        },
+        cta: '#F97316',
+      }
+    }
+  }
+}
+```
+
+## Related Resources
+
+- [UI Styles](/resources/styles) - 67 design styles with color recommendations
+- [Font Pairings](/resources/font-pairings) - Typography that complements your palette
+- [Reasoning Rules](/resources/reasoning-rules) - Industry-specific color guidance
+- [Tech Stacks](/resources/tech-stacks) - Framework-specific color implementation

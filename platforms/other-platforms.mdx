@@ -1,0 +1,500 @@
+---
+title: "Other Platforms"
+description: "Install UI/UX Pro Max on other AI coding assistants"
+---
+
+UI/UX Pro Max supports 15+ AI coding assistants. This page covers installation for all platforms not covered in dedicated guides.
+
+## Skill Mode Platforms
+
+These platforms support automatic skill activation - just mention UI/UX work and the skill loads automatically.
+
+### Antigravity
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai antigravity
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.agent/skills/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```
+    Build a landing page for my SaaS product
+    ```
+    No slash commands needed.
+  </Step>
+</Steps>
+
+### Codex CLI
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai codex
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.codex/skills/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```bash
+    codex "Build a dashboard for healthcare analytics"
+    ```
+    The skill activates automatically.
+  </Step>
+</Steps>
+
+### Continue
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai continue
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.continue/skills/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage in VS Code">
+    1. Open Continue panel (Cmd+L / Ctrl+L)
+    2. Type UI/UX request:
+    ```
+    Create a React dashboard with dark mode
+    ```
+  </Step>
+  <Step title="Usage in JetBrains">
+    1. Open Continue tool window
+    2. Type UI/UX request - skill activates automatically
+  </Step>
+</Steps>
+
+<Note>
+Continue is open-source and works in both VS Code and JetBrains IDEs (IntelliJ, PyCharm, WebStorm, etc.)
+</Note>
+
+### Gemini CLI
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai gemini
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.gemini/skills/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```bash
+    gemini "Design a portfolio website with glassmorphism"
+    ```
+  </Step>
+</Steps>
+
+### OpenCode
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai opencode
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.opencode/skills/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```
+    Build a Next.js landing page for my SaaS product
+    ```
+    Works with all OpenCode models (Claude, GPT-4, etc.)
+  </Step>
+</Steps>
+
+### Qoder
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai qoder
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.qoder/skills/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```
+    Create a mobile app UI for e-commerce
+    ```
+  </Step>
+</Steps>
+
+### CodeBuddy
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai codebuddy
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.codebuddy/skills/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```
+    Build a dashboard with real-time charts
+    ```
+    CodeBuddy will pair with you to implement the UI.
+  </Step>
+</Steps>
+
+### Droid (Factory)
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai droid
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.factory/skills/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```
+    Design a fintech banking app
+    ```
+    Droid will use the skill as part of its agent workflow.
+  </Step>
+</Steps>
+
+### Trae
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai trae
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.trae/skills/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Switch to SOLO Mode">
+    ```
+    /solo
+    ```
+  </Step>
+  <Step title="Usage">
+    ```
+    Build a portfolio website with dark mode
+    ```
+    The skill activates automatically in SOLO mode.
+  </Step>
+</Steps>
+
+<Warning>
+Trae requires SOLO mode for skills to activate. Make sure to run `/solo` first.
+</Warning>
+
+## Workflow Mode Platforms
+
+These platforms require a slash command to invoke the skill.
+
+### Kiro
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai kiro
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.kiro/steering/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```
+    /ui-ux-pro-max Build a landing page for my SaaS product
+    ```
+    The `/ui-ux-pro-max` prefix is required.
+  </Step>
+</Steps>
+
+### GitHub Copilot
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai copilot
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.github/prompts/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage in VS Code">
+    ```
+    /ui-ux-pro-max Build a dashboard for analytics
+    ```
+  </Step>
+  <Step title="Usage in CLI">
+    ```bash
+    gh copilot suggest "/ui-ux-pro-max Create a mobile app UI"
+    ```
+  </Step>
+</Steps>
+
+### Roo Code
+
+<Steps>
+  <Step title="Install">
+    ```bash
+    npm install -g uipro-cli
+    cd /path/to/your/project
+    uipro init --ai roocode
+    ```
+  </Step>
+  <Step title="Location">
+    Creates `.roo/skills/ui-ux-pro-max/` and `.shared/ui-ux-pro-max/`
+  </Step>
+  <Step title="Usage">
+    ```
+    /ui-ux-pro-max Design a portfolio with glassmorphism
+    ```
+  </Step>
+</Steps>
+
+## Install All Platforms
+
+If you work with multiple AI assistants, install for all at once:
+
+```bash
+uipro init --ai all
+```
+
+This creates:
+- `.claude/skills/ui-ux-pro-max/`
+- `.cursor/skills/ui-ux-pro-max/`
+- `.windsurf/skills/ui-ux-pro-max/`
+- `.agent/skills/ui-ux-pro-max/`
+- `.codex/skills/ui-ux-pro-max/`
+- `.continue/skills/ui-ux-pro-max/`
+- `.gemini/skills/ui-ux-pro-max/`
+- `.opencode/skills/ui-ux-pro-max/`
+- `.qoder/skills/ui-ux-pro-max/`
+- `.codebuddy/skills/ui-ux-pro-max/`
+- `.factory/skills/ui-ux-pro-max/`
+- `.trae/skills/ui-ux-pro-max/`
+- `.kiro/steering/ui-ux-pro-max/`
+- `.github/prompts/ui-ux-pro-max/`
+- `.roo/skills/ui-ux-pro-max/`
+- `.shared/ui-ux-pro-max/`
+
+## Common Features Across All Platforms
+
+### Design System Generation
+
+All platforms support design system generation:
+
+```bash
+python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "beauty spa" --design-system -p "Serenity Spa"
+```
+
+Replace `<platform>` with your AI assistant's folder:
+- `.claude` for Claude Code
+- `.cursor` for Cursor
+- `.windsurf` for Windsurf
+- `.agent` for Antigravity
+- `.codex` for Codex CLI
+- `.continue` for Continue
+- `.gemini` for Gemini CLI
+- `.opencode` for OpenCode
+- `.qoder` for Qoder
+- `.codebuddy` for CodeBuddy
+- `.factory` for Droid
+- `.trae` for Trae
+- `.kiro` for Kiro
+- `.github` for GitHub Copilot
+- `.roo` for Roo Code
+
+### Search Commands
+
+All platforms support domain-specific search:
+
+<Tabs>
+  <Tab title="Style Search">
+    ```bash
+    python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+    ```
+  </Tab>
+  <Tab title="Color Search">
+    ```bash
+    python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "fintech" --domain color
+    ```
+  </Tab>
+  <Tab title="Typography Search">
+    ```bash
+    python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "elegant serif" --domain typography
+    ```
+  </Tab>
+  <Tab title="UX Guidelines">
+    ```bash
+    python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "accessibility" --domain ux
+    ```
+  </Tab>
+</Tabs>
+
+### Persistent Design Systems
+
+All platforms support persistent design systems:
+
+```bash
+# Generate master design system
+python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "SaaS" --design-system --persist -p "MyApp"
+
+# Create page-specific overrides
+python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "SaaS" --design-system --persist -p "MyApp" --page "dashboard"
+```
+
+This creates:
+```
+design-system/
+├── MASTER.md           # Global source of truth
+└── pages/
+    └── dashboard.md    # Page-specific overrides
+```
+
+## CLI Commands
+
+```bash
+# Update to latest version
+uipro update
+
+# List available versions
+uipro versions
+
+# Install offline (use bundled assets)
+uipro init --ai <platform> --offline
+```
+
+## Prerequisites
+
+All platforms require Python 3.x:
+
+<Tabs>
+  <Tab title="macOS">
+    ```bash
+    brew install python3
+    ```
+  </Tab>
+  <Tab title="Ubuntu/Debian">
+    ```bash
+    sudo apt update && sudo apt install python3
+    ```
+  </Tab>
+  <Tab title="Windows">
+    ```bash
+    winget install Python.Python.3.12
+    ```
+  </Tab>
+</Tabs>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Skill Not Activating">
+    **Skill Mode Platforms:**
+    1. Verify the skill folder exists
+    2. Check for proper SKILL.md file
+    3. Use explicit UI/UX keywords: "build landing page", "design dashboard"
+    4. Restart the AI assistant
+
+    **Workflow Mode Platforms:**
+    1. Use the `/ui-ux-pro-max` prefix
+    2. Check workflow/prompt folder exists
+    3. Restart the AI assistant
+  </Accordion>
+  <Accordion title="Python Not Found">
+    ```bash
+    # Check Python installation
+    python3 --version
+
+    # Install if needed (see Prerequisites above)
+    ```
+  </Accordion>
+  <Accordion title="Search Script Errors">
+    ```bash
+    # Make script executable
+    chmod +x .<platform>/skills/ui-ux-pro-max/scripts/search.py
+
+    # Test manually
+    python3 .<platform>/skills/ui-ux-pro-max/scripts/search.py "test" --domain style
+    ```
+  </Accordion>
+  <Accordion title="Multiple Platforms Conflict">
+    No conflicts! Each platform uses its own folder. You can have UI/UX Pro Max installed for all assistants simultaneously.
+  </Accordion>
+</AccordionGroup>
+
+## Platform-Specific Tips
+
+<AccordionGroup>
+  <Accordion title="Continue (VS Code + JetBrains)">
+    - Use Cmd+L (Mac) or Ctrl+L (Windows/Linux) to open chat
+    - Continue supports both inline edits and sidebar chat
+    - Works with local models via Ollama
+    - Supports Claude, GPT-4, and more
+  </Accordion>
+  <Accordion title="Codex CLI">
+    - Terminal-based, perfect for automation
+    - Can pipe output to files: `codex "build UI" > output.txt`
+    - Great for CI/CD integration
+  </Accordion>
+  <Accordion title="GitHub Copilot">
+    - Use in VS Code, JetBrains, Neovim, CLI
+    - Supports chat, suggestions, and prompts
+    - `/ui-ux-pro-max` must be used explicitly
+  </Accordion>
+  <Accordion title="Droid (Factory)">
+    - Built on Anthropic's agent framework
+    - Supports multi-step reasoning
+    - Good for complex UI workflows
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="play" href="/getting-started">
+    Learn the basics of UI/UX Pro Max
+  </Card>
+  <Card title="Design Systems" icon="palette" href="/design-systems">
+    Generate complete design systems
+  </Card>
+  <Card title="UI Styles" icon="paintbrush" href="/ui-styles">
+    Explore 67 UI styles
+  </Card>
+  <Card title="Color Palettes" icon="swatchbook" href="/color-palettes">
+    Browse 96 color palettes
+  </Card>
+</CardGroup>

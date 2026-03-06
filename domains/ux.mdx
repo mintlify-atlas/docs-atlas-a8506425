@@ -1,0 +1,529 @@
+---
+title: "UX Guidelines Domain"
+description: "99 UX guidelines covering accessibility, usability, and best practices with code examples"
+---
+
+## Overview
+
+The **UX domain** provides actionable UX guidelines with do's, don'ts, code examples (good and bad), and severity ratings. Covers accessibility, navigation, animation, forms, and more.
+
+**Database:** `ux-guidelines.csv` (99 guidelines)  
+**Search columns:** Category, Issue, Description, Platform  
+**Output columns:** Category, Issue, Platform, Description, Do, Don't, Code Example Good, Code Example Bad, Severity
+
+## When to Use
+
+- Checking accessibility compliance
+- Reviewing code for UX issues
+- Understanding best practices
+- Fixing usability problems
+- Learning do's and don'ts
+
+## Search Examples
+
+### Example 1: Smooth Scroll Navigation
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "smooth scroll navigation" --domain ux
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "ux",
+  "results": [
+    {
+      "Category": "Navigation",
+      "Issue": "Smooth Scroll",
+      "Platform": "Web",
+      "Description": "Anchor links should scroll smoothly to target section",
+      "Do": "Use scroll-behavior: smooth on html element",
+      "Don't": "Jump directly without transition",
+      "Code Example Good": "html { scroll-behavior: smooth; }",
+      "Code Example Bad": "<a href='#section'> without CSS",
+      "Severity": "High"
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 2: Animation Duration
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "animation duration timing" --domain ux
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "ux",
+  "results": [
+    {
+      "Category": "Animation",
+      "Issue": "Duration Timing",
+      "Platform": "All",
+      "Description": "Animations should feel responsive not sluggish",
+      "Do": "Use 150-300ms for micro-interactions",
+      "Don't": "Use animations longer than 500ms for UI",
+      "Code Example Good": "transition-all duration-200",
+      "Code Example Bad": "duration-1000",
+      "Severity": "Medium"
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 3: Reduced Motion Accessibility
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "reduced motion accessibility" --domain ux
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "ux",
+  "results": [
+    {
+      "Category": "Animation",
+      "Issue": "Reduced Motion",
+      "Platform": "All",
+      "Description": "Respect user's motion preferences",
+      "Do": "Check prefers-reduced-motion media query",
+      "Don't": "Ignore accessibility motion settings",
+      "Code Example Good": "@media (prefers-reduced-motion: reduce)",
+      "Code Example Bad": "No motion query check",
+      "Severity": "High"
+    }
+  ]
+}
+```
+</Accordion>
+
+## CSV Structure
+
+| Column | Description | Example |
+|--------|-------------|----------|
+| `No` | Row number | 1 |
+| `Category` | Guideline category | "Navigation", "Animation", "Accessibility" |
+| `Issue` | Specific issue | "Smooth Scroll" |
+| `Platform` | Target platform | "Web", "Mobile", "All" |
+| `Description` | Issue explanation | "Anchor links should scroll smoothly" |
+| `Do` | Correct approach | "Use scroll-behavior: smooth" |
+| `Don't` | Incorrect approach | "Jump directly without transition" |
+| `Code Example Good` | Good code example | "html &#123; scroll-behavior: smooth; &#125;" |
+| `Code Example Bad` | Bad code example | "&lt;a href='#section'&gt; without CSS" |
+| `Severity` | Impact level | "High", "Medium", "Low" |
+
+## Guideline Categories
+
+<Accordion title="All Categories">
+
+### 1. Accessibility (CRITICAL)
+- Color Contrast
+- Focus States
+- Alt Text
+- ARIA Labels
+- Keyboard Navigation
+- Form Labels
+- Screen Reader Support
+
+### 2. Navigation
+- Smooth Scroll
+- Sticky Navigation
+- Active State
+- Back Button
+- Deep Linking
+- Breadcrumbs
+
+### 3. Animation
+- Excessive Motion
+- Duration Timing
+- Reduced Motion
+- Transform Performance
+- Loading States
+
+### 4. Forms
+- Form Validation
+- Error Messages
+- Input Labels
+- Autocomplete
+- Loading Buttons
+
+### 5. Touch & Interaction
+- Touch Target Size
+- Hover vs Tap
+- Cursor Pointer
+- Double Tap Zoom
+
+### 6. Layout & Responsive
+- Viewport Meta
+- Readable Font Size
+- Horizontal Scroll
+- Content Jumping
+- Z-Index Management
+
+### 7. Performance
+- Image Optimization
+- Lazy Loading
+- Code Splitting
+
+### 8. Typography
+- Line Height
+- Line Length
+- Font Pairing
+
+</Accordion>
+
+## Priority by Severity
+
+### High Severity (MUST FIX)
+
+<Warning>
+  These issues cause **legal compliance problems**, **critical usability failures**, or **accessibility violations**. Fix immediately.
+</Warning>
+
+**Examples:**
+- Color contrast below 4.5:1
+- Missing alt text on images
+- No keyboard navigation support
+- Broken back button
+- Touch targets below 44x44px
+- Ignoring `prefers-reduced-motion`
+
+### Medium Severity (SHOULD FIX)
+
+<Info>
+  These issues cause **moderate usability problems** or **unprofessional appearance**. Fix before launch.
+</Info>
+
+**Examples:**
+- No active nav state
+- Animation durations too long
+- Missing loading states
+- No sticky navigation
+- Line height too tight
+
+### Low Severity (NICE TO FIX)
+
+<Tip>
+  These issues are **polish items** that improve user experience. Fix when time permits.
+</Tip>
+
+**Examples:**
+- Missing breadcrumbs on shallow sites
+- No smooth scroll (instant is OK)
+- Basic hover effects
+
+## Code Examples by Category
+
+### Accessibility: Color Contrast
+
+<CodeGroup>
+```css Good
+/* WCAG AA: 4.5:1 minimum */
+.text {
+  color: #1E293B; /* Dark slate */
+  background: #F8FAFC; /* Light background */
+  /* Contrast ratio: 14.1:1 ✓ */
+}
+```
+
+```css Bad
+/* Insufficient contrast */
+.text {
+  color: #94A3B8; /* Light slate */
+  background: #F8FAFC; /* Light background */
+  /* Contrast ratio: 2.1:1 ✗ */
+}
+```
+</CodeGroup>
+
+### Accessibility: Focus States
+
+<CodeGroup>
+```css Good
+/* Visible focus ring */
+button:focus-visible {
+  outline: 3px solid #2563EB;
+  outline-offset: 2px;
+}
+```
+
+```css Bad
+/* No focus indicator */
+button:focus {
+  outline: none; /* ✗ Never do this */
+}
+```
+</CodeGroup>
+
+### Animation: Reduced Motion
+
+<CodeGroup>
+```css Good
+/* Respect user preference */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+```
+
+```css Bad
+/* Ignore accessibility */
+.element {
+  animation: spin 2s infinite;
+  /* No reduced motion check ✗ */
+}
+```
+</CodeGroup>
+
+### Touch: Target Size
+
+<CodeGroup>
+```html Good
+<!-- 44x44px minimum (Apple HIG) -->
+<button class="h-12 w-12 p-3">
+  <Icon size={24} />
+</button>
+```
+
+```html Bad
+<!-- Too small for touch -->
+<button class="h-6 w-6 p-1">
+  <Icon size={16} />
+</button>
+```
+</CodeGroup>
+
+### Forms: Error Messages
+
+<CodeGroup>
+```jsx Good
+// Clear error near input
+<div>
+  <input
+    type="email"
+    className={error ? 'border-red-500' : ''}
+    aria-invalid={!!error}
+    aria-describedby="email-error"
+  />
+  {error && (
+    <p id="email-error" className="text-red-500 text-sm mt-1">
+      {error}
+    </p>
+  )}
+</div>
+```
+
+```jsx Bad
+// Generic error at top
+{error && <p className="text-red-500">Invalid input</p>}
+<input type="email" />
+<input type="password" />
+<input type="text" />
+// ✗ User can't tell which field is wrong
+```
+</CodeGroup>
+
+### Navigation: Active State
+
+<CodeGroup>
+```jsx Good
+// Visual indication of current page
+<nav>
+  <Link
+    href="/dashboard"
+    className={pathname === '/dashboard' ? 'text-primary border-b-2' : 'text-muted'}
+  >
+    Dashboard
+  </Link>
+</nav>
+```
+
+```jsx Bad
+// All links look the same
+<nav>
+  <Link href="/dashboard" className="text-muted">
+    Dashboard
+  </Link>
+</nav>
+```
+</CodeGroup>
+
+## WCAG Compliance Checklist
+
+<AccordionGroup>
+  <Accordion title="Level A (Minimum)">
+    - [ ] All images have `alt` text
+    - [ ] All form inputs have labels
+    - [ ] Color is not the only indicator
+    - [ ] Keyboard navigation works
+    - [ ] No keyboard traps
+  </Accordion>
+  
+  <Accordion title="Level AA (Required)">
+    - [ ] Color contrast 4.5:1 for normal text
+    - [ ] Color contrast 3:1 for large text (24px+)
+    - [ ] Focus visible on all interactive elements
+    - [ ] Page has a unique `<title>`
+    - [ ] Headings in correct order (h1 → h2 → h3)
+    - [ ] Touch targets minimum 44x44px
+  </Accordion>
+  
+  <Accordion title="Level AAA (Enhanced)">
+    - [ ] Color contrast 7:1 for normal text
+    - [ ] Color contrast 4.5:1 for large text
+    - [ ] Line height 1.5+ for body text
+    - [ ] Paragraph spacing 1.5x line height
+    - [ ] Text resizable up to 200% without loss of content
+  </Accordion>
+</AccordionGroup>
+
+## Common UX Mistakes
+
+<Tabs>
+  <Tab title="Navigation">
+    ❌ **Sticky nav without padding compensation**
+    ```html
+    <nav class="fixed top-0">...</nav>
+    <main><!-- Content hidden behind nav ✗ --></main>
+    ```
+    
+    ✅ **Correct approach**
+    ```html
+    <nav class="fixed top-0 h-16">...</nav>
+    <main class="pt-16"><!-- Content visible ✓ --></main>
+    ```
+  </Tab>
+  
+  <Tab title="Animation">
+    ❌ **Too many animations**
+    ```html
+    <div class="animate-bounce">
+      <div class="animate-pulse">
+        <div class="animate-spin">✗</div>
+      </div>
+    </div>
+    ```
+    
+    ✅ **Minimal, purposeful animation**
+    ```html
+    <button class="hover:scale-105 transition-transform">✓</button>
+    ```
+  </Tab>
+  
+  <Tab title="Forms">
+    ❌ **Too many fields**
+    ```html
+    <!-- 10+ fields = low conversion ✗ -->
+    <input name="firstName" />
+    <input name="lastName" />
+    <input name="email" />
+    <input name="phone" />
+    <input name="address" />
+    ...
+    ```
+    
+    ✅ **Minimal fields**
+    ```html
+    <!-- 3 fields max = high conversion ✓ -->
+    <input name="email" />
+    <input name="password" />
+    <button>Sign Up</button>
+    ```
+  </Tab>
+  
+  <Tab title="Touch">
+    ❌ **Hover-only interactions on mobile**
+    ```css
+    /* Mobile users can't hover ✗ */
+    .menu { display: none; }
+    .nav:hover .menu { display: block; }
+    ```
+    
+    ✅ **Click/tap interactions**
+    ```jsx
+    // Works on mobile ✓
+    const [open, setOpen] = useState(false);
+    <button onClick={() => setOpen(!open)}>Menu</button>
+    ```
+  </Tab>
+</Tabs>
+
+## Testing Checklist
+
+### Before Launch
+
+<Steps>
+  <Step title="Keyboard Navigation">
+    - Tab through entire page
+    - Verify focus visible on all elements
+    - Check tab order matches visual order
+    - Test Enter/Space on buttons
+  </Step>
+  
+  <Step title="Screen Reader">
+    - Test with VoiceOver (Mac) or NVDA (Windows)
+    - Verify all images have alt text
+    - Check form labels announced correctly
+    - Ensure page title read aloud
+  </Step>
+  
+  <Step title="Color Contrast">
+    - Use browser DevTools "Accessibility" panel
+    - Check all text meets 4.5:1 minimum
+    - Verify CTAs have 7:1+ contrast
+  </Step>
+  
+  <Step title="Responsive">
+    - Test at 375px (mobile), 768px (tablet), 1024px (laptop)
+    - Verify no horizontal scroll
+    - Check touch targets 44x44px minimum
+    - Test sticky elements don't obscure content
+  </Step>
+  
+  <Step title="Performance">
+    - Run Lighthouse in Chrome DevTools
+    - Target: Accessibility score 95+
+    - Check `prefers-reduced-motion` respected
+  </Step>
+</Steps>
+
+## Tools & Resources
+
+<CardGroup cols={2}>
+  <Card title="Contrast Checker" icon="circle-half-stroke">
+    https://webaim.org/resources/contrastchecker/
+  </Card>
+  <Card title="Lighthouse" icon="lighthouse">
+    Chrome DevTools → Lighthouse → Accessibility
+  </Card>
+  <Card title="axe DevTools" icon="universal-access">
+    Browser extension for accessibility testing
+  </Card>
+  <Card title="WAVE" icon="wave-square">
+    https://wave.webaim.org/ - Web accessibility evaluator
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Accessibility Styles" href="/domains/style">
+    Learn about the "Accessible & Ethical" style
+  </Card>
+  <Card title="Color Contrast" href="/domains/color">
+    Find accessible color palettes
+  </Card>
+  <Card title="Typography" href="/domains/typography">
+    Choose readable fonts
+  </Card>
+  <Card title="Product Types" href="/domains/product">
+    See UX considerations by product
+  </Card>
+</CardGroup>

@@ -1,0 +1,343 @@
+---
+title: 'Skill vs Workflow Mode'
+description: 'Understand the difference between skill mode (auto-activate) and workflow mode (slash command)'
+---
+
+## Overview
+
+UI/UX Pro Max operates in two different modes depending on your AI coding assistant:
+
+1. **Skill Mode** (Auto-activate): The skill automatically activates when you request UI/UX work
+2. **Workflow Mode** (Slash Command): You explicitly invoke the skill with a command like `/ui-ux-pro-max`
+
+Which mode you use depends on your AI assistant's capabilities.
+
+## Skill Mode (Auto-Activate)
+
+### Supported Platforms
+
+**Skill mode** is supported on platforms that implement the **Skills API**:
+
+- Claude Code (claude.ai/code)
+- Cursor
+- Windsurf
+- Antigravity
+- Codex CLI
+- Continue
+- Gemini CLI
+- OpenCode
+- Qoder
+- CodeBuddy
+- Droid (Factory)
+
+### How It Works
+
+From `.claude/skills/ui-ux-pro-max/SKILL.md:src/ui-ux-pro-max/SKILL.md:3`:
+
+```yaml
+---
+name: ui-ux-pro-max
+description: "UI/UX design intelligence. 50 styles, 21 palettes, 50 font pairings...
+  Actions: plan, build, create, design, implement, review, fix, improve, optimize...
+  Projects: website, landing page, dashboard, admin panel, e-commerce, SaaS...
+  Elements: button, modal, navbar, sidebar, card, table, form, chart...
+  Styles: glassmorphism, claymorphism, minimalism, brutalism...
+  Topics: color palette, accessibility, animation, layout, typography..."
+---
+```
+
+The `description` field contains **activation keywords** that trigger the skill:
+
+#### Action Keywords
+- `plan`, `build`, `create`, `design`, `implement`
+- `review`, `fix`, `improve`, `optimize`, `enhance`, `refactor`
+- `check` (when combined with UI/UX context)
+
+#### Project Keywords
+- `website`, `landing page`, `dashboard`, `admin panel`
+- `e-commerce`, `SaaS`, `portfolio`, `blog`, `mobile app`
+- File extensions: `.html`, `.tsx`, `.vue`, `.svelte`
+
+#### Element Keywords
+- `button`, `modal`, `navbar`, `sidebar`, `card`, `table`, `form`, `chart`
+
+#### Style Keywords
+- `glassmorphism`, `claymorphism`, `minimalism`, `brutalism`
+- `neumorphism`, `bento grid`, `dark mode`, `responsive`
+
+#### Topic Keywords
+- `color palette`, `accessibility`, `animation`, `layout`
+- `typography`, `font pairing`, `spacing`, `hover`, `shadow`, `gradient`
+
+### Example Activation
+
+<CodeGroup>
+```plaintext User Message
+Build a landing page for my SaaS product
+```
+
+```plaintext What Happens
+1. AI detects keywords: "Build" (action) + "landing page" (project) + "SaaS" (project)
+2. Skill automatically activates
+3. AI runs: python3 skills/ui-ux-pro-max/scripts/search.py "SaaS landing page" --design-system
+4. AI uses the design system to build the landing page
+```
+</CodeGroup>
+
+<Note>
+You don't need to mention "UI/UX Pro Max" or any skill name. The AI automatically detects when UI/UX work is needed.
+</Note>
+
+### Special Case: Trae
+
+Trae supports skill mode but requires **SOLO mode** first:
+
+```
+User: /solo
+Trae: Switched to SOLO mode
+User: Build a landing page for my SaaS product
+Trae: [Skill activates automatically]
+```
+
+## Workflow Mode (Slash Command)
+
+### Supported Platforms
+
+**Workflow mode** is used on platforms that don't support auto-activation:
+
+- Kiro
+- GitHub Copilot
+- Roo Code
+
+### How It Works
+
+You explicitly invoke the skill with a slash command:
+
+```
+/ui-ux-pro-max Build a landing page for my SaaS product
+```
+
+The workflow file (`.kiro/workflows/ui-ux-pro-max.md`, `.github/copilot-workflows/ui-ux-pro-max.md`, or `.roo/workflows/ui-ux-pro-max.md`) contains the same instructions as the skill file.
+
+### Why Slash Commands?
+
+These platforms don't support:
+- Auto-activation based on keywords
+- Skills API for dynamic loading
+
+Instead, they use:
+- **Static workflow files** that must be explicitly invoked
+- **Slash commands** as the invocation mechanism
+
+## Skill File Structure
+
+From `.claude/skills/ui-ux-pro-max/SKILL.md`:
+
+```markdown
+---
+name: ui-ux-pro-max
+description: "[Activation keywords...]"
+---
+
+# UI/UX Pro Max - Design Intelligence
+
+Comprehensive design guide for web and mobile applications...
+
+## When to Apply
+
+Reference these guidelines when:
+- Designing new UI components or pages
+- Choosing color palettes and typography
+- Reviewing code for UX issues
+- Building landing pages or dashboards
+- Implementing accessibility requirements
+
+## How to Use This Skill
+
+When user requests UI/UX work (design, build, create, implement, review, fix, improve), follow this workflow:
+
+### Step 1: Analyze User Requirements
+...
+
+### Step 2: Generate Design System (REQUIRED)
+
+**Always start with `--design-system`**...
+
+### Step 3: Supplement with Detailed Searches (as needed)
+...
+
+### Step 4: Stack Guidelines (Default: html-tailwind)
+...
+```
+
+## Workflow File Structure
+
+Workflow files (Kiro, Copilot, Roo) have the same content as skill files, but **without the frontmatter**:
+
+```markdown
+# UI/UX Pro Max - Design Intelligence
+
+Comprehensive design guide for web and mobile applications...
+
+[Same content as skill file]
+```
+
+## Installation Paths
+
+| Platform | Path | Mode |
+|----------|------|------|
+| Claude Code | `.claude/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Cursor | `.cursor/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Windsurf | `.windsurf/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Antigravity | `.antigravity/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Codex CLI | `.codex/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Continue | `.continue/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Gemini CLI | `.gemini/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| OpenCode | `.opencode/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Qoder | `.qoder/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| CodeBuddy | `.codebuddy/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Droid (Factory) | `.factory/skills/ui-ux-pro-max/SKILL.md` | Skill |
+| Kiro | `.kiro/workflows/ui-ux-pro-max.md` | Workflow |
+| GitHub Copilot | `.github/copilot-workflows/ui-ux-pro-max.md` | Workflow |
+| Roo Code | `.roo/workflows/ui-ux-pro-max.md` | Workflow |
+
+<Tip>
+The CLI command `uipro init --ai <platform>` automatically installs the correct file in the correct location.
+</Tip>
+
+## Key Differences
+
+### Skill Mode
+
+✅ **Pros:**
+- Automatic activation (no command needed)
+- Natural conversation flow
+- AI detects when UI/UX expertise is needed
+- Seamless integration with other skills
+
+❌ **Cons:**
+- Requires platform support for Skills API
+- May activate unexpectedly if keywords match unrelated requests
+
+### Workflow Mode
+
+✅ **Pros:**
+- Explicit invocation (you control when it activates)
+- No unexpected activations
+- Works on all platforms
+
+❌ **Cons:**
+- Must remember slash command
+- Requires explicit invocation every time
+- Breaks conversation flow
+
+## Template Generation
+
+Both skill and workflow files are **generated from templates** by the CLI.
+
+From `cli/src/commands/init.ts`:
+
+```typescript
+// Skill-based platforms
+if (['claude', 'cursor', 'windsurf', ...].includes(platform)) {
+  const skillContent = renderTemplate('base/skill-content.md', variables);
+  writeFile(`${platformPath}/skills/ui-ux-pro-max/SKILL.md`, skillContent);
+}
+
+// Workflow-based platforms
+if (['kiro', 'copilot', 'roocode'].includes(platform)) {
+  const workflowContent = renderTemplate('base/skill-content.md', variables);
+  writeFile(`${platformPath}/workflows/ui-ux-pro-max.md`, workflowContent);
+}
+```
+
+**Key insight:** Both modes use the **same base template** (`base/skill-content.md`). The only difference is:
+- **Skill mode**: Adds YAML frontmatter with activation keywords
+- **Workflow mode**: No frontmatter, just markdown content
+
+## When the Skill Activates
+
+The skill activates when your message contains:
+
+1. **At least one action keyword** (build, create, design, implement, review, fix, improve)
+2. **AND at least one context keyword** (UI, UX, website, landing page, button, color, layout, etc.)
+
+### Examples That Activate
+
+✅ "Build a landing page for my SaaS product"  
+✅ "Create a dashboard with glassmorphism style"  
+✅ "Design a dark mode color palette"  
+✅ "Review this button component for accessibility"  
+✅ "Fix the hover state on this card"  
+✅ "Implement a responsive navbar"  
+
+### Examples That Don't Activate
+
+❌ "Build a Python script to process CSV files" (no UI/UX context)  
+❌ "Create a database schema" (no UI/UX context)  
+❌ "What color should I paint my room?" (not UI/UX context)  
+
+<Info>
+The AI is smart enough to distinguish between UI/UX requests and other requests. It uses the **combination** of keywords, not just individual words.
+</Info>
+
+## shadcn/ui Integration
+
+From `.claude/skills/ui-ux-pro-max/SKILL.md:src/ui-ux-pro-max/SKILL.md:3`:
+
+```yaml
+description: "...
+  Integrations: shadcn/ui MCP for component search and examples."
+```
+
+When using the `shadcn` stack, the skill mentions the shadcn/ui MCP server for component search:
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "form validation" --stack shadcn
+```
+
+If the user has the shadcn/ui MCP server installed, the AI can:
+1. Search for shadcn/ui components
+2. Get implementation examples
+3. Follow shadcn/ui design patterns
+
+## Best Practices
+
+### For Skill Mode Users
+
+1. **Be specific**: "Build a landing page" → "Build a landing page for a fintech app"
+2. **Include context**: Mention style preferences, industry, or target audience
+3. **Use natural language**: The AI understands "make this button look better" or "fix the colors"
+
+### For Workflow Mode Users
+
+1. **Always use the slash command**: `/ui-ux-pro-max <your request>`
+2. **Include full context**: Since it's explicit, add all relevant details upfront
+3. **Save the command**: Add it to your snippets or aliases for quick access
+
+## Troubleshooting
+
+### Skill Not Activating?
+
+1. **Check your platform**: Is it in the skill mode list above?
+2. **Check your keywords**: Did you use an action keyword + context keyword?
+3. **Be more explicit**: Try adding "UI" or "design" to your message
+4. **Check installation**: Verify the skill file exists at the correct path
+
+### Skill Activating Unexpectedly?
+
+1. **Be more specific**: If discussing non-UI topics, avoid UI keywords
+2. **Use workflow mode**: Switch to a platform that uses slash commands
+3. **Adjust keywords**: The platform may allow configuring activation keywords
+
+### Workflow Command Not Working?
+
+1. **Check the slash command**: Some platforms use `/workflow`, others use `/copilot-workflow`
+2. **Check file location**: Verify the workflow file is in the correct directory
+3. **Reload the AI**: Some platforms need a restart to detect new workflows
+
+## See Also
+
+- [Design System Generation](/concepts/design-system-generation) - What happens when the skill activates
+- [Search Engine](/concepts/search-engine) - The BM25 search engine used by the skill
+- [Reasoning Rules](/concepts/reasoning-rules) - Industry-specific rules applied automatically

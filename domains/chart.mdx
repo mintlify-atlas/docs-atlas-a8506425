@@ -1,0 +1,505 @@
+---
+title: "Chart Domain"
+description: "25+ chart types with data visualization recommendations and library suggestions"
+---
+
+## Overview
+
+The **chart domain** helps you select the right chart type for your data. Each recommendation includes secondary options, color guidance, accessibility notes, and library recommendations.
+
+**Database:** `charts.csv` (25+ chart types)  
+**Search columns:** Data Type, Keywords, Best Chart Type, Accessibility Notes  
+**Output columns:** Data Type, Keywords, Best Chart Type, Secondary Options, Color Guidance, Performance Impact, Accessibility Notes, Library Recommendation, Interactive Level
+
+## When to Use
+
+- Visualizing data in dashboards
+- Choosing between chart types
+- Ensuring chart accessibility
+- Selecting visualization libraries
+- Understanding performance implications
+
+## Search Examples
+
+### Example 1: Trend Over Time
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "trend time series growth timeline" --domain chart
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "chart",
+  "results": [
+    {
+      "Data Type": "Trend Over Time",
+      "Keywords": "trend, time-series, line, growth, timeline, progress",
+      "Best Chart Type": "Line Chart",
+      "Secondary Options": "Area Chart, Smooth Area",
+      "Color Guidance": "Primary: #0080FF. Multiple series: use distinct colors. Fill: 20% opacity",
+      "Performance Impact": "⚡ Excellent (optimized)",
+      "Accessibility Notes": "✓ Clear line patterns for colorblind users. Add pattern overlays.",
+      "Library Recommendation": "Chart.js, Recharts, ApexCharts",
+      "Interactive Level": "Hover + Zoom"
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 2: Compare Categories
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "compare categories bar comparison ranking" --domain chart
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "chart",
+  "results": [
+    {
+      "Data Type": "Compare Categories",
+      "Keywords": "compare, categories, bar, comparison, ranking",
+      "Best Chart Type": "Bar Chart (Horizontal or Vertical)",
+      "Secondary Options": "Column Chart, Grouped Bar",
+      "Color Guidance": "Each bar: distinct color. Category: grouped same color. Sorted: descending order",
+      "Performance Impact": "⚡ Excellent",
+      "Accessibility Notes": "✓ Easy to compare. Add value labels on bars for clarity.",
+      "Library Recommendation": "Chart.js, Recharts, D3.js",
+      "Interactive Level": "Hover + Sort"
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 3: Part-to-Whole (Pie Chart)
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "pie donut percentage proportion part to whole" --domain chart
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "chart",
+  "results": [
+    {
+      "Data Type": "Part-to-Whole",
+      "Keywords": "part-to-whole, pie, donut, percentage, proportion, share",
+      "Best Chart Type": "Pie Chart or Donut",
+      "Secondary Options": "Stacked Bar, Treemap",
+      "Color Guidance": "Colors: 5-6 max. Contrasting palette. Large slices first. Use labels.",
+      "Performance Impact": "⚡ Good (limit 6 slices)",
+      "Accessibility Notes": "⚠ Hard for accessibility. Better: Stacked bar with legend. Avoid pie if >5 items.",
+      "Library Recommendation": "Chart.js, Recharts, D3.js",
+      "Interactive Level": "Hover + Drill"
+    }
+  ]
+}
+```
+
+<Warning>
+  **Pie Chart Accessibility Warning**  
+  Pie charts are difficult for colorblind users and screen readers. Consider using a **stacked bar chart** with a legend instead, especially if you have more than 5 categories.
+</Warning>
+</Accordion>
+
+## CSV Structure
+
+| Column | Description | Example |
+|--------|-------------|----------|
+| `No` | Row number | 1 |
+| `Data Type` | Data category | "Trend Over Time" |
+| `Keywords` | Search terms | "trend, time-series, line, growth" |
+| `Best Chart Type` | Recommended chart | "Line Chart" |
+| `Secondary Options` | Alternative charts | "Area Chart, Smooth Area" |
+| `Color Guidance` | Color recommendations | "Primary: #0080FF, Fill: 20% opacity" |
+| `Performance Impact` | Performance rating | "⚡ Excellent" / "⚠ Moderate" |
+| `Accessibility Notes` | A11y considerations | "✓ Clear patterns for colorblind" |
+| `Library Recommendation` | Suggested libraries | "Chart.js, Recharts, ApexCharts" |
+| `Interactive Level` | Interaction type | "Hover + Zoom" |
+
+## Chart Type Selection Guide
+
+<Accordion title="All Chart Types by Data">
+
+### Time-Based Data
+- **Line Chart** - Trend over time
+- **Area Chart** - Cumulative trend
+- **Time-Series Forecast** - Predictions with confidence bands
+- **Timeline Chart** - Events over time
+
+### Comparison Data
+- **Bar Chart (Horizontal)** - Compare categories (long labels)
+- **Column Chart (Vertical)** - Compare categories (short labels)
+- **Grouped Bar** - Compare multiple series
+- **Waterfall Chart** - Sequential changes
+
+### Part-to-Whole Data
+- **Pie Chart** - Simple proportions (max 5 slices)
+- **Donut Chart** - Pie with center space
+- **Stacked Bar** - Better accessibility than pie
+- **Treemap** - Hierarchical proportions
+
+### Correlation/Distribution
+- **Scatter Plot** - Correlation between variables
+- **Bubble Chart** - 3D scatter (x, y, size)
+- **Heat Map** - Intensity/density patterns
+
+### Geographic Data
+- **Choropleth Map** - Regional data
+- **Bubble Map** - Location + size data
+- **Geographic Heat Map** - Density maps
+
+### Specialized Charts
+- **Funnel Chart** - Conversion funnels
+- **Sankey Diagram** - Flow/process
+- **Gauge Chart** - Performance vs target
+- **Bullet Chart** - KPI tracking
+- **Candlestick** - Financial data
+- **Radar/Spider** - Multi-dimensional comparison
+
+</Accordion>
+
+## Chart Library Comparison
+
+<Tabs>
+  <Tab title="Chart.js">
+    **Best for:** Simple charts, lightweight  
+    **Pros:**
+    - Easy to use
+    - Small bundle size (~60KB)
+    - Good documentation
+    - Responsive by default
+    
+    **Cons:**
+    - Limited customization
+    - Basic interactions
+    
+    **Use for:** Line, Bar, Pie, Donut, Area
+    
+    ```bash
+    npm install chart.js react-chartjs-2
+    ```
+  </Tab>
+  
+  <Tab title="Recharts">
+    **Best for:** React applications  
+    **Pros:**
+    - React-native components
+    - Composable API
+    - Responsive
+    - Good TypeScript support
+    
+    **Cons:**
+    - Larger bundle size (~150KB)
+    - Limited 3D support
+    
+    **Use for:** All standard charts, dashboards
+    
+    ```bash
+    npm install recharts
+    ```
+  </Tab>
+  
+  <Tab title="ApexCharts">
+    **Best for:** Interactive dashboards  
+    **Pros:**
+    - Beautiful defaults
+    - Advanced interactions
+    - Animations
+    - Zoom, pan, drill-down
+    
+    **Cons:**
+    - Larger bundle (~200KB)
+    - Complex API
+    
+    **Use for:** Financial, analytics dashboards
+    
+    ```bash
+    npm install apexcharts react-apexcharts
+    ```
+  </Tab>
+  
+  <Tab title="D3.js">
+    **Best for:** Custom visualizations  
+    **Pros:**
+    - Maximum flexibility
+    - Any chart type possible
+    - Large ecosystem
+    
+    **Cons:**
+    - Steep learning curve
+    - More code required
+    - No defaults
+    
+    **Use for:** Custom, complex visualizations
+    
+    ```bash
+    npm install d3
+    ```
+  </Tab>
+  
+  <Tab title="Plotly">
+    **Best for:** Scientific/statistical  
+    **Pros:**
+    - 3D charts
+    - Statistical charts
+    - Polar charts
+    - Export to PNG
+    
+    **Cons:**
+    - Very large bundle (~500KB)
+    - Overkill for simple charts
+    
+    **Use for:** Scientific dashboards, research
+    
+    ```bash
+    npm install plotly.js react-plotly.js
+    ```
+  </Tab>
+</Tabs>
+
+## Color Guidance by Chart Type
+
+### Single-Series Charts
+
+```css
+/* Line/Area chart - single color */
+--chart-primary: #0080FF;
+--chart-fill: rgba(0, 128, 255, 0.2); /* 20% opacity */
+```
+
+### Multi-Series Charts
+
+```css
+/* Distinct colors for 5 series */
+--series-1: #0080FF; /* Blue */
+--series-2: #10B981; /* Green */
+--series-3: #F59E0B; /* Amber */
+--series-4: #EF4444; /* Red */
+--series-5: #8B5CF6; /* Purple */
+```
+
+### Heat Maps
+
+```css
+/* Cool to hot gradient */
+--heatmap-cool: #3B82F6;  /* Blue */
+--heatmap-warm: #F59E0B;  /* Amber */
+--heatmap-hot: #EF4444;   /* Red */
+```
+
+### Positive/Negative Data
+
+```css
+/* Financial charts */
+--chart-positive: #10B981; /* Green */
+--chart-negative: #EF4444; /* Red */
+--chart-neutral: #6B7280;  /* Grey */
+```
+
+## Accessibility Best Practices
+
+<AccordionGroup>
+  <Accordion title="Colorblind-Friendly Palettes">
+    Use patterns in addition to color:
+    
+    ```jsx
+    // Recharts example with patterns
+    <Area
+      stroke="#0080FF"
+      fill="url(#pattern1)" // Pattern instead of solid fill
+    />
+    
+    <defs>
+      <pattern id="pattern1" width="4" height="4" patternUnits="userSpaceOnUse">
+        <path d="M0,4 l4,-4 M-1,1 l2,-2 M3,5 l2,-2" stroke="#0080FF" />
+      </pattern>
+    </defs>
+    ```
+    
+    **Colorblind-safe palette:**
+    - Blue: #0080FF
+    - Orange: #F97316
+    - Purple: #8B5CF6
+    - Avoid: Red-Green combinations
+  </Accordion>
+  
+  <Accordion title="Screen Reader Support">
+    Always provide data table alternatives:
+    
+    ```jsx
+    <div>
+      {/* Visual chart */}
+      <LineChart data={data} aria-hidden="true" />
+      
+      {/* Screen reader table */}
+      <table className="sr-only">
+        <caption>Sales trend over time</caption>
+        <thead>
+          <tr><th>Month</th><th>Sales</th></tr>
+        </thead>
+        <tbody>
+          {data.map(row => (
+            <tr><td>{row.month}</td><td>{row.sales}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    ```
+  </Accordion>
+  
+  <Accordion title="Keyboard Navigation">
+    Make charts keyboard-accessible:
+    
+    ```jsx
+    <ResponsiveContainer>
+      <LineChart
+        data={data}
+        onKeyDown={(e) => {
+          if (e.key === 'ArrowRight') moveToNextDataPoint();
+          if (e.key === 'ArrowLeft') moveToPrevDataPoint();
+        }}
+        tabIndex={0}
+        role="img"
+        aria-label="Sales trend showing 20% growth"
+      >
+        <Line dataKey="sales" />
+      </LineChart>
+    </ResponsiveContainer>
+    ```
+  </Accordion>
+  
+  <Accordion title="Value Labels">
+    Add value labels for clarity:
+    
+    ```jsx
+    <BarChart data={data}>
+      <Bar dataKey="value">
+        {data.map((entry, index) => (
+          <Cell key={index} fill={entry.color} />
+        ))}
+        <LabelList dataKey="value" position="top" />
+      </Bar>
+    </BarChart>
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Performance Optimization
+
+### Large Datasets
+
+<Tabs>
+  <Tab title="Data Sampling">
+    For > 1000 points, sample data:
+    
+    ```js
+    function sampleData(data, maxPoints = 500) {
+      if (data.length <= maxPoints) return data;
+      
+      const step = Math.ceil(data.length / maxPoints);
+      return data.filter((_, i) => i % step === 0);
+    }
+    ```
+  </Tab>
+  
+  <Tab title="Virtualization">
+    Use canvas instead of SVG for large datasets:
+    
+    ```jsx
+    // Chart.js uses canvas by default (faster)
+    <Line data={largeDataset} options={{ responsive: true }} />
+    
+    // D3 with canvas
+    const canvas = d3.select('canvas');
+    const context = canvas.node().getContext('2d');
+    // Draw using canvas API
+    ```
+  </Tab>
+  
+  <Tab title="Lazy Loading">
+    Load chart libraries dynamically:
+    
+    ```jsx
+    const Chart = dynamic(() => import('react-chartjs-2'), {
+      loading: () => <div>Loading chart...</div>,
+      ssr: false,
+    });
+    ```
+  </Tab>
+</Tabs>
+
+### Animation Performance
+
+```jsx
+// Disable animations for better performance
+<LineChart data={data}>
+  <Line
+    dataKey="value"
+    isAnimationActive={false} // Disable animation
+  />
+</LineChart>
+```
+
+## Interactive Features
+
+### Hover + Tooltip
+
+```jsx
+<LineChart data={data}>
+  <Tooltip
+    content={({ payload }) => (
+      <div className="bg-white p-2 shadow-lg rounded">
+        <p className="font-semibold">{payload?.[0]?.payload?.name}</p>
+        <p className="text-sm">Value: {payload?.[0]?.value}</p>
+      </div>
+    )}
+  />
+</LineChart>
+```
+
+### Zoom + Pan
+
+```jsx
+<LineChart data={data}>
+  <Brush dataKey="date" height={30} stroke="#0080FF" />
+</LineChart>
+```
+
+### Drill-Down
+
+```jsx
+function DrillDownChart() {
+  const [level, setLevel] = useState(0);
+  const [data, setData] = useState(topLevelData);
+  
+  const handleBarClick = (entry) => {
+    setLevel(level + 1);
+    setData(fetchDetailedData(entry.id));
+  };
+  
+  return <BarChart data={data} onClick={handleBarClick} />;
+}
+```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Color Palettes" href="/domains/color">
+    Choose accessible chart colors
+  </Card>
+  <Card title="UX Guidelines" href="/domains/ux">
+    Check data visualization best practices
+  </Card>
+  <Card title="Product Types" href="/domains/product">
+    Find recommended dashboards for your product
+  </Card>
+  <Card title="Style Domain" href="/domains/style">
+    Match charts to your UI style
+  </Card>
+</CardGroup>

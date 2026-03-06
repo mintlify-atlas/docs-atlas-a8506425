@@ -1,122 +1,112 @@
 {
   "$schema": "https://mintlify.com/docs.json",
-  "theme": "mint",
-  "name": "Mint Starter Kit",
+  "name": "UI/UX Pro Max",
+  "theme": "willow",
   "colors": {
-    "primary": "#16A34A",
-    "light": "#07C983",
-    "dark": "#15803D"
+    "primary": "#4a77d9",
+    "light": "#a47c7c",
+    "dark": "#4a77d9"
   },
-  "favicon": "/favicon.svg",
+
+  "navbar": {
+    "primary": {
+      "type": "github",
+      "href": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
+    }
+  },
+  "footer": {
+    "socials": {
+      "github": "https://github.com/nextlevelbuilder/ui-ux-pro-max-skill"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentation",
         "groups": [
           {
-            "group": "Getting started",
+            "group": "Get Started",
             "pages": [
-              "index",
-              "quickstart",
-              "development"
+              "introduction",
+              "installation",
+              "quickstart"
             ]
           },
           {
-            "group": "Customization",
+            "group": "Core Concepts",
             "pages": [
-              "essentials/settings",
-              "essentials/navigation"
+              "concepts/design-system-generation",
+              "concepts/search-engine",
+              "concepts/reasoning-rules",
+              "concepts/skill-vs-workflow"
             ]
           },
           {
-            "group": "Writing content",
+            "group": "Usage Guides",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/reusable-snippets"
+              "guides/cli-commands",
+              "guides/design-system-workflow",
+              "guides/domain-search",
+              "guides/stack-guidelines",
+              "guides/persist-design-system"
             ]
           },
           {
-            "group": "AI tools",
+            "group": "Platform Support",
             "pages": [
-              "ai-tools/cursor",
-              "ai-tools/claude-code",
-              "ai-tools/windsurf"
+              "platforms/overview",
+              "platforms/claude-code",
+              "platforms/cursor",
+              "platforms/windsurf",
+              "platforms/other-platforms"
             ]
           }
         ]
       },
       {
-        "tab": "API reference",
+        "tab": "Reference",
         "groups": [
           {
-            "group": "API documentation",
+            "group": "CLI Reference",
             "pages": [
-              "api-reference/introduction"
+              "cli/init",
+              "cli/update",
+              "cli/versions"
             ]
           },
           {
-            "group": "Endpoint examples",
+            "group": "Search Domains",
             "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
+              "domains/overview",
+              "domains/product",
+              "domains/style",
+              "domains/color",
+              "domains/typography",
+              "domains/landing",
+              "domains/chart",
+              "domains/ux"
+            ]
+          },
+          {
+            "group": "Design Resources",
+            "pages": [
+              "resources/styles",
+              "resources/color-palettes",
+              "resources/font-pairings",
+              "resources/reasoning-rules",
+              "resources/tech-stacks"
+            ]
+          },
+          {
+            "group": "Contributing",
+            "pages": [
+              "contributing/architecture",
+              "contributing/development-setup",
+              "contributing/sync-workflow"
             ]
           }
         ]
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Blog",
-          "href": "https://mintlify.com/blog",
-          "icon": "newspaper"
-        }
-      ]
-    }
-  },
-  "logo": {
-    "light": "/logo/light.svg",
-    "dark": "/logo/dark.svg"
-  },
-  "navbar": {
-    "links": [
-      {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
-      }
-    ],
-    "primary": {
-      "type": "button",
-      "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
-    }
-  },
-  "contextual": {
-    "options": [
-     "copy",
-     "view",
-     "chatgpt",
-     "claude",
-     "perplexity",
-     "mcp",
-     "cursor",
-     "vscode"
-   ]
-  },
-  "footer": {
-    "socials": {
-      "x": "https://x.com/mintlify",
-      "github": "https://github.com/mintlify",
-      "linkedin": "https://linkedin.com/company/mintlify"
-    }
+    ]
   }
 }

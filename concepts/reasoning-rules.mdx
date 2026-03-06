@@ -1,0 +1,465 @@
+---
+title: 'Reasoning Rules'
+description: 'Explore the 100 industry-specific reasoning rules that guide intelligent design system recommendations'
+---
+
+## Overview
+
+Reasoning rules are the intelligence layer that sits on top of the BM25 search engine. They encode **domain expertise** about which design patterns, styles, and colors work best for specific industries and product types.
+
+Instead of just returning search results, the reasoning engine **applies industry-specific rules** to filter, prioritize, and combine results into a cohesive design system.
+
+## The 100 Reasoning Rules
+
+UI/UX Pro Max includes **100 reasoning rules** covering major product categories across 7 industries:
+
+| Category | Examples | Rule Count |
+|----------|----------|------------|
+| **Tech & SaaS** | SaaS, Micro SaaS, B2B Enterprise, Developer Tools, AI/Chatbot Platform | ~20 |
+| **Finance** | Fintech, Banking, Crypto, Insurance, Trading Dashboard | ~12 |
+| **Healthcare** | Medical Clinic, Pharmacy, Dental, Veterinary, Mental Health | ~10 |
+| **E-commerce** | General, Luxury, Marketplace, Subscription Box | ~15 |
+| **Services** | Beauty/Spa, Restaurant, Hotel, Legal, Consulting | ~18 |
+| **Creative** | Portfolio, Agency, Photography, Gaming, Music Streaming | ~15 |
+| **Emerging Tech** | Web3/NFT, Spatial Computing, Quantum Computing, Autonomous Systems | ~10 |
+
+## Rule Structure
+
+Each reasoning rule is stored in `ui-reasoning.csv` and contains these fields:
+
+### 1. UI_Category
+
+The product type or industry category this rule applies to.
+
+**Examples:**
+- `SaaS - General`
+- `E-Commerce - Luxury`
+- `Healthcare - Medical Clinic`
+- `Beauty/Spa`
+- `Fintech - Banking`
+
+### 2. Recommended_Pattern
+
+The landing page structure that works best for this industry.
+
+**Examples:**
+- `Hero-Centric + Social Proof` (Beauty/Spa)
+- `Feature-Rich Showcase` (SaaS)
+- `Trust & Authority` (Banking)
+- `Conversion-Optimized` (E-commerce)
+
+From `design_system.py:src/ui-ux-pro-max/scripts/design_system.py:112`:
+
+```python
+return {
+    "pattern": rule.get("Recommended_Pattern", ""),
+    "style_priority": [s.strip() for s in rule.get("Style_Priority", "").split("+")],
+    "color_mood": rule.get("Color_Mood", ""),
+    "typography_mood": rule.get("Typography_Mood", ""),
+    "key_effects": rule.get("Key_Effects", ""),
+    "anti_patterns": rule.get("Anti_Patterns", ""),
+    "decision_rules": decision_rules,
+    "severity": rule.get("Severity", "MEDIUM")
+}
+```
+
+### 3. Style_Priority
+
+A ranked list of UI styles that work best for this industry, separated by `+`.
+
+**Examples:**
+- `Soft UI Evolution + Minimalism` (Beauty/Spa)
+- `Glassmorphism + Dark Mode` (Fintech)
+- `Brutalism + Retro-Futurism` (Gaming)
+- `Minimalism + Swiss Style` (SaaS)
+
+The reasoning engine uses this priority list to **boost matching styles** during search.
+
+### 4. Color_Mood
+
+Describes the color palette characteristics appropriate for this industry.
+
+**Examples:**
+- `Calming, soft pastels` (Beauty/Spa)
+- `Professional, trustworthy blues` (Banking)
+- `Bold, vibrant, high contrast` (Gaming)
+- `Neutral with premium accents` (Luxury E-commerce)
+
+### 5. Typography_Mood
+
+Describes the font personality that matches the brand.
+
+**Examples:**
+- `Elegant, calming, sophisticated` (Beauty/Spa)
+- `Clean, modern, trustworthy` (Banking)
+- `Bold, expressive, futuristic` (Gaming)
+- `Professional, readable` (SaaS)
+
+### 6. Key_Effects
+
+Recommended animations and interactions.
+
+**Examples:**
+- `Soft shadows + Smooth transitions (200-300ms) + Gentle hover states` (Beauty/Spa)
+- `Minimal motion + Subtle hover states` (Banking)
+- `Dynamic animations + Particle effects + Bold transitions` (Gaming)
+
+### 7. Anti_Patterns
+
+Critical mistakes to avoid for this industry, separated by `+`.
+
+**Examples:**
+- `Bright neon colors + Harsh animations + Dark mode` (Beauty/Spa)
+- `AI purple/pink gradients + Playful animations` (Banking)
+- `Slow animations + Muted colors` (Gaming)
+
+<Info>
+Anti-patterns are just as important as recommendations. They prevent common mistakes that reduce trust or user engagement.
+</Info>
+
+### 8. Decision_Rules (JSON)
+
+Optional conditional logic for complex decision-making.
+
+**Example:**
+
+```json
+{
+  "if_dark_mode": {
+    "color_strategy": "High contrast with OLED-friendly blacks",
+    "avoid": "Pure white text (use #E4E4E7)"
+  },
+  "if_b2b": {
+    "pattern": "Trust & Authority",
+    "key_effects": "Minimal, professional"
+  }
+}
+```
+
+From `design_system.py:src/ui-ux-pro-max/scripts/design_system.py:105`:
+
+```python
+# Parse decision rules JSON
+decision_rules = {}
+try:
+    decision_rules = json.loads(rule.get("Decision_Rules", "{}"))
+except json.JSONDecodeError:
+    pass
+```
+
+### 9. Severity
+
+How critical it is to follow this rule.
+
+- **CRITICAL**: Must follow (e.g., accessibility rules, banking trust patterns)
+- **HIGH**: Strongly recommended (e.g., e-commerce conversion optimization)
+- **MEDIUM**: Best practice (e.g., style preferences)
+- **LOW**: Nice to have (e.g., animation polish)
+
+## How Reasoning Rules Work
+
+The reasoning engine applies rules in a multi-step process:
+
+### Step 1: Match Product Category
+
+From `design_system.py:src/ui-ux-pro-max/scripts/design_system.py:64`:
+
+```python
+def _find_reasoning_rule(self, category: str) -> dict:
+    """Find matching reasoning rule for a category."""
+    category_lower = category.lower()
+
+    # Try exact match first
+    for rule in self.reasoning_data:
+        if rule.get("UI_Category", "").lower() == category_lower:
+            return rule
+
+    # Try partial match
+    for rule in self.reasoning_data:
+        ui_cat = rule.get("UI_Category", "").lower()
+        if ui_cat in category_lower or category_lower in ui_cat:
+            return rule
+
+    # Try keyword match
+    for rule in self.reasoning_data:
+        ui_cat = rule.get("UI_Category", "").lower()
+        keywords = ui_cat.replace("/", " ").replace("-", " ").split()
+        if any(kw in category_lower for kw in keywords):
+            return rule
+
+    return {}
+```
+
+The matching algorithm uses **3 levels of fallback**:
+
+1. **Exact match**: "Beauty/Spa" matches "Beauty/Spa" rule
+2. **Partial match**: "Beauty service" matches "Beauty/Spa" rule
+3. **Keyword match**: "spa wellness" matches "Beauty/Spa" rule
+
+### Step 2: Extract Style Priority
+
+From `design_system.py:src/ui-ux-pro-max/scripts/design_system.py:173`:
+
+```python
+# Step 2: Get reasoning rules for this category
+reasoning = self._apply_reasoning(category, {})
+style_priority = reasoning.get("style_priority", [])
+```
+
+The style priority list (e.g., `["Soft UI Evolution", "Minimalism"]`) is used to boost matching styles during search.
+
+### Step 3: Multi-Domain Search with Priority
+
+From `design_system.py:src/ui-ux-pro-max/scripts/design_system.py:51`:
+
+```python
+def _multi_domain_search(self, query: str, style_priority: list = None) -> dict:
+    """Execute searches across multiple domains."""
+    results = {}
+    for domain, config in SEARCH_CONFIG.items():
+        if domain == "style" and style_priority:
+            # For style, also search with priority keywords
+            priority_query = " ".join(style_priority[:2]) if style_priority else query
+            combined_query = f"{query} {priority_query}"
+            results[domain] = search(combined_query, domain, config["max_results"])
+        else:
+            results[domain] = search(query, domain, config["max_results"])
+    return results
+```
+
+**Key insight:** When searching the `style` domain, the query is augmented with the top 2 style priority keywords.
+
+**Example:**
+- Original query: `"beauty spa wellness"`
+- Style priority: `["Soft UI Evolution", "Minimalism"]`
+- Augmented query: `"beauty spa wellness Soft UI Evolution Minimalism"`
+
+This ensures the BM25 search ranks styles matching the priority higher.
+
+### Step 4: Select Best Match
+
+From `design_system.py:src/ui-ux-pro-max/scripts/design_system.py:122`:
+
+```python
+def _select_best_match(self, results: list, priority_keywords: list) -> dict:
+    """Select best matching result based on priority keywords."""
+    if not results:
+        return {}
+
+    if not priority_keywords:
+        return results[0]
+
+    # First: try exact style name match
+    for priority in priority_keywords:
+        priority_lower = priority.lower().strip()
+        for result in results:
+            style_name = result.get("Style Category", "").lower()
+            if priority_lower in style_name or style_name in priority_lower:
+                return result
+
+    # Second: score by keyword match in all fields
+    scored = []
+    for result in results:
+        result_str = str(result).lower()
+        score = 0
+        for kw in priority_keywords:
+            kw_lower = kw.lower().strip()
+            # Higher score for style name match
+            if kw_lower in result.get("Style Category", "").lower():
+                score += 10
+            # Lower score for keyword field match
+            elif kw_lower in result.get("Keywords", "").lower():
+                score += 3
+            # Even lower for other field matches
+            elif kw_lower in result_str:
+                score += 1
+        scored.append((score, result))
+
+    scored.sort(key=lambda x: x[0], reverse=True)
+    return scored[0][1] if scored and scored[0][0] > 0 else results[0]
+```
+
+The selection algorithm uses **3-tier scoring**:
+
+1. **Exact style name match** (score: return immediately)
+2. **Style name contains keyword** (score: +10)
+3. **Keywords field contains keyword** (score: +3)
+4. **Any field contains keyword** (score: +1)
+
+## Example Reasoning Flow
+
+Let's walk through a complete example:
+
+### Input
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "beauty spa wellness service" --design-system -p "Serenity Spa"
+```
+
+### Step 1: Product Search
+
+Search `products.csv` for "beauty spa wellness service"
+
+**Result:** `Beauty/Spa` category
+
+### Step 2: Load Reasoning Rule
+
+Find rule for `Beauty/Spa` in `ui-reasoning.csv`
+
+**Rule:**
+- **Recommended Pattern**: Hero-Centric + Social Proof
+- **Style Priority**: Soft UI Evolution + Minimalism
+- **Color Mood**: Calming, soft pastels
+- **Typography Mood**: Elegant, calming, sophisticated
+- **Key Effects**: Soft shadows + Smooth transitions (200-300ms) + Gentle hover states
+- **Anti-Patterns**: Bright neon colors + Harsh animations + Dark mode
+
+### Step 3: Augmented Style Search
+
+Original query: `"beauty spa wellness service"`
+
+Augmented query: `"beauty spa wellness service Soft UI Evolution Minimalism"`
+
+Search `styles.csv` with augmented query
+
+**Top 3 Results:**
+1. Soft UI Evolution (score: 8.2) ✅ **Priority match**
+2. Minimalism (score: 7.8) ✅ **Priority match**
+3. Glassmorphism (score: 5.1)
+
+### Step 4: Select Best Match
+
+Apply priority scoring:
+- "Soft UI Evolution" has exact match with priority[0] → **Selected**
+
+### Step 5: Other Domain Searches
+
+Run searches for color, typography, landing:
+
+- **Color**: Search for "beauty spa" in `colors.csv` → Soft Pink + Sage Green palette
+- **Typography**: Search for "elegant calming" in `typography.csv` → Cormorant Garamond / Montserrat
+- **Landing**: Search for "hero social proof" in `landing.csv` → Hero-Centric pattern
+
+### Step 6: Combine into Design System
+
+The final output combines all domains + reasoning:
+
+```
++----------------------------------------------------------------------------------------+
+|  PATTERN: Hero-Centric + Social Proof                                                  |
+|  STYLE: Soft UI Evolution                                                              |
+|  COLORS: #E8B4B8 (Soft Pink) + #A8D5BA (Sage Green)                                    |
+|  TYPOGRAPHY: Cormorant Garamond / Montserrat                                           |
+|  KEY EFFECTS: Soft shadows + Smooth transitions (200-300ms)                            |
+|  AVOID: Bright neon colors + Harsh animations + Dark mode                              |
++----------------------------------------------------------------------------------------+
+```
+
+## Fallback Strategy
+
+If no reasoning rule matches the product category, the engine uses a **safe default**:
+
+From `design_system.py:src/ui-ux-pro-max/scripts/design_system.py:91`:
+
+```python
+if not rule:
+    return {
+        "pattern": "Hero + Features + CTA",
+        "style_priority": ["Minimalism", "Flat Design"],
+        "color_mood": "Professional",
+        "typography_mood": "Clean",
+        "key_effects": "Subtle hover transitions",
+        "anti_patterns": "",
+        "decision_rules": {},
+        "severity": "MEDIUM"
+    }
+```
+
+This ensures the generator always returns a valid design system, even for uncommon product types.
+
+## Industry Examples
+
+### Banking/Fintech
+
+**Rule:**
+- **Pattern**: Trust & Authority
+- **Style Priority**: Minimalism + Swiss Style + Glassmorphism
+- **Color Mood**: Professional blues, trustworthy
+- **Typography Mood**: Clean, modern, readable
+- **Key Effects**: Minimal motion, subtle hover states
+- **Anti-Patterns**: AI purple/pink gradients + Playful animations + Emojis
+
+**Why:** Banking requires maximum trust. Playful elements reduce credibility.
+
+### Gaming/Esports
+
+**Rule:**
+- **Pattern**: Interactive Product Demo
+- **Style Priority**: Cyberpunk UI + Retro-Futurism + Vibrant Block-based
+- **Color Mood**: Bold, vibrant, high contrast, neon accents
+- **Typography Mood**: Bold, expressive, futuristic
+- **Key Effects**: Dynamic animations + Particle effects + Bold transitions
+- **Anti-Patterns**: Slow animations + Muted colors + Minimal UI
+
+**Why:** Gaming needs energy and excitement. Minimal design feels boring.
+
+### Healthcare
+
+**Rule:**
+- **Pattern**: Trust & Authority + Accessible Design
+- **Style Priority**: Accessible & Ethical + Minimalism + Soft UI
+- **Color Mood**: Calming, professional, accessible
+- **Typography Mood**: Readable, trustworthy, clear
+- **Key Effects**: Minimal animations, smooth transitions
+- **Anti-Patterns**: Low contrast + Complex animations + Dense layouts
+
+**Why:** Healthcare must be accessible to all users. Complex UI creates barriers.
+
+### Luxury E-commerce
+
+**Rule:**
+- **Pattern**: Hero-Centric + Storytelling
+- **Style Priority**: Exaggerated Minimalism + Swiss Modernism 2.0 + Liquid Glass
+- **Color Mood**: Neutral with premium accents (gold, silver)
+- **Typography Mood**: Elegant, sophisticated, editorial
+- **Key Effects**: Smooth parallax + Cinematic transitions + Subtle reveals
+- **Anti-Patterns**: Bright colors + Playful elements + Dense layouts
+
+**Why:** Luxury requires breathing room and sophistication. Dense layouts feel cheap.
+
+## Rule Severity Levels
+
+From the README:
+
+| Severity | Meaning | Example |
+|----------|---------|----------|
+| **CRITICAL** | Must follow or risk user harm/legal issues | Accessibility rules, banking security patterns |
+| **HIGH** | Strongly recommended for user success | E-commerce conversion optimization, trust patterns |
+| **MEDIUM** | Best practice for quality | Style preferences, animation polish |
+| **LOW** | Nice to have | Advanced micro-interactions |
+
+<Note>
+The severity field is returned in the design system output but not currently used for filtering. It's available for future enhancements (e.g., "show only CRITICAL rules").
+</Note>
+
+## Adding Custom Rules
+
+To add your own reasoning rules:
+
+1. Open `src/ui-ux-pro-max/data/ui-reasoning.csv`
+2. Add a new row with all required fields
+3. Test with:
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<your product type>" --design-system
+```
+
+<Tip>
+Follow the existing patterns for consistency. Use `+` to separate multiple items in Style_Priority and Anti_Patterns fields.
+</Tip>
+
+## See Also
+
+- [Design System Generation](/concepts/design-system-generation) - How reasoning rules fit into the overall generation process
+- [Search Engine](/concepts/search-engine) - The BM25 algorithm that powers search
+- [Skill vs Workflow](/concepts/skill-vs-workflow) - When reasoning rules are automatically applied

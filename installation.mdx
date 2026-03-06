@@ -1,0 +1,261 @@
+---
+title: Installation
+description: Install UI/UX Pro Max for your AI coding assistant
+---
+
+## Prerequisites
+
+UI/UX Pro Max requires Python 3.x for the design system search engine.
+
+<Steps>
+  <Step title="Check Python Installation">
+    Verify Python is installed on your system:
+
+    ```bash
+    python3 --version
+    ```
+
+    You should see output like `Python 3.x.x`. If not, proceed to install Python.
+  </Step>
+
+  <Step title="Install Python (if needed)">
+    <CodeGroup>
+      ```bash macOS
+      brew install python3
+      ```
+
+      ```bash Ubuntu/Debian
+      sudo apt update && sudo apt install python3
+      ```
+
+      ```powershell Windows
+      winget install Python.Python.3.12
+      ```
+    </CodeGroup>
+  </Step>
+</Steps>
+
+## Installation Methods
+
+### CLI Installation (Recommended)
+
+The CLI installer provides the easiest way to install UI/UX Pro Max for any AI assistant.
+
+<Steps>
+  <Step title="Install CLI Globally">
+    Install the `uipro-cli` package from npm:
+
+    ```bash
+    npm install -g uipro-cli
+    ```
+  </Step>
+
+  <Step title="Navigate to Your Project">
+    ```bash
+    cd /path/to/your/project
+    ```
+  </Step>
+
+  <Step title="Initialize for Your AI Assistant">
+    Run the init command with your preferred AI assistant:
+
+    <CodeGroup>
+      ```bash Claude Code
+      uipro init --ai claude
+      ```
+
+      ```bash Cursor
+      uipro init --ai cursor
+      ```
+
+      ```bash Windsurf
+      uipro init --ai windsurf
+      ```
+
+      ```bash OpenCode
+      uipro init --ai opencode
+      ```
+
+      ```bash GitHub Copilot
+      uipro init --ai copilot
+      ```
+
+      ```bash Continue
+      uipro init --ai continue
+      ```
+
+      ```bash All Assistants
+      uipro init --ai all
+      ```
+    </CodeGroup>
+
+    The CLI supports 15+ AI assistants including:
+    - Claude Code
+    - Cursor
+    - Windsurf
+    - Antigravity
+    - GitHub Copilot
+    - Kiro
+    - Codex CLI
+    - Qoder
+    - Roo Code
+    - Gemini CLI
+    - Trae
+    - OpenCode
+    - Continue
+    - CodeBuddy
+    - Droid (Factory)
+  </Step>
+</Steps>
+
+### Claude Marketplace (Claude Code)
+
+For Claude Code users, install directly from the marketplace:
+
+```bash
+/plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+/plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+```
+
+## CLI Commands
+
+The CLI provides additional commands for managing your installation:
+
+<CardGroup cols={2}>
+  <Card title="List Versions" icon="list">
+    ```bash
+    uipro versions
+    ```
+    View all available versions of UI/UX Pro Max.
+  </Card>
+
+  <Card title="Update" icon="arrow-up">
+    ```bash
+    uipro update
+    ```
+    Update to the latest version.
+  </Card>
+
+  <Card title="Offline Install" icon="download">
+    ```bash
+    uipro init --offline
+    ```
+    Skip GitHub download and use bundled assets (useful for air-gapped environments).
+  </Card>
+
+  <Card title="Custom Output" icon="folder">
+    ```bash
+    uipro init --ai claude --output-dir ./custom-path
+    ```
+    Install to a custom directory.
+  </Card>
+</CardGroup>
+
+## Verify Installation
+
+After installation, verify the skill is working:
+
+<Steps>
+  <Step title="Check Files">
+    Depending on your AI assistant, you should see files in:
+    - Claude Code: `.claude/skills/ui-ux-pro-max/`
+    - Cursor: `.cursor/skills/ui-ux-pro-max/`
+    - Continue: `.continue/skills/ui-ux-pro-max/`
+    - Droid (Factory): `.factory/skills/ui-ux-pro-max/`
+  </Step>
+
+  <Step title="Test Search Command">
+    Run a test search to ensure Python and the search engine work:
+
+    ```bash
+    # Adjust path based on your AI assistant
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+    ```
+
+    You should see search results with UI style recommendations.
+  </Step>
+
+  <Step title="Test in Your AI Assistant">
+    Open your AI assistant and try a UI/UX request:
+
+    ```
+    Build a landing page for my SaaS product
+    ```
+
+    The skill should activate automatically and provide design recommendations.
+  </Step>
+</Steps>
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Python not found">
+    If you see `python3: command not found`, ensure Python is installed and added to your PATH.
+
+    Try running:
+    ```bash
+    python --version  # Some systems use 'python' instead of 'python3'
+    ```
+
+    On Windows, you may need to restart your terminal after installing Python.
+  </Accordion>
+
+  <Accordion title="Permission errors on npm install">
+    If you encounter permission errors when installing globally:
+
+    ```bash
+    # Use npx instead (no global install needed)
+    npx uipro-cli init --ai claude
+    ```
+
+    Or fix npm permissions:
+    ```bash
+    # Create a directory for global packages
+    mkdir ~/.npm-global
+    npm config set prefix '~/.npm-global'
+    echo 'export PATH=~/.npm-global/bin:$PATH' >> ~/.profile
+    source ~/.profile
+    ```
+  </Accordion>
+
+  <Accordion title="Skill not activating">
+    If the skill doesn't activate automatically:
+
+    1. **Check activation keywords**: The skill activates on UI/UX-related requests (build, design, create, implement, review, fix, improve).
+
+    2. **Use explicit commands**: For assistants that support slash commands:
+       ```
+       /ui-ux-pro-max Build a landing page
+       ```
+
+    3. **Verify file structure**: Ensure files are in the correct location for your AI assistant.
+  </Accordion>
+
+  <Accordion title="Search script fails">
+    If the search script returns errors:
+
+    1. **Check Python version**: Requires Python 3.x
+       ```bash
+       python3 --version
+       ```
+
+    2. **Verify file paths**: Ensure CSV data files exist in the `data/` directory.
+
+    3. **Check file permissions**: Make sure the search script is executable:
+       ```bash
+       chmod +x .claude/skills/ui-ux-pro-max/scripts/search.py
+       ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Quickstart Guide" icon="rocket" href="/quickstart">
+    Learn how to generate your first design system
+  </Card>
+
+  <Card title="Usage Guides" icon="book" href="/guides/cli-commands">
+    Explore CLI commands and workflows
+  </Card>
+</CardGroup>

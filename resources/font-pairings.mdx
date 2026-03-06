@@ -1,0 +1,556 @@
+---
+title: "Font Pairings Reference"
+description: "57 curated font pairings with Google Fonts imports and implementation guides"
+---
+
+# Font Pairings Reference
+
+UI/UX Pro Max includes **57 professionally curated font pairings** with ready-to-use Google Fonts imports, Tailwind configurations, and implementation guidelines.
+
+## How to Use This Reference
+
+Each pairing includes:
+- **Heading & Body Fonts** - Recommended font combination
+- **Category** - Font pairing type (Serif + Sans, Sans + Sans, etc.)
+- **Mood/Style** - Keywords describing the typography personality
+- **Best For** - Ideal use cases and industries
+- **Google Fonts URL** - Direct link to Google Fonts with both fonts selected
+- **CSS Import** - Ready-to-use @import statement
+- **Tailwind Config** - Drop-in Tailwind configuration
+- **Implementation Notes** - Usage tips and best practices
+
+## Quick Access by Category
+
+<CardGroup cols={3}>
+  <Card title="Serif + Sans" icon="heading" href="#serif-sans">
+    Classic contrast pairings (12)
+  </Card>
+  <Card title="Sans + Sans" icon="font" href="#sans-sans">
+    Modern geometric pairings (24)
+  </Card>
+  <Card title="Display + Sans" icon="star" href="#display-sans">
+    Bold headline pairings (10)
+  </Card>
+  <Card title="Monospace" icon="code" href="#monospace">
+    Code and technical fonts (5)
+  </Card>
+  <Card title="International" icon="globe" href="#international">
+    Multi-language support (6)
+  </Card>
+</CardGroup>
+
+## Top Recommended Pairings
+
+<Accordion title="1. Classic Elegant (Playfair Display + Inter)">
+
+**Category:** Serif + Sans  
+**Mood:** Elegant, luxury, sophisticated, timeless, premium, editorial
+
+### Font Details
+- **Heading:** Playfair Display (Serif)
+- **Body:** Inter (Sans-serif)
+- **Weights:** 400, 500, 600, 700
+
+### Best For
+Luxury brands, fashion, spa, beauty, editorial, magazines, high-end e-commerce
+
+### Google Fonts
+[View on Google Fonts](https://fonts.google.com/share?selection.family=Inter:wght@300;400;500;600;700|Playfair+Display:wght@400;500;600;700)
+
+### CSS Import
+```css
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap');
+```
+
+### Tailwind Config
+```js
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        serif: ['Playfair Display', 'serif'],
+        sans: ['Inter', 'sans-serif'],
+      }
+    }
+  }
+}
+```
+
+### Usage Example
+```html
+<h1 class="font-serif text-5xl font-bold">
+  Elegant Headline
+</h1>
+<p class="font-sans text-base leading-relaxed">
+  Clean, readable body text with Inter's modern geometry.
+</p>
+```
+
+### Implementation Notes
+High contrast between elegant heading and clean body. Perfect for luxury/premium brands. Use Playfair Display weights 400-700 for headings, Inter 300-600 for body text. Ensure sufficient line-height (1.5-1.6) for body text.
+
+### Example Sizes
+```css
+/* Headings */
+h1 { font-family: 'Playfair Display'; font-size: 3rem; font-weight: 700; }
+h2 { font-family: 'Playfair Display'; font-size: 2.25rem; font-weight: 600; }
+h3 { font-family: 'Playfair Display'; font-size: 1.875rem; font-weight: 600; }
+
+/* Body */
+body { font-family: 'Inter'; font-size: 1rem; line-height: 1.6; font-weight: 400; }
+```
+
+</Accordion>
+
+<Accordion title="2. Modern Professional (Poppins + Open Sans)">
+
+**Category:** Sans + Sans  
+**Mood:** Modern, professional, clean, corporate, friendly, approachable
+
+### Font Details
+- **Heading:** Poppins (Geometric Sans)
+- **Body:** Open Sans (Humanist Sans)
+- **Weights:** 300, 400, 500, 600, 700
+
+### Best For
+SaaS, corporate sites, business apps, startups, professional services
+
+### Google Fonts
+[View on Google Fonts](https://fonts.google.com/share?selection.family=Open+Sans:wght@300;400;500;600;700|Poppins:wght@400;500;600;700)
+
+### CSS Import
+```css
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+```
+
+### Tailwind Config
+```js
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        heading: ['Poppins', 'sans-serif'],
+        body: ['Open Sans', 'sans-serif'],
+      }
+    }
+  }
+}
+```
+
+### Implementation Notes
+Geometric Poppins for headings, humanist Open Sans for readability. Perfect balance of modern and approachable. Use Poppins 600-700 for headings, Open Sans 400-500 for body.
+
+</Accordion>
+
+<Accordion title="3. Tech Startup (Space Grotesk + DM Sans)">
+
+**Category:** Sans + Sans  
+**Mood:** Tech, startup, modern, innovative, bold, futuristic
+
+### Font Details
+- **Heading:** Space Grotesk (Display Sans)
+- **Body:** DM Sans (Sans-serif)
+- **Weights:** 400, 500, 600, 700
+
+### Best For
+Tech companies, startups, SaaS, developer tools, AI products
+
+### Google Fonts
+[View on Google Fonts](https://fonts.google.com/share?selection.family=DM+Sans:wght@400;500;700|Space+Grotesk:wght@400;500;600;700)
+
+### CSS Import
+```css
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap');
+```
+
+### Tailwind Config
+```js
+module.exports = {
+  theme: {
+    extend: {
+      fontFamily: {
+        heading: ['Space Grotesk', 'sans-serif'],
+        body: ['DM Sans', 'sans-serif'],
+      }
+    }
+  }
+}
+```
+
+### Implementation Notes
+Space Grotesk has unique character, DM Sans is highly readable. Perfect for modern tech brands. Space Grotesk works best at larger sizes (24px+).
+
+</Accordion>
+
+## Serif + Sans Combinations
+
+Classic pairings that create visual hierarchy through contrast.
+
+<Accordion title="Serif + Sans Pairings (12 total)">
+
+### 1. Classic Elegant
+**Playfair Display + Inter**  
+Luxury brands, fashion, editorial
+
+### 2. Editorial Classic
+**Cormorant Garamond + Libre Baskerville**  
+Publishing, blogs, news sites, literary magazines
+
+### 3. Wellness Calm
+**Lora + Raleway**  
+Health apps, wellness, spa, meditation, yoga
+
+### 4. Luxury Serif
+**Cormorant + Montserrat**  
+Fashion brands, luxury e-commerce, jewelry
+
+### 5. News Editorial
+**Newsreader + Roboto**  
+News sites, blogs, content-heavy sites
+
+### 6. Legal Professional
+**EB Garamond + Lato**  
+Law firms, legal services, formal documents
+
+### 7. Real Estate Luxury
+**Cinzel + Josefin Sans**  
+Real estate, luxury properties, architecture
+
+### 8. Restaurant Menu
+**Playfair Display SC + Karla**  
+Restaurants, cafes, food blogs
+
+### 9. Magazine Style
+**Libre Bodoni + Public Sans**  
+Magazines, editorial content, journalism
+
+### 10. Academic/Research
+**Crimson Pro + Atkinson Hyperlegible**  
+Universities, research papers, accessible content
+
+### 11. Luxury Minimalist
+**Bodoni Moda + Jost**  
+Luxury minimalist brands, high-end fashion
+
+### 12. Academic/Archival
+**EB Garamond + Crimson Text**  
+University sites, archives, history
+
+Use the search command:
+```bash
+python3 scripts/search.py "elegant serif luxury" --domain typography
+```
+
+</Accordion>
+
+## Sans + Sans Combinations
+
+Modern, versatile pairings popular for web apps and SaaS.
+
+<Accordion title="Sans + Sans Pairings (24 total)">
+
+### Featured Sans + Sans
+
+**Modern Professional** - Poppins + Open Sans  
+**Tech Startup** - Space Grotesk + DM Sans  
+**Minimal Swiss** - Inter (single font, weight variations)  
+**Geometric Modern** - Outfit + Work Sans  
+**Friendly SaaS** - Plus Jakarta Sans (single font)  
+**Corporate Trust** - Lexend + Source Sans 3  
+**Fashion Forward** - Syne + Manrope  
+**Soft Rounded** - Varela Round + Nunito Sans  
+**Premium Sans** - DM Sans (single font)  
+**Medical Clean** - Figtree + Noto Sans  
+**Financial Trust** - IBM Plex Sans (single font)  
+**E-commerce Clean** - Rubik + Nunito Sans  
+**Minimalist Portfolio** - Archivo + Space Grotesk  
+**Sports/Fitness** - Barlow Condensed + Barlow  
+**Spatial Clear** - Inter (single font, for AR/VR)  
+
+### Single-Font Systems
+
+Some of the best designs use a single font family with different weights:
+
+**Inter** - The ultimate Swiss minimalism  
+**Plus Jakarta Sans** - Modern SaaS alternative  
+**DM Sans** - Premium general purpose  
+**IBM Plex Sans** - Financial and enterprise  
+**Atkinson Hyperlegible** - Maximum accessibility
+
+Search for more:
+```bash
+python3 scripts/search.py "modern clean sans" --domain typography
+```
+
+</Accordion>
+
+## Display + Sans Combinations
+
+Bold headline fonts paired with readable body text.
+
+<Accordion title="Display + Sans Pairings (10 total)">
+
+### 1. Playful Creative
+**Fredoka + Nunito**  
+Children's apps, educational, gaming
+
+### 2. Bold Statement
+**Bebas Neue + Source Sans 3**  
+Marketing sites, portfolios, agencies  
+⚠ Use Bebas Neue for large headlines only (all-caps)
+
+### 3. Retro Vintage
+**Abril Fatface + Merriweather**  
+Vintage brands, breweries, restaurants
+
+### 4. Art Deco
+**Poiret One + Didact Gothic**  
+Vintage events, art deco themes, luxury hotels
+
+### 5. Crypto/Web3
+**Orbitron + Exo 2**  
+Crypto platforms, NFT, blockchain
+
+### 6. Gaming Bold
+**Russo One + Chakra Petch**  
+Gaming, esports, action games
+
+### 7. Indie/Craft
+**Amatic SC + Cabin**  
+Craft brands, indie products, handmade
+
+### 8. Startup Bold
+**Outfit + Rubik** (Google alternative to Clash Display)  
+Startups, pitch decks, bold brands
+
+### 9. Music/Entertainment
+**Righteous + Poppins**  
+Music platforms, entertainment, events
+
+### 10. Neubrutalist Bold
+**Lexend Mega + Public Sans**  
+Neubrutalist designs, Gen Z brands
+
+</Accordion>
+
+## Monospace & Code Fonts
+
+For developer tools, technical documentation, and code editors.
+
+<Accordion title="Monospace Pairings (5 total)">
+
+### 1. Developer Mono
+**JetBrains Mono + IBM Plex Sans**  
+**Best For:** Developer tools, documentation, code editors  
+**Notes:** JetBrains for code, IBM Plex for UI
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+```
+
+### 2. Brutalist Raw
+**Space Mono** (single font)  
+**Best For:** Brutalist designs, developer portfolios  
+**Notes:** All-mono for raw aesthetic. Limited weights.
+
+### 3. Dashboard Data
+**Fira Code + Fira Sans**  
+**Best For:** Dashboards, analytics, data visualization  
+**Notes:** Family cohesion. Code for data, Sans for labels.
+
+### 4. Tech/HUD Mono
+**Share Tech Mono + Fira Code**  
+**Best For:** Sci-fi interfaces, cybersecurity  
+**Notes:** Share Tech Mono has classic sci-fi look
+
+### 5. Science/Tech
+**Exo + Roboto Mono**  
+**Best For:** Science, research, tech documentation  
+**Notes:** Exo for modern tech feel, Roboto Mono for code/data
+
+</Accordion>
+
+## International Font Support
+
+Noto fonts provide excellent multi-language typography.
+
+<Accordion title="International Pairings (6 total)">
+
+### Asian Languages
+
+**Japanese Elegant** - Noto Serif JP + Noto Sans JP  
+**Korean Modern** - Noto Sans KR  
+**Chinese Traditional** - Noto Serif TC + Noto Sans TC  
+**Chinese Simplified** - Noto Sans SC  
+**Thai Modern** - Noto Sans Thai  
+
+### Middle Eastern & RTL
+
+**Arabic Elegant** - Noto Naskh Arabic + Noto Sans Arabic  
+**Hebrew Modern** - Noto Sans Hebrew  
+
+### Southeast Asian
+
+**Vietnamese Friendly** - Be Vietnam Pro + Noto Sans  
+
+### Implementation Example (Japanese)
+
+```css
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&family=Noto+Serif+JP:wght@400;500;600;700&display=swap');
+```
+
+```js
+// Tailwind Config
+fontFamily: {
+  serif: ['Noto Serif JP', 'serif'],
+  sans: ['Noto Sans JP', 'sans-serif']
+}
+```
+
+### Multi-Language Stack
+
+For international apps, use a fallback stack:
+
+```css
+font-family: 'Inter', 'Noto Sans', 'Noto Sans JP', 'Noto Sans KR', 
+             'Noto Sans SC', 'Noto Sans Arabic', system-ui, sans-serif;
+```
+
+</Accordion>
+
+## Specialty Pairings
+
+<Accordion title="Specialty Use Cases">
+
+### Handwritten/Script
+**Handwritten Charm** - Caveat + Quicksand  
+Personal blogs, invitations, lifestyle brands  
+⚠ Use Caveat sparingly for accents only
+
+### Wedding/Romance
+**Wedding/Romance** - Great Vibes + Cormorant Infant  
+Wedding sites, invitations, romantic brands  
+⚠ Great Vibes for elegant accents, Cormorant for body
+
+### Pixel/Retro Gaming
+**Pixel Retro** - Press Start 2P + VT323  
+Pixel art games, retro websites  
+⚠ Press Start 2P is very wide/large. VT323 better for body.
+
+### Kids/Education
+**Kids/Education** - Baloo 2 + Comic Neue  
+Children's apps, educational games  
+Fun, playful fonts. Comic Neue is readable comic style.
+
+</Accordion>
+
+## Typography Best Practices
+
+### Font Size Scale
+
+Use a consistent type scale:
+
+```css
+/* Tailwind-style scale */
+.text-xs   { font-size: 0.75rem; }   /* 12px */
+.text-sm   { font-size: 0.875rem; }  /* 14px */
+.text-base { font-size: 1rem; }      /* 16px - body default */
+.text-lg   { font-size: 1.125rem; }  /* 18px */
+.text-xl   { font-size: 1.25rem; }   /* 20px */
+.text-2xl  { font-size: 1.5rem; }    /* 24px */
+.text-3xl  { font-size: 1.875rem; }  /* 30px */
+.text-4xl  { font-size: 2.25rem; }   /* 36px */
+.text-5xl  { font-size: 3rem; }      /* 48px */
+```
+
+### Line Height Guidelines
+
+```css
+/* Body text */
+leading-relaxed: 1.625;  /* Preferred for readability */
+leading-normal: 1.5;     /* Standard */
+
+/* Headings */
+leading-tight: 1.25;     /* Large headings */
+leading-snug: 1.375;     /* Medium headings */
+```
+
+### Font Weight Usage
+
+```css
+/* Hierarchy */
+font-light: 300;     /* Subtle text, quotes */
+font-normal: 400;    /* Body text (default) */
+font-medium: 500;    /* Emphasis, subheadings */
+font-semibold: 600;  /* Buttons, small headings */
+font-bold: 700;      /* Main headings */
+```
+
+### Performance Optimization
+
+**Load only required weights:**
+```css
+/* Bad - loads all weights */
+@import url('https://fonts.googleapis.com/css2?family=Inter&display=swap');
+
+/* Good - loads specific weights */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+```
+
+**Use font-display:**
+```css
+@import url('...&display=swap');
+/* or */
+@font-face {
+  font-display: swap; /* Prevent FOIT (Flash of Invisible Text) */
+}
+```
+
+**Preload critical fonts:**
+```html
+<link rel="preload" href="/fonts/Inter-Regular.woff2" as="font" type="font/woff2" crossorigin>
+```
+
+### Accessibility
+
+**Minimum font sizes:**
+- Body text: 16px minimum (1rem)
+- Small text: 14px minimum (0.875rem)
+- Legal/footnotes: 12px minimum (0.75rem)
+
+**Avoid:**
+- Font sizes below 12px
+- All-caps for long text (use sparingly)
+- Thin weights (100-200) for body text
+- Tight line-height (< 1.4) for body text
+
+**Do:**
+- Use relative units (rem, em) not px
+- Provide sufficient line-height (1.5-1.6 for body)
+- Test with browser zoom (200%)
+- Ensure sufficient contrast (4.5:1 minimum)
+
+## Font Search
+
+Find the perfect pairing:
+
+```bash
+# Search by mood
+python3 scripts/search.py "elegant sophisticated serif" --domain typography
+
+# Search by use case
+python3 scripts/search.py "saas modern professional" --domain typography
+
+# Search by specific font
+python3 scripts/search.py "Inter Poppins" --domain typography
+
+# Search for monospace
+python3 scripts/search.py "code developer monospace" --domain typography
+```
+
+## Related Resources
+
+- [UI Styles](/resources/styles) - Design styles with typography recommendations
+- [Color Palettes](/resources/color-palettes) - Colors that complement your typography
+- [Reasoning Rules](/resources/reasoning-rules) - Industry-specific font guidance
+- [Tech Stacks](/resources/tech-stacks) - Framework-specific font implementation

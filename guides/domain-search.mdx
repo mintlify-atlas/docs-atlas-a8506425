@@ -1,0 +1,442 @@
+---
+title: Domain Search
+description: Master domain-specific searches for styles, colors, typography, and UX guidelines
+---
+
+UI/UX Pro Max provides **domain-specific search** across 8 specialized databases. Use domain search to supplement design system generation or for targeted lookups.
+
+## Available Domains
+
+| Domain | Database | Use For | Results |
+|--------|----------|---------|----------|
+| `product` | products.csv | Product type recommendations | 100 categories |
+| `style` | styles.csv | UI styles, visual keywords | 67 styles |
+| `color` | colors.csv | Color palettes by industry | 96 palettes |
+| `typography` | typography.csv | Font pairings, Google Fonts | 57 pairings |
+| `landing` | landing.csv | Page structure, CTA strategies | 24 patterns |
+| `chart` | charts.csv | Chart types, libraries | 25 chart types |
+| `ux` | ux-guidelines.csv | Best practices, anti-patterns | 99 guidelines |
+| `react` | react-performance.csv | React/Next.js performance | 45 optimizations |
+
+## Basic Syntax
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "<query>" --domain <domain> [-n <max_results>]
+```
+
+### Examples
+
+<CodeGroup>
+```bash Style Search
+python3 .shared/ui-ux-pro-max/scripts/search.py "glassmorphism dark" --domain style
+```
+
+```bash Color Palette Search
+python3 .shared/ui-ux-pro-max/scripts/search.py "saas trust blue" --domain color
+```
+
+```bash Typography Search
+python3 .shared/ui-ux-pro-max/scripts/search.py "elegant serif luxury" --domain typography
+```
+
+```bash UX Guidelines Search
+python3 .shared/ui-ux-pro-max/scripts/search.py "animation accessibility" --domain ux
+```
+</CodeGroup>
+
+## Domain Deep Dives
+
+### 1. Product Domain
+
+**Purpose:** Match product/service type to recommended UI categories
+
+**Database:** `products.csv` (100 categories)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "beauty spa wellness" --domain product
+```
+
+**Output:**
+```markdown
+## UI Pro Max Search Results
+**Domain:** product | **Query:** beauty spa wellness
+**Source:** products.csv | **Found:** 3 results
+
+### Result 1
+- **No:** 41
+- **Product_Type:** Beauty/Spa/Wellness Service
+- **UI_Category:** Service Landing Page
+- **Industry:** Health & Wellness
+- **Keywords:** beauty, spa, wellness, massage, skincare, salon
+- **Recommended_Pattern:** Hero-Centric + Social Proof
+- **Notes:** Focus on before/after imagery and testimonials
+```
+
+### 2. Style Domain
+
+**Purpose:** Find UI styles with visual keywords and AI prompts
+
+**Database:** `styles.csv` (67 styles)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "glassmorphism frosted" --domain style -n 2
+```
+
+**Output:**
+```markdown
+### Result 1
+- **No:** 3
+- **Style_Name:** Glassmorphism
+- **Description:** Frosted glass effect with backdrop blur
+- **Visual_Keywords:** frosted glass, backdrop-filter, blur, transparency, subtle shadows, light borders
+- **Performance:** Good (backdrop-filter can be GPU-intensive)
+- **Accessibility:** WCAG AA (ensure sufficient contrast behind glass)
+- **Best_For:** Modern SaaS, dashboards, financial apps, premium products
+- **AI_Prompt:** Create a glassmorphic card with frosted glass effect
+- **Tailwind_Keywords:** backdrop-blur-lg bg-white/10 border border-white/20 shadow-xl
+- **React_Native:** Use @react-native-community/blur BlurView component
+```
+
+**Key fields:**
+- **Visual_Keywords** - Use in CSS/design
+- **AI_Prompt** - Use with image generation tools
+- **Tailwind_Keywords** - Copy-paste Tailwind classes
+- **Performance** - GPU considerations
+- **Accessibility** - WCAG compliance level
+
+### 3. Color Domain
+
+**Purpose:** Industry-specific color palettes with hex codes
+
+**Database:** `colors.csv` (96 palettes)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "fintech trust blue" --domain color
+```
+
+**Output:**
+```markdown
+### Result 1
+- **No:** 12
+- **Product_Type:** Fintech/Banking
+- **Palette_Name:** Trust & Security
+- **Primary:** #0F4C81 (Navy Blue)
+- **Secondary:** #2C3E50 (Slate)
+- **Accent:** #3498DB (Trust Blue)
+- **Success:** #27AE60 (Success Green)
+- **Warning:** #F39C12 (Alert Orange)
+- **Danger:** #E74C3C (Error Red)
+- **Background:** #FFFFFF (White)
+- **Text:** #2C3E50 (Charcoal)
+- **Muted:** #95A5A6 (Grey)
+- **Notes:** Conveys trust, stability, and security. Avoid playful colors.
+```
+
+**Key fields:**
+- **Hex codes** - Ready for CSS variables
+- **Semantic colors** - Success, Warning, Danger
+- **Notes** - Industry-specific guidance
+
+### 4. Typography Domain
+
+**Purpose:** Curated font pairings with Google Fonts imports
+
+**Database:** `typography.csv` (57 pairings)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "modern geometric sans" --domain typography
+```
+
+**Output:**
+```markdown
+### Result 1
+- **No:** 15
+- **Pairing_Name:** Modern Geometric
+- **Heading_Font:** Poppins (Bold 700)
+- **Body_Font:** Inter (Regular 400)
+- **Mood:** Modern, clean, approachable
+- **Best_For:** SaaS, startups, tech products
+- **Google_Fonts_URL:** https://fonts.google.com/share?selection.family=Inter:wght@400;600|Poppins:wght@700
+- **Font_Sizes:** Heading: 3rem-4rem, Body: 1rem-1.125rem
+- **Line_Height:** Heading: 1.2, Body: 1.6
+- **Notes:** Excellent readability. Poppins adds personality without sacrificing professionalism.
+```
+
+**Key fields:**
+- **Google_Fonts_URL** - Direct import link
+- **Font_Sizes** - Recommended sizing
+- **Line_Height** - Optimal readability
+- **Mood** - Brand personality match
+
+### 5. Landing Domain
+
+**Purpose:** Landing page patterns and CTA strategies
+
+**Database:** `landing.csv` (24 patterns)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "hero cta conversion" --domain landing
+```
+
+**Output:**
+```markdown
+### Result 1
+- **No:** 1
+- **Pattern_Name:** Hero-Centric Design
+- **Description:** Large hero section with prominent CTA above the fold
+- **Structure:** Hero > Benefits > Features > Testimonials > Final CTA
+- **Best_For:** Products with strong visual identity or compelling value prop
+- **CTA_Strategy:** Primary CTA in hero (2-4 words), repeated 2-3 times down page
+- **Conversion_Tactics:** Social proof in hero, urgency (limited time), clear benefits
+- **Examples:** Slack, Stripe, Notion landing pages
+```
+
+**Key fields:**
+- **Structure** - Section order
+- **CTA_Strategy** - Button placement and copy
+- **Conversion_Tactics** - Psychological triggers
+
+### 6. Chart Domain
+
+**Purpose:** Chart types for dashboards and analytics
+
+**Database:** `charts.csv` (25 chart types)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "time series trend" --domain chart
+```
+
+**Output:**
+```markdown
+### Result 1
+- **No:** 1
+- **Chart_Type:** Line Chart
+- **Use_Case:** Time series trends, performance over time
+- **Data_Type:** Continuous numerical data with time dimension
+- **Best_Library:** Recharts (React), Chart.js (vanilla JS), Victory (React Native)
+- **Accessibility:** Include data table alternative, use patterns for colorblind users
+- **Anti_Patterns:** Too many lines (max 5), missing axis labels, no legend
+- **Example_Code_URL:** https://recharts.org/en-US/examples/SimpleLineChart
+```
+
+**Key fields:**
+- **Best_Library** - Recommended charting libraries
+- **Accessibility** - A11y considerations
+- **Anti_Patterns** - Common mistakes
+
+### 7. UX Domain
+
+**Purpose:** Best practices and common anti-patterns
+
+**Database:** `ux-guidelines.csv` (99 guidelines)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "button loading state" --domain ux
+```
+
+**Output:**
+```markdown
+### Result 1
+- **No:** 23
+- **Category:** Touch & Interaction
+- **Guideline:** loading-buttons
+- **Description:** Disable button during async operations with loading indicator
+- **Do:** Show spinner, disable button, change text to "Loading..."
+- **Don't:** Allow multiple clicks, no feedback, button disappears
+- **Code_Good:** <button disabled={isLoading}>{isLoading ? 'Loading...' : 'Submit'}</button>
+- **Code_Bad:** <button onClick={submit}>Submit</button> (no loading state)
+- **Severity:** High
+- **Docs_URL:** https://www.nngroup.com/articles/progress-indicators/
+```
+
+**Key fields:**
+- **Do/Don't** - Clear guidance
+- **Code_Good/Code_Bad** - Code examples
+- **Severity** - Priority level (Critical, High, Medium, Low)
+
+### 8. React Domain
+
+**Purpose:** React/Next.js performance optimizations
+
+**Database:** `react-performance.csv` (45 optimizations)
+
+**Search example:**
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "memo rerender" --domain react
+```
+
+**Output:**
+```markdown
+### Result 1
+- **No:** 12
+- **Category:** Performance
+- **Issue:** Unnecessary rerenders
+- **Solution:** Use React.memo() for expensive components
+- **Code_Good:** const ExpensiveComponent = React.memo(({ data }) => {...})
+- **Code_Bad:** const ExpensiveComponent = ({ data }) => {...} (rerenders on every parent update)
+- **Impact:** High (can cause UI lag)
+- **Docs:** https://react.dev/reference/react/memo
+```
+
+## Auto-Detection
+
+Omit `--domain` flag for automatic domain detection:
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "glassmorphism dark mode"
+```
+
+**Auto-detects:** `style` domain based on keyword "glassmorphism"
+
+## Max Results
+
+Control number of results with `-n` flag:
+
+<CodeGroup>
+```bash Top 1 Result
+python3 .shared/ui-ux-pro-max/scripts/search.py "minimalism" --domain style -n 1
+```
+
+```bash Top 5 Results
+python3 .shared/ui-ux-pro-max/scripts/search.py "responsive layout" --domain ux -n 5
+```
+
+```bash All Results
+python3 .shared/ui-ux-pro-max/scripts/search.py "color" --domain color -n 100
+```
+</CodeGroup>
+
+**Default:** 3 results
+
+## Search Algorithm
+
+UI/UX Pro Max uses **BM25 ranking** combined with **regex matching**:
+
+### BM25 Ranking
+
+- **Best Match 25** - Industry-standard search algorithm
+- **Term frequency** - How often query terms appear in result
+- **Inverse document frequency** - Rare terms ranked higher
+- **Field length normalization** - Shorter fields preferred
+
+### Regex Matching
+
+- **Fallback** - When BM25 finds no results
+- **Partial matching** - Matches substrings
+- **Case-insensitive** - "Glassmorphism" = "glassmorphism"
+
+### Keyword Extraction
+
+**Stop words removed:**
+- Articles: a, an, the
+- Prepositions: in, on, at, to, for
+- Conjunctions: and, or, but
+
+**Example:**
+```
+Query: "Build a landing page for a SaaS dashboard"
+Extracted: "landing page saas dashboard"
+```
+
+## JSON Output
+
+Get machine-readable JSON output:
+
+```bash
+python3 .shared/ui-ux-pro-max/scripts/search.py "minimalism" --domain style --json
+```
+
+**Output:**
+```json
+{
+  "domain": "style",
+  "query": "minimalism",
+  "file": "styles.csv",
+  "count": 3,
+  "results": [
+    {
+      "No": "1",
+      "Style_Name": "Minimalism & Swiss Style",
+      "Description": "Clean, functional design with emphasis on typography and whitespace",
+      "Visual_Keywords": "clean lines, generous whitespace, grid systems, sans-serif typography",
+      "Performance": "Excellent",
+      "Accessibility": "WCAG AAA",
+      "Best_For": "Enterprise apps, dashboards, documentation"
+    }
+  ]
+}
+```
+
+## Common Search Patterns
+
+### Find Style + Color + Typography
+
+```bash
+# 1. Get style recommendations
+python3 .shared/ui-ux-pro-max/scripts/search.py "glassmorphism modern" --domain style
+
+# 2. Get matching color palette
+python3 .shared/ui-ux-pro-max/scripts/search.py "saas trust blue" --domain color
+
+# 3. Get typography pairing
+python3 .shared/ui-ux-pro-max/scripts/search.py "modern geometric" --domain typography
+```
+
+### Validate UX Best Practices
+
+```bash
+# Check animation guidelines
+python3 .shared/ui-ux-pro-max/scripts/search.py "animation duration" --domain ux
+
+# Check z-index management
+python3 .shared/ui-ux-pro-max/scripts/search.py "z-index modal" --domain ux
+
+# Check accessibility
+python3 .shared/ui-ux-pro-max/scripts/search.py "color contrast accessibility" --domain ux
+```
+
+### Dashboard Design
+
+```bash
+# Get chart recommendations
+python3 .shared/ui-ux-pro-max/scripts/search.py "real-time dashboard" --domain chart -n 5
+
+# Get dashboard color palette
+python3 .shared/ui-ux-pro-max/scripts/search.py "analytics dashboard" --domain color
+
+# Get UX guidelines for data viz
+python3 .shared/ui-ux-pro-max/scripts/search.py "data visualization" --domain ux
+```
+
+## When to Use Domain Search
+
+<Tip>
+  **Use design system generation first**, then supplement with domain searches for:
+  - Alternative style options
+  - Additional color palettes
+  - Chart type selection
+  - UX validation
+  - React performance checks
+</Tip>
+
+<Warning>
+  **Don't use domain search for open-ended exploration**. The Task tool or doc-reader skill is better for exploratory searches that may require multiple rounds.
+</Warning>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Stack Guidelines" icon="layer-group" href="/guides/stack-guidelines">
+    Get implementation-specific best practices for your tech stack
+  </Card>
+  <Card title="Persist Design System" icon="floppy-disk" href="/guides/persist-design-system">
+    Save design systems for hierarchical retrieval across sessions
+  </Card>
+</CardGroup>

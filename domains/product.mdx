@@ -1,0 +1,192 @@
+---
+title: "Product Domain"
+description: "Product type recommendations and style matching for different industries"
+---
+
+## Overview
+
+The **product domain** helps you find the right design direction for your product type. It maps product categories to recommended styles, color palettes, and landing page patterns.
+
+**Database:** `products.csv` (20+ product types)  
+**Search columns:** Product Type, Keywords, Primary Style Recommendation, Key Considerations  
+**Output columns:** All product details including styles, colors, and dashboard types
+
+## When to Use
+
+- Starting a new project and need design direction
+- Choosing between multiple style options
+- Understanding industry-specific design patterns
+- Matching styles to product categories
+
+## Search Examples
+
+### Example 1: SaaS Application
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "saas b2b cloud" --domain product
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "product",
+  "results": [
+    {
+      "Product Type": "SaaS (General)",
+      "Keywords": "app, b2b, cloud, general, saas, software, subscription",
+      "Primary Style Recommendation": "Glassmorphism + Flat Design",
+      "Secondary Styles": "Soft UI Evolution, Minimalism",
+      "Landing Page Pattern": "Hero + Features + CTA",
+      "Dashboard Style (if applicable)": "Data-Dense + Real-Time Monitoring",
+      "Color Palette Focus": "Trust blue + accent contrast",
+      "Key Considerations": "Balance modern feel with clarity. Focus on CTAs."
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 2: E-commerce Store
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "ecommerce store shop retail" --domain product
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "product",
+  "results": [
+    {
+      "Product Type": "E-commerce",
+      "Keywords": "buy, commerce, e, ecommerce, products, retail, sell, shop, store",
+      "Primary Style Recommendation": "Vibrant & Block-based",
+      "Secondary Styles": "Aurora UI, Motion-Driven",
+      "Landing Page Pattern": "Feature-Rich Showcase",
+      "Dashboard Style (if applicable)": "Sales Intelligence Dashboard",
+      "Color Palette Focus": "Brand primary + success green",
+      "Key Considerations": "Engagement & conversions. High visual hierarchy."
+    }
+  ]
+}
+```
+</Accordion>
+
+### Example 3: Healthcare Application
+
+```bash
+python3 skills/ui-ux-pro-max/scripts/search.py "healthcare medical patient clinic" --domain product
+```
+
+<Accordion title="Expected Output">
+```json
+{
+  "domain": "product",
+  "results": [
+    {
+      "Product Type": "Healthcare App",
+      "Keywords": "app, clinic, health, healthcare, medical, patient",
+      "Primary Style Recommendation": "Neumorphism + Accessible & Ethical",
+      "Secondary Styles": "Soft UI Evolution, Claymorphism (for patients)",
+      "Landing Page Pattern": "Social Proof-Focused",
+      "Dashboard Style (if applicable)": "User Behavior Analytics",
+      "Color Palette Focus": "Calm blue + health green + trust",
+      "Key Considerations": "Accessibility mandatory. Calming aesthetic."
+    }
+  ]
+}
+```
+</Accordion>
+
+## CSV Structure
+
+| Column | Description | Example |
+|--------|-------------|----------|
+| `No` | Row number | 1 |
+| `Product Type` | Category name | "SaaS (General)" |
+| `Keywords` | Search terms | "app, b2b, cloud, saas" |
+| `Primary Style Recommendation` | Main style | "Glassmorphism + Flat Design" |
+| `Secondary Styles` | Alternative styles | "Soft UI Evolution, Minimalism" |
+| `Landing Page Pattern` | Page structure | "Hero + Features + CTA" |
+| `Dashboard Style (if applicable)` | If product has dashboard | "Data-Dense + Real-Time Monitoring" |
+| `Color Palette Focus` | Color strategy | "Trust blue + accent contrast" |
+| `Key Considerations` | Design priorities | "Balance modern feel with clarity" |
+
+## Product Categories
+
+<Accordion title="All 20+ Product Types">
+
+| Product Type | Primary Style | Use Case |
+|--------------|---------------|----------|
+| SaaS (General) | Glassmorphism + Flat Design | General B2B software |
+| Micro SaaS | Flat Design + Vibrant & Block | Indie/solo SaaS |
+| E-commerce | Vibrant & Block-based | Online retail |
+| E-commerce Luxury | Liquid Glass + Glassmorphism | High-end retail |
+| Service Landing Page | Hero-Centric + Trust & Authority | Service businesses |
+| B2B Service | Trust & Authority + Minimal | Enterprise services |
+| Financial Dashboard | Dark Mode (OLED) + Data-Dense | Finance/trading apps |
+| Analytics Dashboard | Data-Dense + Heat Map | Analytics platforms |
+| Healthcare App | Neumorphism + Accessible & Ethical | Medical/health apps |
+| Fintech | Dark Mode (OLED) + Glassmorphism | Financial technology |
+| Gaming | 3D & Hyperrealism + Motion-Driven | Games/entertainment |
+| Portfolio | Minimal + Motion-Driven | Creative portfolios |
+| Education | Claymorphism + Accessible | Learning platforms |
+| Crypto/Web3 | Glassmorphism + Aurora UI | Blockchain apps |
+
+</Accordion>
+
+## Integration with Other Domains
+
+The product domain provides recommendations that link to other domains:
+
+```bash
+# 1. Get product recommendation
+python3 skills/ui-ux-pro-max/scripts/search.py "saas" --domain product
+# Returns: Primary Style = "Glassmorphism + Flat Design"
+
+# 2. Get style implementation details
+python3 skills/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+# Returns: CSS implementation, AI prompts, design system variables
+
+# 3. Get color palette
+python3 skills/ui-ux-pro-max/scripts/search.py "saas" --domain color
+# Returns: Trust blue (#2563EB) + orange CTA (#F97316)
+
+# 4. Get typography
+python3 skills/ui-ux-pro-max/scripts/search.py "modern professional" --domain typography
+# Returns: Poppins + Open Sans
+```
+
+## Tips for Better Results
+
+<CardGroup cols={2}>
+  <Card title="Be Specific" icon="bullseye">
+    Use industry-specific terms: "healthcare saas" > "app"
+  </Card>
+  <Card title="Combine Keywords" icon="layer-group">
+    Mix product type + industry: "ecommerce luxury fashion"
+  </Card>
+  <Card title="Include Context" icon="file-lines">
+    Add usage context: "saas dashboard analytics"
+  </Card>
+  <Card title="Try Variations" icon="arrows-rotate">
+    If no match, try different keywords: "b2b" vs "enterprise"
+  </Card>
+</CardGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Explore Styles" href="/domains/style">
+    Get implementation details for recommended styles
+  </Card>
+  <Card title="Choose Colors" href="/domains/color">
+    Find color palettes for your product type
+  </Card>
+  <Card title="Landing Patterns" href="/domains/landing">
+    Learn landing page structures
+  </Card>
+  <Card title="Typography" href="/domains/typography">
+    Select font pairings
+  </Card>
+</CardGroup>

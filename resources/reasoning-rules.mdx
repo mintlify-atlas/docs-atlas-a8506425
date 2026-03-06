@@ -1,0 +1,640 @@
+---
+title: "Reasoning Rules Reference"
+description: "100 industry-specific design system generation rules with patterns, styles, and anti-patterns"
+---
+
+# Reasoning Rules Reference
+
+UI/UX Pro Max includes **100 industry-specific reasoning rules** that power the intelligent design system generator. Each rule provides tailored recommendations based on product type, user behavior, and conversion goals.
+
+## How Reasoning Rules Work
+
+The reasoning engine analyzes your project and applies rules to generate a complete design system:
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│  1. USER REQUEST                                                │
+│     "Build a landing page for my beauty spa"                    │
+└─────────────────────────────────────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  2. MULTI-DOMAIN SEARCH (5 parallel searches)                   │
+│     • Product type matching (100 categories)                    │
+│     • Style recommendations (67 styles)                         │
+│     • Color palette selection (96 palettes)                     │
+│     • Landing page patterns (24 patterns)                       │
+│     • Typography pairing (57 font combinations)                 │
+└─────────────────────────────────────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  3. REASONING ENGINE                                            │
+│     • Match product → UI category rules                         │
+│     • Apply style priorities (BM25 ranking)                     │
+│     • Filter anti-patterns for industry                         │
+│     • Process decision rules (JSON conditions)                  │
+└─────────────────────────────────────────────────────────────────┘
+                               │
+                               ▼
+┌─────────────────────────────────────────────────────────────────┐
+│  4. COMPLETE DESIGN SYSTEM OUTPUT                               │
+│     Pattern + Style + Colors + Typography + Effects             │
+│     + Anti-patterns to avoid + Pre-delivery checklist           │
+└─────────────────────────────────────────────────────────────────┘
+```
+
+## Rule Structure
+
+Each rule includes:
+- **UI Category** - Product/industry type
+- **Recommended Pattern** - Landing page structure
+- **Style Priority** - Best matching UI styles (ranked)
+- **Color Mood** - Industry-appropriate color palette themes
+- **Typography Mood** - Font personality matching
+- **Key Effects** - Animations and interactions
+- **Decision Rules** - JSON conditions for dynamic adaptation
+- **Anti-Patterns** - What NOT to do (critical for quality)
+- **Severity** - HIGH (critical) or MEDIUM (recommended)
+
+## Rule Categories
+
+<CardGroup cols={3}>
+  <Card title="Tech & SaaS" icon="code" href="#tech-saas-rules">
+    15 rules for software products
+  </Card>
+  <Card title="Finance" icon="dollar-sign" href="#finance-rules">
+    10 rules for financial services
+  </Card>
+  <Card title="Healthcare" icon="heart-pulse" href="#healthcare-rules">
+    8 rules for medical and wellness
+  </Card>
+  <Card title="E-commerce" icon="cart-shopping" href="#ecommerce-rules">
+    12 rules for retail and shopping
+  </Card>
+  <Card title="Services" icon="briefcase" href="#service-rules">
+    20 rules for service businesses
+  </Card>
+  <Card title="Creative" icon="palette" href="#creative-rules">
+    10 rules for creative industries
+  </Card>
+</CardGroup>
+
+## Tech & SaaS Rules
+
+<Accordion title="1. SaaS (General) - HIGH Severity">
+
+### Recommended Pattern
+**Hero + Features + CTA**
+
+### Style Priority
+1. Glassmorphism
+2. Flat Design
+3. Soft UI Evolution
+4. Minimalism & Swiss Style
+
+### Color Mood
+Trust blue + Accent contrast
+
+**Palette Reference:** #2563EB (Primary), #F97316 (CTA)
+
+### Typography Mood
+Professional + Clear hierarchy
+
+**Font Pairings:**
+- Modern Professional (Poppins + Open Sans)
+- Tech Startup (Space Grotesk + DM Sans)
+- Minimal Swiss (Inter)
+
+### Key Effects
+- Subtle hover (200-250ms)
+- Smooth transitions
+- Card elevation on hover
+- Scroll-triggered fade-in
+
+### Decision Rules
+```json
+{
+  "if_ux_focused": "prioritize-minimalism",
+  "if_data_heavy": "add-glassmorphism",
+  "if_enterprise": "increase-trust-elements",
+  "if_consumer": "add-playful-micro-interactions"
+}
+```
+
+### Anti-Patterns (What NOT to do)
+- ❌ Excessive animation (distracting)
+- ❌ Dark mode by default (reduces trust for new users)
+- ❌ AI purple/pink gradients (overused, reduces credibility)
+- ❌ Brutalism (too unconventional for SaaS)
+
+### Pre-Delivery Checklist
+- ☐ Trust indicators visible (security badges, testimonials)
+- ☐ CTA above fold with high contrast
+- ☐ Feature section grid-based (3-4 columns)
+- ☐ Hover states smooth (200-250ms)
+- ☐ Mobile responsive breakpoints tested
+
+</Accordion>
+
+<Accordion title="2. Micro SaaS - HIGH Severity">
+
+### Recommended Pattern
+**Minimal & Direct + Interactive Demo**
+
+### Style Priority
+1. Flat Design
+2. Vibrant & Block-based
+3. Neubrutalism
+4. Minimalism
+
+### Color Mood
+Vibrant primary + White space
+
+**Palette Reference:** #6366F1 (Indigo), #10B981 (Emerald CTA)
+
+### Typography Mood
+Bold + Clean typography
+
+**Font Pairings:**
+- Friendly SaaS (Plus Jakarta Sans)
+- Modern Professional (Poppins + Open Sans)
+- Geometric Modern (Outfit + Work Sans)
+
+### Key Effects
+- Large CTA hover (300ms)
+- Scroll reveal animations
+- Demo video/GIF autoplay
+- Interactive prototype embed
+
+### Decision Rules
+```json
+{
+  "if_quick_onboarding": "reduce-steps-to-signup",
+  "if_demo_available": "feature-interactive-demo-prominently",
+  "if_free_plan": "highlight-no-credit-card-required"
+}
+```
+
+### Anti-Patterns
+- ❌ Complex onboarding flow (reduces conversion)
+- ❌ Cluttered layout (dilutes message)
+- ❌ Feature overload (causes decision paralysis)
+- ❌ No demo/screenshot (reduces trust)
+
+</Accordion>
+
+<Accordion title="More Tech & SaaS Rules (15 total)">
+
+**3. B2B Service** - Professional navy, trust-focused, conversion-optimized  
+**4. Analytics Dashboard** - Data-dense, glassmorphism, chart-heavy  
+**5. Design System/Component Library** - Documentation-first, code examples  
+**6. AI/Chatbot Platform** - AI-native UI, conversational patterns  
+**7. Developer Tool / IDE** - Dark mode default, syntax highlighting  
+**8. Cybersecurity Platform** - Security-first, trust badges, dark theme  
+**9. Productivity Tool** - Minimal friction, feature showcase  
+**10. Remote Work/Collaboration** - Social proof, team-focused  
+**11. Knowledge Base/Documentation** - Editorial grid, searchable  
+**12. Creator Economy Platform** - Vibrant, creator-first  
+**13. NFT/Web3 Platform** - Futuristic, wallet integration  
+**14. Generative AI Art** - Gallery-style, creative showcase  
+**15. Spatial / Vision OS** - Glassmorphism, depth layers
+
+Generate design system:
+```bash
+python3 scripts/search.py "SaaS analytics" --design-system
+```
+
+</Accordion>
+
+## Finance Rules
+
+<Accordion title="6. Fintech/Crypto - HIGH Severity">
+
+### Recommended Pattern
+**Conversion-Optimized + Real-Time Data**
+
+### Style Priority
+1. Glassmorphism
+2. Dark Mode (OLED)
+3. Real-Time Monitoring Dashboard
+4. Minimalism
+
+### Color Mood
+Dark tech colors + Vibrant accents
+
+**Palette Reference:** #F59E0B (Gold), #8B5CF6 (Purple), #0F172A (Dark BG)
+
+### Typography Mood
+Modern + Confident typography
+
+**Font Pairings:**
+- Financial Trust (IBM Plex Sans)
+- Tech Startup (Space Grotesk + DM Sans)
+- Crypto/Web3 (Orbitron + Exo 2)
+
+### Key Effects
+- Real-time chart animations
+- Alert pulse/glow for price changes
+- Smooth number transitions (count-up)
+- Live status indicators
+
+### Decision Rules
+```json
+{
+  "must_have": "security-badges-visible",
+  "must_have": "ssl-indicators",
+  "if_real_time": "add-streaming-data-visualization",
+  "if_trading": "emphasize-speed-metrics",
+  "if_wallet": "prominent-security-features"
+}
+```
+
+### Anti-Patterns
+- ❌ Light backgrounds (reduces perceived security)
+- ❌ No security indicators (critical trust issue)
+- ❌ Playful colors/fonts (unprofessional)
+- ❌ Slow data updates (frustrates traders)
+- ❌ AI purple/pink gradients (looks gimmicky)
+
+### Pre-Delivery Checklist
+- ☐ Security badges prominently displayed
+- ☐ Real-time data updates working
+- ☐ Dark mode optimized for OLED
+- ☐ Price alerts functional
+- ☐ Transaction confirmations clear
+- ☐ Regulatory disclaimers present
+
+</Accordion>
+
+<Accordion title="More Finance Rules (10 total)">
+
+**7. Financial Dashboard** - Executive dashboard, KPI-focused  
+**8. Banking/Traditional Finance** - Trust & authority, conservative  
+**9. Insurance Platform** - Security-focused, claim process clear  
+**10. Trading Dashboard** - Real-time monitoring, data-dense  
+**11. Investment Platform** - Portfolio visualization, trust signals  
+**12. Payment Gateway** - Conversion-optimized, security badges  
+**13. Personal Finance App** - Friendly, budget visualization  
+**14. Lending Platform** - Calculator prominent, trust-focused  
+**15. Accounting Software** - Data-dense dashboard, report generation
+
+</Accordion>
+
+## Healthcare Rules
+
+<Accordion title="5. Healthcare App - HIGH Severity">
+
+### Recommended Pattern
+**Social Proof-Focused + Trust & Authority**
+
+### Style Priority
+1. Neumorphism
+2. Accessible & Ethical
+3. Soft UI Evolution
+4. Minimalism
+
+### Color Mood
+Calm blue + Health green
+
+**Palette Reference:** #0891B2 (Cyan), #059669 (Green), #ECFEFF (BG)
+
+### Typography Mood
+Readable + Large type (16px+ minimum)
+
+**Font Pairings:**
+- Medical Clean (Figtree + Noto Sans)
+- Wellness Calm (Lora + Raleway)
+- Accessibility First (Atkinson Hyperlegible)
+
+### Key Effects
+- Soft box-shadow (neumorphic)
+- Smooth press (150ms)
+- Gentle transitions
+- No jarring animations
+
+### Decision Rules
+```json
+{
+  "must_have": "wcag-aaa-compliance",
+  "must_have": "large-touch-targets-44px",
+  "if_medication": "use-red-alert-colors-carefully",
+  "if_telehealth": "emphasize-video-quality",
+  "if_elderly": "increase-font-sizes-18px-min"
+}
+```
+
+### Anti-Patterns
+- ❌ Bright neon colors (anxiety-inducing)
+- ❌ Motion-heavy animations (causes nausea)
+- ❌ AI purple/pink gradients (unprofessional)
+- ❌ Low contrast (accessibility violation)
+- ❌ Small text (< 16px)
+- ❌ Color-only indicators (not accessible)
+
+### Critical Requirements
+- ✓ WCAG AAA compliance (7:1 contrast)
+- ✓ Keyboard navigation fully functional
+- ✓ Screen reader tested
+- ✓ Touch targets 44x44px minimum
+- ✓ No color-only indicators (use icons + color)
+- ✓ Emergency contact prominent
+
+</Accordion>
+
+## E-commerce Rules
+
+<Accordion title="3. E-commerce (General) - HIGH Severity">
+
+### Recommended Pattern
+**Feature-Rich Showcase + Social Proof**
+
+### Style Priority
+1. Vibrant & Block-based
+2. Bento Box Grid
+3. 3D Product Preview
+4. Card hover effects
+
+### Color Mood
+Brand primary + Success green
+
+**Palette Reference:** #059669 (Green), #F97316 (Orange CTA)
+
+### Typography Mood
+Engaging + Clear hierarchy
+
+**Font Pairings:**
+- E-commerce Clean (Rubik + Nunito Sans)
+- Modern Professional (Poppins + Open Sans)
+- Classic Elegant (Playfair Display + Inter) - for luxury
+
+### Key Effects
+- Card hover lift (200ms)
+- Scale effect on product images
+- Quick-view modal
+- Add-to-cart animation
+
+### Decision Rules
+```json
+{
+  "if_luxury": "switch-to-liquid-glass-style",
+  "if_conversion_focused": "add-urgency-colors-timer",
+  "if_marketplace": "add-seller-badges",
+  "if_subscription": "highlight-recurring-savings"
+}
+```
+
+### Anti-Patterns
+- ❌ Flat design without depth (products look less appealing)
+- ❌ Text-heavy product pages (use bullets + images)
+- ❌ No product reviews (reduces trust)
+- ❌ Hidden shipping costs (cart abandonment)
+- ❌ Complex checkout (friction increases)
+
+### Conversion Checklist
+- ☐ Product images high quality (multiple angles)
+- ☐ Add to cart button prominent (sticky on scroll)
+- ☐ Trust badges visible (secure checkout, returns)
+- ☐ Product reviews/ratings above fold
+- ☐ Urgency indicators (low stock, limited time)
+- ☐ Free shipping threshold clear
+
+</Accordion>
+
+<Accordion title="4. E-commerce Luxury - HIGH Severity">
+
+### Recommended Pattern
+**Feature-Rich Showcase + Storytelling**
+
+### Style Priority
+1. Liquid Glass
+2. Glassmorphism
+3. 3D & Hyperrealism
+4. Luxury Minimalist
+
+### Color Mood
+Premium colors + Minimal accent
+
+**Palette Reference:** #1C1917 (Black), #CA8A04 (Gold)
+
+### Typography Mood
+Elegant + Refined typography
+
+**Font Pairings:**
+- Classic Elegant (Playfair Display + Inter)
+- Luxury Serif (Cormorant + Montserrat)
+- Luxury Minimalist (Bodoni Moda + Jost)
+
+### Key Effects
+- Chromatic aberration
+- Fluid animations (400-600ms)
+- 3D product rotation
+- Parallax storytelling
+
+### Decision Rules
+```json
+{
+  "if_checkout": "emphasize-trust-security-luxury",
+  "if_hero_needed": "use-3d-hyperrealism-product",
+  "must_have": "premium-imagery-high-res"
+}
+```
+
+### Anti-Patterns
+- ❌ Vibrant & Block-based (too casual)
+- ❌ Playful colors (unprofessional)
+- ❌ Cluttered layout (reduces premium feel)
+- ❌ Low-quality images (destroys credibility)
+
+</Accordion>
+
+## Service Business Rules
+
+<Accordion title="Beauty/Spa/Wellness - MEDIUM Severity">
+
+### Recommended Pattern
+**Hero-Centric + Social Proof**
+
+### Style Priority
+1. Soft UI Evolution
+2. Neumorphism
+3. Organic Biophilic
+4. Wellness Calm
+
+### Color Mood
+Soft pink + Lavender luxury
+
+**Palette Reference:** #EC4899 (Pink), #8B5CF6 (Lavender), #FDF2F8 (BG)
+
+### Typography Mood
+Calm + Elegant
+
+**Font Pairings:**
+- Classic Elegant (Playfair Display + Inter)
+- Wellness Calm (Lora + Raleway)
+- Luxury Serif (Cormorant + Montserrat)
+
+### Key Effects
+- Soft shadows
+- Smooth transitions (200-300ms)
+- Gentle hover states
+- Organic shapes
+
+### Decision Rules
+```json
+{
+  "if_booking": "add-calendar-integration-prominent",
+  "if_membership": "highlight-recurring-benefits",
+  "must_have": "testimonials-with-photos"
+}
+```
+
+### Anti-Patterns
+- ❌ Bright neon colors (not calming)
+- ❌ Harsh animations (breaks relaxation theme)
+- ❌ Dark mode default (spa = light and airy)
+- ❌ AI purple/pink gradients (overused, gimmicky)
+
+</Accordion>
+
+## Using Reasoning Rules
+
+### Generate Design System
+
+The reasoning engine uses these rules automatically:
+
+```bash
+# Generate complete design system
+python3 scripts/search.py "beauty spa wellness" --design-system -p "Serenity Spa"
+
+# Output format options
+python3 scripts/search.py "fintech crypto" --design-system -f markdown
+python3 scripts/search.py "healthcare app" --design-system -f ascii
+```
+
+### Example Output
+
+```
++----------------------------------------------------------------------------------------+
+|  TARGET: Serenity Spa - RECOMMENDED DESIGN SYSTEM                                      |
++----------------------------------------------------------------------------------------+
+|  PATTERN: Hero-Centric + Social Proof                                                  |
+|     Conversion: Emotion-driven with trust elements                                     |
+|                                                                                        |
+|  STYLE: Soft UI Evolution                                                              |
+|     Keywords: Soft shadows, subtle depth, calming, premium feel                        |
+|                                                                                        |
+|  COLORS:                                                                               |
+|     Primary:    #E8B4B8 (Soft Pink)                                                    |
+|     Secondary:  #A8D5BA (Sage Green)                                                   |
+|     CTA:        #D4AF37 (Gold)                                                         |
+|                                                                                        |
+|  TYPOGRAPHY: Cormorant Garamond / Montserrat                                           |
+|     Mood: Elegant, calming, sophisticated                                              |
+|                                                                                        |
+|  AVOID (Anti-patterns):                                                                |
+|     Bright neon colors + Harsh animations + Dark mode + AI gradients                   |
++----------------------------------------------------------------------------------------+
+```
+
+### Persist to Design System Files
+
+Save for cross-session retrieval:
+
+```bash
+# Create MASTER.md and page-specific overrides
+python3 scripts/search.py "SaaS dashboard" --design-system --persist -p "MyApp"
+
+# Create page-specific override
+python3 scripts/search.py "checkout flow" --design-system --persist -p "MyApp" --page "checkout"
+```
+
+Creates:
+```
+design-system/
+├── MASTER.md           # Global design system
+└── pages/
+    ├── dashboard.md    # Dashboard overrides
+    └── checkout.md     # Checkout overrides
+```
+
+### Hierarchical Retrieval
+
+1. Check if page-specific file exists (e.g., `pages/checkout.md`)
+2. If yes, page rules **override** MASTER.md
+3. If no, use MASTER.md exclusively
+
+## Rule Severity Levels
+
+### HIGH Severity
+Critical rules that significantly impact:
+- User trust and credibility
+- Conversion rates
+- Accessibility compliance
+- Legal/regulatory requirements
+- User safety (healthcare, finance)
+
+**Examples:**
+- Healthcare: WCAG AAA required
+- Finance: Security badges mandatory
+- E-commerce: Trust indicators critical
+
+### MEDIUM Severity
+Recommended best practices that improve:
+- User experience quality
+- Visual consistency
+- Brand perception
+- Engagement metrics
+
+**Examples:**
+- Portfolio: Motion-driven design preferred
+- Education: Playful colors recommended
+- Services: Social proof helpful
+
+## Anti-Pattern Reference
+
+Common mistakes to avoid by category:
+
+### Universal Anti-Patterns
+- AI purple/pink gradients (overused, reduces credibility)
+- Excessive animation (distracting, causes motion sickness)
+- Low contrast text (accessibility violation)
+- No mobile optimization (50%+ traffic is mobile)
+
+### Industry-Specific Anti-Patterns
+
+**Finance/Banking:**
+- Light backgrounds (reduces security perception)
+- Playful fonts/colors (unprofessional)
+- No security badges (critical trust issue)
+
+**Healthcare:**
+- Bright neon colors (anxiety-inducing)
+- Motion-heavy animations (causes nausea)
+- Small text < 16px (accessibility violation)
+
+**E-commerce:**
+- Hidden shipping costs (cart abandonment)
+- No product reviews (reduces trust)
+- Complex checkout (increases friction)
+
+**SaaS:**
+- Dark mode by default (reduces trust for new visitors)
+- Brutalism (too unconventional)
+- Feature overload (decision paralysis)
+
+## Search Reasoning Rules
+
+```bash
+# Find rules for your industry
+python3 scripts/search.py "healthcare accessibility" --domain product
+python3 scripts/search.py "fintech security" --domain product
+python3 scripts/search.py "ecommerce luxury" --domain product
+```
+
+## Related Resources
+
+- [UI Styles](/resources/styles) - 67 styles referenced in rules
+- [Color Palettes](/resources/color-palettes) - 96 palettes for color mood matching
+- [Font Pairings](/resources/font-pairings) - 57 pairings for typography mood
+- [Tech Stacks](/resources/tech-stacks) - Implementation guidelines per framework

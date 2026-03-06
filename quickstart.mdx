@@ -1,80 +1,402 @@
 ---
-title: "Quickstart"
-description: "Start building awesome documentation in minutes"
+title: Quickstart
+description: Generate your first design system in minutes
 ---
 
-## Get started in three steps
+## Overview
 
-Get your documentation site running locally and make your first customization.
-
-### Step 1: Set up your local environment
-
-<AccordionGroup>
-  <Accordion icon="copy" title="Clone your docs locally">
-    During the onboarding process, you created a GitHub repository with your docs content if you didn't already have one. You can find a link to this repository in your [dashboard](https://dashboard.mintlify.com).
-    
-    To clone the repository locally so that you can make and preview changes to your docs, follow the [Cloning a repository](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository) guide in the GitHub docs.
-  </Accordion>
-  <Accordion icon="rectangle-terminal" title="Start the preview server">
-    1. Install the Mintlify CLI: `npm i -g mint`
-    2. Navigate to your docs directory and run: `mint dev`
-    3. Open `http://localhost:3000` to see your docs live!
-    
-    <Tip>Your preview updates automatically as you edit files.</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 2: Deploy your changes
-
-<AccordionGroup>
-  <Accordion icon="github" title="Install our GitHub app">
-    Install the Mintlify GitHub app from your [dashboard](https://dashboard.mintlify.com/settings/organization/github-app).
-    
-    Our GitHub app automatically deploys your changes to your docs site, so you don't need to manage deployments yourself.
-</Accordion>
-<Accordion icon="palette" title="Update your site name and colors">
-    For a first change, let's update the name and colors of your docs site.
-
-    1. Open `docs.json` in your editor.
-    2. Change the `"name"` field to your project name.
-    3. Update the `"colors"` to match your brand.
-    4. Save and see your changes instantly at `http://localhost:3000`.
-
-    <Tip>Try changing the primary color to see an immediate difference!</Tip>
-  </Accordion>
-</AccordionGroup>
-
-### Step 3: Go live
-
-<Accordion icon="rocket" title="Publish your docs">
-  1. Commit and push your changes.
-  2. Your docs will update and be live in moments!
-</Accordion>
-
-## Next steps
-
-Now that you have your docs running, explore these key features:
-
-<CardGroup cols={2}>
-
-<Card title="Write Content" icon="pen-to-square" href="/essentials/markdown">
-  Learn MDX syntax and start writing your documentation.
-</Card>
-
-<Card title="Customize style" icon="palette" href="/essentials/settings">
-  Make your docs match your brand perfectly.
-</Card>
-
-<Card title="Add code examples" icon="square-code" href="/essentials/code">
-  Include syntax-highlighted code blocks.
-</Card>
-
-<Card title="API documentation" icon="code" href="/api-reference/introduction">
-  Auto-generate API docs from OpenAPI specs.
-</Card>
-
-</CardGroup>
+This guide walks you through creating a complete design system for a beauty spa landing page using UI/UX Pro Max.
 
 <Note>
-  **Need help?** See our [full documentation](https://mintlify.com/docs) or join our [community](https://mintlify.com/community).
+  UI/UX Pro Max uses an intelligent reasoning engine that analyzes 100+ industry-specific rules across 67 styles, 96 color palettes, and 57 font pairings to generate tailored design systems.
 </Note>
+
+## Generate Your First Design System
+
+<Steps>
+  <Step title="Describe Your Project">
+    Start by describing what you're building. The AI will extract:
+    - Product type (SaaS, e-commerce, portfolio, etc.)
+    - Industry (healthcare, fintech, beauty, etc.)
+    - Style keywords (minimal, elegant, playful, etc.)
+
+    Example prompt:
+    ```
+    Build a landing page for my beauty spa called Serenity Spa
+    ```
+  </Step>
+
+  <Step title="AI Generates Design System">
+    The skill automatically runs the design system generator:
+
+    ```bash
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+      "beauty spa wellness service" \
+      --design-system \
+      -p "Serenity Spa"
+    ```
+
+    This searches 5 domains in parallel:
+    - Product type matching (100 categories)
+    - Style recommendations (67 styles)
+    - Color palette selection (96 palettes)
+    - Landing page patterns (24 patterns)
+    - Typography pairing (57 combinations)
+  </Step>
+
+  <Step title="Review Complete Design System">
+    You'll receive a comprehensive design system:
+
+    ```
+    +------------------------------------------------------------------------------+
+    |  TARGET: Serenity Spa - RECOMMENDED DESIGN SYSTEM                            |
+    +------------------------------------------------------------------------------+
+    |
+    |  PATTERN: Hero-Centric + Social Proof
+    |     Conversion: Emotion-driven with trust elements
+    |     CTA: Above fold, repeated after testimonials
+    |     Sections:
+    |       1. Hero
+    |       2. Services
+    |       3. Testimonials
+    |       4. Booking
+    |       5. Contact
+    |
+    |  STYLE: Soft UI Evolution
+    |     Keywords: Soft shadows, subtle depth, calming, premium feel
+    |     Best For: Wellness, beauty, lifestyle brands, premium services
+    |     Performance: Excellent | Accessibility: WCAG AA
+    |
+    |  COLORS:
+    |     Primary:    #E8B4B8 (Soft Pink)
+    |     Secondary:  #A8D5BA (Sage Green)
+    |     CTA:        #D4AF37 (Gold)
+    |     Background: #FFF5F5 (Warm White)
+    |     Text:       #2D3436 (Charcoal)
+    |
+    |  TYPOGRAPHY: Cormorant Garamond / Montserrat
+    |     Mood: Elegant, calming, sophisticated
+    |     Google Fonts: https://fonts.google.com/share?selection.family=...
+    |
+    |  KEY EFFECTS:
+    |     Soft shadows + Smooth transitions (200-300ms) + Gentle hover states
+    |
+    |  AVOID (Anti-patterns):
+    |     Bright neon colors + Harsh animations + Dark mode
+    |
+    +------------------------------------------------------------------------------+
+    ```
+  </Step>
+
+  <Step title="AI Implements the Design">
+    The AI uses the design system to generate production-ready code with:
+    - Exact color values from the palette
+    - Google Fonts imports for typography
+    - Proper spacing and layout
+    - Accessibility best practices
+    - Responsive design (375px, 768px, 1024px, 1440px)
+  </Step>
+</Steps>
+
+## Persist Design System (Master + Overrides)
+
+For larger projects, persist the design system to files for reuse across sessions:
+
+<Steps>
+  <Step title="Generate and Save Master File">
+    ```bash
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+      "SaaS dashboard analytics" \
+      --design-system \
+      --persist \
+      -p "MyApp"
+    ```
+
+    Creates:
+    ```
+    design-system/
+    └── myapp/
+        └── MASTER.md  # Global Source of Truth
+    ```
+  </Step>
+
+  <Step title="Create Page-Specific Overrides">
+    For pages that need different styles:
+
+    ```bash
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+      "e-commerce checkout payment" \
+      --design-system \
+      --persist \
+      -p "MyApp" \
+      --page "checkout"
+    ```
+
+    Creates:
+    ```
+    design-system/
+    └── myapp/
+        ├── MASTER.md
+        └── pages/
+            └── checkout.md  # Page-specific overrides
+    ```
+  </Step>
+
+  <Step title="Use Hierarchical Retrieval">
+    When building a specific page:
+
+    ```
+    I am building the Checkout page. 
+    Please read design-system/myapp/MASTER.md.
+    Also check if design-system/myapp/pages/checkout.md exists.
+    If the page file exists, prioritize its rules.
+    If not, use the Master rules exclusively.
+    ```
+
+    The AI will:
+    1. Check for `pages/checkout.md` (overrides)
+    2. Fall back to `MASTER.md` (global rules)
+    3. Apply the combined design system
+  </Step>
+</Steps>
+
+## Example Workflows
+
+### SaaS Landing Page
+
+<CodeGroup>
+  ```bash Design System Generation
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "SaaS project management collaboration" \
+    --design-system \
+    -p "TaskFlow"
+  ```
+
+  ```bash Stack-Specific Guidelines
+  # Get React best practices
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "form validation state management" \
+    --stack react
+  ```
+
+  ```bash UX Guidelines
+  # Check accessibility and animation best practices
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "accessibility animation reduced-motion" \
+    --domain ux
+  ```
+</CodeGroup>
+
+### E-commerce Product Page
+
+<CodeGroup>
+  ```bash Design System
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "e-commerce luxury fashion" \
+    --design-system \
+    -p "LuxeStore"
+  ```
+
+  ```bash Alternative Typography
+  # Explore other elegant font options
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "elegant luxury serif" \
+    --domain typography \
+    -n 5
+  ```
+
+  ```bash Chart Types (for Analytics Dashboard)
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "sales revenue conversion funnel" \
+    --domain chart
+  ```
+</CodeGroup>
+
+### Healthcare Dashboard
+
+<CodeGroup>
+  ```bash Design System
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "healthcare patient analytics dashboard" \
+    --design-system \
+    -p "MediTrack"
+  ```
+
+  ```bash Data Visualization
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "real-time monitoring timeline trend" \
+    --domain chart \
+    -n 5
+  ```
+
+  ```bash Next.js Optimization
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "SSR image optimization performance" \
+    --stack nextjs
+  ```
+</CodeGroup>
+
+## Common Use Cases
+
+<CardGroup cols={2}>
+  <Card title="Landing Pages" icon="browser">
+    Generate hero sections, CTAs, and social proof layouts optimized for conversion.
+
+    ```bash
+    "SaaS landing page hero social-proof"
+    --design-system
+    ```
+  </Card>
+
+  <Card title="Dashboards" icon="chart-line">
+    Get chart recommendations, data visualization patterns, and KPI layouts.
+
+    ```bash
+    "analytics dashboard real-time KPI"
+    --design-system
+    ```
+  </Card>
+
+  <Card title="Mobile Apps" icon="mobile">
+    Access touch target guidelines, gesture patterns, and mobile-first layouts.
+
+    ```bash
+    "mobile app onboarding gestures"
+    --stack react-native
+    ```
+  </Card>
+
+  <Card title="Design Reviews" icon="magnifying-glass">
+    Validate designs against 99 UX guidelines and accessibility standards.
+
+    ```bash
+    "accessibility contrast focus-states"
+    --domain ux
+    ```
+  </Card>
+</CardGroup>
+
+## Advanced Search Options
+
+### Domain-Specific Searches
+
+For targeted recommendations beyond the design system:
+
+<CodeGroup>
+  ```bash UI Styles
+  # Explore specific visual styles
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "glassmorphism dark mode" \
+    --domain style
+  ```
+
+  ```bash Color Palettes
+  # Find industry-specific colors
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "fintech banking trust" \
+    --domain color
+  ```
+
+  ```bash Landing Patterns
+  # Get page structure recommendations
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "hero testimonial pricing" \
+    --domain landing
+  ```
+
+  ```bash Chart Types
+  # Find the right visualization
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "trend comparison funnel" \
+    --domain chart
+  ```
+</CodeGroup>
+
+### Output Formats
+
+Choose between ASCII or Markdown output:
+
+<CodeGroup>
+  ```bash ASCII (Default)
+  # Terminal-friendly box format
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "fintech crypto" \
+    --design-system
+  ```
+
+  ```bash Markdown
+  # Better for documentation
+  python3 .claude/skills/ui-ux-pro-max/scripts/search.py \
+    "fintech crypto" \
+    --design-system \
+    -f markdown
+  ```
+</CodeGroup>
+
+## Pre-Delivery Checklist
+
+Before finalizing any UI, verify these items:
+
+### Visual Quality
+- [ ] No emojis used as icons (use SVG: Heroicons, Lucide)
+- [ ] All icons from consistent icon set
+- [ ] Correct brand logos (verified from Simple Icons)
+- [ ] Hover states don't cause layout shift
+
+### Interaction
+- [ ] `cursor-pointer` on all clickable elements
+- [ ] Hover states with smooth transitions (150-300ms)
+- [ ] Focus states visible for keyboard navigation
+
+### Accessibility
+- [ ] Light mode text contrast 4.5:1 minimum
+- [ ] `prefers-reduced-motion` respected
+- [ ] All form inputs have labels
+- [ ] Alt text for meaningful images
+
+### Responsive
+- [ ] Tested at 375px, 768px, 1024px, 1440px
+- [ ] No horizontal scroll on mobile
+- [ ] Touch targets minimum 44x44px
+
+## Tips for Better Results
+
+<Card title="Be Specific with Keywords" icon="lightbulb">
+  Use detailed descriptions:
+  - "healthcare SaaS dashboard real-time" > "app"
+  - "luxury e-commerce fashion" > "online store"
+  - "fintech banking trust security" > "financial app"
+</Card>
+
+<Card title="Combine Multiple Searches" icon="layer-group">
+  Start with `--design-system`, then supplement with domain searches:
+  1. Generate design system (pattern + style + colors + typography)
+  2. Search UX domain for best practices
+  3. Search stack domain for implementation guidelines
+  4. Search chart domain for data visualization (if needed)
+</Card>
+
+<Card title="Iterate and Refine" icon="rotate">
+  If first results don't match your vision:
+  - Try different keywords ("modern" vs "contemporary" vs "minimal")
+  - Adjust max results: `-n 5` for more options
+  - Search multiple domains for comprehensive coverage
+</Card>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Browse All Styles" icon="palette" href="/resources/styles">
+    Explore 67 UI styles with examples and use cases
+  </Card>
+
+  <Card title="Color Palettes" icon="droplet" href="/resources/color-palettes">
+    Browse 96 industry-specific color palettes
+  </Card>
+  <Card title="Typography" icon="font" href="/resources/font-pairings">
+    Discover 57 curated font pairings with Google Fonts links
+  </Card>
+  <Card title="Design System Workflow" icon="code" href="/guides/design-system-workflow">
+    Learn advanced workflows and customization
+  </Card>
+</CardGroup>

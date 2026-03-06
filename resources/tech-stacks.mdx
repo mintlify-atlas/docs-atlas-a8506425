@@ -1,0 +1,756 @@
+---
+title: "Tech Stack Guidelines"
+description: "Framework-specific implementation guidelines for 13 tech stacks"
+---
+
+# Tech Stack Guidelines
+
+UI/UX Pro Max provides **13 tech stack-specific guideline sets** with best practices, code examples, and anti-patterns for each framework.
+
+## Supported Tech Stacks
+
+<CardGroup cols={3}>
+  <Card title="HTML + Tailwind" icon="html5" href="#html-tailwind">
+    Vanilla HTML with Tailwind CSS (default)
+  </Card>
+  <Card title="React" icon="react" href="#react">
+    React with hooks and modern patterns
+  </Card>
+  <Card title="Next.js" icon="react" href="#nextjs">
+    Next.js 13+ with App Router
+  </Card>
+  <Card title="Vue" icon="vuejs" href="#vue">
+    Vue 3 with Composition API
+  </Card>
+  <Card title="Nuxt.js" icon="vuejs" href="#nuxtjs">
+    Nuxt 3 with auto-imports
+  </Card>
+  <Card title="Svelte" icon="code" href="#svelte">
+    Svelte with SvelteKit
+  </Card>
+  <Card title="Astro" icon="star" href="#astro">
+    Astro for content-heavy sites
+  </Card>
+  <Card title="shadcn/ui" icon="blocks" href="#shadcn">
+    React + Radix UI + Tailwind
+  </Card>
+  <Card title="SwiftUI" icon="apple" href="#swiftui">
+    iOS native with SwiftUI
+  </Card>
+  <Card title="React Native" icon="mobile" href="#react-native">
+    Cross-platform mobile
+  </Card>
+  <Card title="Flutter" icon="mobile" href="#flutter">
+    Dart-based cross-platform
+  </Card>
+  <Card title="Jetpack Compose" icon="android" href="#jetpack-compose">
+    Android native with Kotlin
+  </Card>
+</CardGroup>
+
+## How to Use Stack Guidelines
+
+Each stack includes:
+- **Best Practices** - Framework-specific recommendations
+- **Code Examples** - Good vs. bad implementations
+- **Anti-Patterns** - Common mistakes to avoid
+- **Performance Tips** - Optimization strategies
+- **Accessibility** - A11y considerations for the framework
+
+## HTML + Tailwind
+
+<Accordion title="HTML + Tailwind Guidelines (55+ rules)">
+
+The default stack for universal compatibility. No JavaScript framework required.
+
+### Animation Best Practices
+
+**Do:**
+```html
+<!-- Use built-in animate utilities -->
+<button class="animate-pulse bg-blue-500">
+  Loading...
+</button>
+
+<!-- Smooth transitions with appropriate duration -->
+<div class="transition-all duration-200 hover:bg-gray-100">
+  Hover me
+</div>
+```
+
+**Don't:**
+```html
+<!-- Custom @keyframes for simple effects -->
+<style>
+@keyframes pulse {
+  /* Reinventing Tailwind's animation */
+}
+</style>
+
+<!-- Excessive duration -->
+<div class="transition-all duration-1000">Too slow</div>
+```
+
+### Layout & Spacing
+
+**Do:**
+```html
+<!-- Container with max-width for readability -->
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <h1>Content</h1>
+</div>
+
+<!-- Responsive grid with consistent gap -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="rounded-lg shadow-md p-6">Card</div>
+</div>
+```
+
+**Don't:**
+```html
+<!-- Full-width content on large screens -->
+<div class="w-full">
+  <p>Hard to read on 27" monitor</p>
+</div>
+
+<!-- Same padding all sizes -->
+<div class="px-8">
+  Content
+</div>
+```
+
+### Accessibility
+
+**Do:**
+```html
+<!-- Always show focus indicators -->
+<button class="focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+  Accessible Button
+</button>
+
+<!-- Screen reader text -->
+<button class="p-2">
+  <span class="sr-only">Close menu</span>
+  <svg>...</svg>
+</button>
+
+<!-- Respect reduced motion -->
+<div class="motion-reduce:transition-none motion-reduce:animate-none">
+  Content
+</div>
+```
+
+**Don't:**
+```html
+<!-- Remove focus outline without replacement -->
+<button class="focus:outline-none">
+  Bad for keyboard users
+</button>
+
+<!-- Icon button without label -->
+<button><svg>...</svg></button>
+```
+
+### Color Usage
+
+**Do:**
+```html
+<!-- Use opacity utilities -->
+<div class="bg-black/50 text-white/80">
+  Content
+</div>
+
+<!-- Dark mode support -->
+<div class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+  Content
+</div>
+```
+
+**Don't:**
+```html
+<!-- Separate opacity class -->
+<div class="bg-black opacity-50">
+  Affects children too!
+</div>
+```
+
+### Forms
+
+**Do:**
+```html
+<!-- Consistent input sizing with clear focus -->
+<input 
+  type="email"
+  class="h-10 w-full px-3 rounded-md border border-gray-300 
+         focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+  placeholder="Enter email"
+/>
+
+<!-- Clear disabled state -->
+<button 
+  disabled
+  class="disabled:opacity-50 disabled:cursor-not-allowed"
+>
+  Submit
+</button>
+```
+
+**Don't:**
+```html
+<!-- Inconsistent heights -->
+<input class="h-12" />
+<input class="h-8" />
+
+<!-- No disabled indication -->
+<button disabled>Submit</button>
+```
+
+### Performance
+
+**Configure content paths properly:**
+```js
+// tailwind.config.js
+module.exports = {
+  content: [
+    './src/**/*.{html,js}',
+    './pages/**/*.{html,js}',
+    './components/**/*.{html,js}',
+  ],
+  // ...
+}
+```
+
+**Avoid @apply bloat:**
+```css
+/* ❌ Bad - creates duplicate CSS */
+.btn {
+  @apply px-4 py-2 bg-blue-500 text-white rounded;
+}
+
+/* ✓ Good - use utilities directly */
+<button class="px-4 py-2 bg-blue-500 text-white rounded">Button</button>
+```
+
+</Accordion>
+
+## React
+
+<Accordion title="React Guidelines (50+ rules)">
+
+### State Management
+
+**Do:**
+```jsx
+// useState for local state
+const [count, setCount] = useState(0);
+
+// Lazy initialization for expensive state
+const [data, setData] = useState(() => {
+  return JSON.parse(localStorage.getItem('data'));
+});
+
+// useReducer for complex state
+const [state, dispatch] = useReducer(reducer, initialState);
+```
+
+**Don't:**
+```jsx
+// Storing derivable values in state
+const [items, setItems] = useState([]);
+const [total, setTotal] = useState(0); // ❌ Derive this instead
+
+// Better:
+const total = items.reduce((sum, item) => sum + item.price, 0);
+
+// Multiple useState for related values
+const [firstName, setFirstName] = useState('');
+const [lastName, setLastName] = useState('');
+const [email, setEmail] = useState('');
+// Use useReducer or single state object instead
+```
+
+### Effects & Side Effects
+
+**Do:**
+```jsx
+// Clean up effects
+useEffect(() => {
+  const subscription = subscribe();
+  return () => subscription.unsubscribe();
+}, []);
+
+// Specify dependencies correctly
+useEffect(() => {
+  fetchData(userId);
+}, [userId]); // ✓ Include all used values
+
+// Transform data during render, not in effects
+const filteredItems = items.filter(item => item.active);
+```
+
+**Don't:**
+```jsx
+// No cleanup for subscriptions
+useEffect(() => {
+  subscribe(); // ❌ Memory leak
+}, []);
+
+// Empty deps with external references
+useEffect(() => {
+  fetchData(userId); // ❌ userId not in deps
+}, []);
+
+// Using effects for derived state
+useEffect(() => {
+  setFiltered(items.filter(item => item.active)); // ❌
+}, [items]);
+```
+
+### Performance Optimization
+
+**Do:**
+```jsx
+// Memoize expensive calculations
+const expensiveResult = useMemo(() => {
+  return computeExpensive(data);
+}, [data]);
+
+// Memoize callbacks passed to children
+const handleClick = useCallback(() => {
+  doSomething(id);
+}, [id]);
+
+// Lazy load components
+const HeavyComponent = lazy(() => import('./HeavyComponent'));
+
+// Use keys properly
+{items.map(item => (
+  <Item key={item.id} data={item} />
+))}
+```
+
+**Don't:**
+```jsx
+// Recalculate every render
+const result = expensiveCalculation(); // ❌
+
+// New function reference every render
+const handleClick = () => { /* ... */ }; // ❌ If passed to memoized child
+
+// Array index as key for dynamic lists
+{items.map((item, index) => (
+  <Item key={index} data={item} /> // ❌
+))}
+```
+
+### Component Patterns
+
+**Do:**
+```jsx
+// Keep components small and focused
+function UserAvatar({ user }) {
+  return <img src={user.avatar} alt={user.name} />;
+}
+
+function UserName({ user }) {
+  return <span>{user.name}</span>;
+}
+
+// Use composition
+function Card({ children }) {
+  return <div className="card">{children}</div>;
+}
+
+// Destructure props
+function Button({ onClick, children, variant = 'primary' }) {
+  return (
+    <button onClick={onClick} className={`btn-${variant}`}>
+      {children}
+    </button>
+  );
+}
+```
+
+**Don't:**
+```jsx
+// Large multi-purpose components (500+ lines)
+function UserCard(props) {
+  // ❌ Too many responsibilities
+}
+
+// Using props object everywhere
+function Button(props) {
+  return <button onClick={props.onClick}>{props.children}</button>;
+}
+```
+
+### Accessibility
+
+**Do:**
+```jsx
+// Use semantic HTML
+<button onClick={handleClick}>Click me</button>
+
+// Manage focus for modals
+useEffect(() => {
+  if (isOpen) {
+    modalRef.current?.focus();
+    return () => previousFocus?.focus();
+  }
+}, [isOpen]);
+
+// Label form controls
+<label htmlFor="email">Email</label>
+<input id="email" type="email" />
+```
+
+**Don't:**
+```jsx
+// div with onClick instead of button
+<div onClick={handleClick}>Click me</div> // ❌
+
+// No focus management in modals
+function Modal({ children }) {
+  return <div>{children}</div>; // ❌
+}
+
+// Placeholder as only label
+<input placeholder="Email" /> // ❌
+```
+
+</Accordion>
+
+## Next.js
+
+<Accordion title="Next.js Guidelines (45+ rules)">
+
+### App Router (Next.js 13+)
+
+**Do:**
+```jsx
+// Server Components by default
+export default function Page() {
+  return <div>Server-rendered by default</div>;
+}
+
+// Client Components when needed
+'use client';
+import { useState } from 'react';
+
+export default function Counter() {
+  const [count, setCount] = useState(0);
+  return <button onClick={() => setCount(count + 1)}>{count}</button>;
+}
+
+// Async Server Components
+export default async function Page() {
+  const data = await fetchData();
+  return <div>{data}</div>;
+}
+```
+
+**Don't:**
+```jsx
+// Making everything 'use client'
+'use client'; // ❌ Only use when you need interactivity
+
+export default function Page() {
+  return <div>Static content</div>;
+}
+```
+
+### Data Fetching
+
+**Do:**
+```jsx
+// Fetch in Server Components
+export default async function Page() {
+  const data = await fetch('https://api.example.com/data', {
+    next: { revalidate: 3600 } // ISR
+  });
+  return <div>{JSON.stringify(data)}</div>;
+}
+
+// Use loading.tsx for loading states
+// app/dashboard/loading.tsx
+export default function Loading() {
+  return <div>Loading...</div>;
+}
+
+// Use error.tsx for error handling
+// app/dashboard/error.tsx
+'use client';
+export default function Error({ error, reset }) {
+  return <div>Error: {error.message}</div>;
+}
+```
+
+### Image Optimization
+
+**Do:**
+```jsx
+import Image from 'next/image';
+
+<Image
+  src="/hero.jpg"
+  alt="Hero image"
+  width={1200}
+  height={600}
+  priority // For above-fold images
+/>
+
+<Image
+  src={product.image}
+  alt={product.name}
+  width={400}
+  height={400}
+  loading="lazy" // For below-fold images
+/>
+```
+
+**Don't:**
+```jsx
+// Using regular <img> tags
+<img src="/hero.jpg" alt="Hero" /> // ❌ No optimization
+```
+
+### Metadata
+
+**Do:**
+```jsx
+// Static metadata
+export const metadata = {
+  title: 'My App',
+  description: 'App description',
+};
+
+// Dynamic metadata
+export async function generateMetadata({ params }) {
+  const product = await fetchProduct(params.id);
+  return {
+    title: product.name,
+    description: product.description,
+  };
+}
+```
+
+</Accordion>
+
+## Vue & Nuxt
+
+<Accordion title="Vue 3 & Nuxt 3 Guidelines">
+
+### Composition API (Vue 3)
+
+**Do:**
+```vue
+<script setup>
+import { ref, computed, watch } from 'vue';
+
+const count = ref(0);
+const doubleCount = computed(() => count.value * 2);
+
+watch(count, (newValue) => {
+  console.log(`Count changed to ${newValue}`);
+});
+</script>
+
+<template>
+  <div>
+    <p>Count: {{ count }}</p>
+    <p>Double: {{ doubleCount }}</p>
+    <button @click="count++">Increment</button>
+  </div>
+</template>
+```
+
+**Don't:**
+```vue
+<!-- Options API for new projects -->
+<script>
+export default {
+  data() {
+    return { count: 0 };
+  },
+  computed: {
+    doubleCount() {
+      return this.count * 2;
+    }
+  }
+}
+</script>
+```
+
+### Nuxt 3 Auto-imports
+
+**Do:**
+```vue
+<script setup>
+// Auto-imported in Nuxt 3
+const route = useRoute();
+const router = useRouter();
+const { data } = await useFetch('/api/data');
+</script>
+```
+
+</Accordion>
+
+## Mobile Stacks
+
+<Accordion title="SwiftUI, React Native, Flutter, Jetpack Compose">
+
+### SwiftUI (iOS)
+
+**Do:**
+```swift
+struct ContentView: View {
+    @State private var count = 0
+    
+    var body: some View {
+        VStack(spacing: 20) {
+            Text("Count: \(count)")
+                .font(.title)
+            Button("Increment") {
+                count += 1
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .padding()
+    }
+}
+```
+
+### React Native
+
+**Do:**
+```jsx
+import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+
+function Button({ onPress, title }) {
+  return (
+    <TouchableOpacity 
+      style={styles.button} 
+      onPress={onPress}
+      accessible={true}
+      accessibilityLabel={title}
+    >
+      <Text style={styles.text}>{title}</Text>
+    </TouchableOpacity>
+  );
+}
+
+const styles = StyleSheet.create({
+  button: {
+    backgroundColor: '#007AFF',
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 8,
+    minHeight: 44, // Minimum touch target
+  },
+  text: {
+    color: 'white',
+    fontSize: 16,
+    fontWeight: '600',
+  },
+});
+```
+
+**Don't:**
+```jsx
+// Touch targets too small
+<TouchableOpacity style={{ height: 30 }}> // ❌ < 44px
+```
+
+### Flutter
+
+**Do:**
+```dart
+Widget build(BuildContext context) {
+  return MaterialApp(
+    home: Scaffold(
+      appBar: AppBar(title: Text('My App')),
+      body: Center(
+        child: ElevatedButton(
+          onPressed: () {},
+          child: Text('Button'),
+        ),
+      ),
+    ),
+  );
+}
+```
+
+### Jetpack Compose (Android)
+
+**Do:**
+```kotlin
+@Composable
+fun MyScreen() {
+    var count by remember { mutableStateOf(0) }
+    
+    Column(
+        modifier = Modifier.padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        Text("Count: $count", style = MaterialTheme.typography.h4)
+        Button(onClick = { count++ }) {
+            Text("Increment")
+        }
+    }
+}
+```
+
+</Accordion>
+
+## Stack Search
+
+Get stack-specific guidance:
+
+```bash
+# Get React-specific guidelines
+python3 scripts/search.py "form validation" --stack react
+
+# Get Tailwind-specific tips
+python3 scripts/search.py "responsive layout" --stack html-tailwind
+
+# Get Next.js best practices
+python3 scripts/search.py "data fetching" --stack nextjs
+
+# Get SwiftUI patterns
+python3 scripts/search.py "navigation" --stack swiftui
+```
+
+## Framework Comparison
+
+### Performance
+
+**Fastest:**
+- Astro (static sites)
+- Svelte (smallest bundle)
+- HTML + Tailwind (no framework)
+
+**Fast:**
+- Next.js (with SSR)
+- Nuxt.js (with SSR)
+- SvelteKit
+
+**Moderate:**
+- React (CSR)
+- Vue (CSR)
+- Flutter (native compiled)
+
+### Best For
+
+**Content-Heavy Sites:** Astro, Next.js, Nuxt.js  
+**Web Apps/SaaS:** React, Next.js, Vue, Nuxt.js  
+**Mobile Apps:** React Native, Flutter, SwiftUI, Jetpack Compose  
+**Maximum Performance:** Svelte, Astro, HTML + Tailwind  
+**Developer Experience:** Next.js, Nuxt.js, SvelteKit  
+**Type Safety:** TypeScript + React, TypeScript + Vue, Flutter (Dart)
+
+## Related Resources
+
+- [UI Styles](/resources/styles) - Design styles with implementation notes
+- [Color Palettes](/resources/color-palettes) - Framework-agnostic color systems
+- [Font Pairings](/resources/font-pairings) - Typography implementation per stack
+- [Reasoning Rules](/resources/reasoning-rules) - Industry-specific guidelines

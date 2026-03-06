@@ -1,0 +1,424 @@
+---
+title: 'Search Engine'
+description: 'Deep dive into the BM25-based search engine that powers UI/UX Pro Max'
+---
+
+## Overview
+
+UI/UX Pro Max uses a custom-built **BM25 ranking algorithm** to search across multiple CSV databases containing UI styles, color palettes, typography, UX guidelines, and more.
+
+The search engine is implemented in pure Python with **no external dependencies**, making it fast, lightweight, and easy to deploy across all AI coding platforms.
+
+## Architecture
+
+The search engine consists of two main components:
+
+### 1. Core Search Engine (`core.py`)
+
+Implements the BM25 algorithm and provides domain-specific search functions.
+
+```python
+# From core.py:4
+class BM25:
+    """BM25 ranking algorithm for text search"""
+    
+    def __init__(self, k1=1.5, b=0.75):
+        self.k1 = k1  # Term frequency saturation parameter
+        self.b = b    # Length normalization parameter
+```
+
+### 2. Design System Generator (`design_system.py`)
+
+Orchestrates multi-domain searches and applies reasoning rules. See [Design System Generation](/concepts/design-system-generation).
+
+## BM25 Algorithm
+
+### What is BM25?
+
+BM25 (Best Matching 25) is a probabilistic ranking function used by search engines. It ranks documents based on the query terms appearing in each document, considering:
+
+- **Term Frequency (TF)**: How often a term appears in the document
+- **Inverse Document Frequency (IDF)**: How rare a term is across all documents
+- **Document Length Normalization**: Adjusts for longer documents having more term matches
+
+### Implementation
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:96`:
+
+```python
+class BM25:
+    def __init__(self, k1=1.5, b=0.75):
+        self.k1 = k1
+        self.b = b
+        self.corpus = []
+        self.doc_lengths = []
+        self.avgdl = 0
+        self.idf = {}
+        self.doc_freqs = defaultdict(int)
+        self.N = 0
+```
+
+**Parameters:**
+- `k1=1.5`: Controls term frequency saturation (higher = more weight on term frequency)
+- `b=0.75`: Controls document length normalization (0 = no normalization, 1 = full normalization)
+
+### Tokenization
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:109`:
+
+```python
+def tokenize(self, text):
+    """Lowercase, split, remove punctuation, filter short words"""
+    text = re.sub(r'[^\w\s]', ' ', str(text).lower())
+    return [w for w in text.split() if len(w) > 2]
+```
+
+The tokenizer:
+1. Converts text to lowercase
+2. Removes all punctuation
+3. Splits on whitespace
+4. Filters out words with 2 or fewer characters
+
+<Tip>
+Short words are filtered because they're often stopwords ("a", "an", "the") or don't carry much semantic meaning.
+</Tip>
+
+### Index Building
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:114`:
+
+```python
+def fit(self, documents):
+    """Build BM25 index from documents"""
+    self.corpus = [self.tokenize(doc) for doc in documents]
+    self.N = len(self.corpus)
+    if self.N == 0:
+        return
+    self.doc_lengths = [len(doc) for doc in self.corpus]
+    self.avgdl = sum(self.doc_lengths) / self.N
+
+    for doc in self.corpus:
+        seen = set()
+        for word in doc:
+            if word not in seen:
+                self.doc_freqs[word] += 1
+                seen.add(word)
+
+    for word, freq in self.doc_freqs.items():
+        self.idf[word] = log((self.N - freq + 0.5) / (freq + 0.5) + 1)
+```
+
+This builds:
+- **Tokenized corpus**: All documents split into terms
+- **Document lengths**: For normalization
+- **Average document length**: For length penalty
+- **Document frequencies**: How many documents contain each term
+- **IDF scores**: Inverse document frequency for each term
+
+### Scoring
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:133`:
+
+```python
+def score(self, query):
+    """Score all documents against query"""
+    query_tokens = self.tokenize(query)
+    scores = []
+
+    for idx, doc in enumerate(self.corpus):
+        score = 0
+        doc_len = self.doc_lengths[idx]
+        term_freqs = defaultdict(int)
+        for word in doc:
+            term_freqs[word] += 1
+
+        for token in query_tokens:
+            if token in self.idf:
+                tf = term_freqs[token]
+                idf = self.idf[token]
+                numerator = tf * (self.k1 + 1)
+                denominator = tf + self.k1 * (1 - self.b + self.b * doc_len / self.avgdl)
+                score += idf * numerator / denominator
+
+        scores.append((idx, score))
+
+    return sorted(scores, key=lambda x: x[1], reverse=True)
+```
+
+**BM25 Formula:**
+
+```
+score(D, Q) = Σ IDF(qi) × (tf(qi, D) × (k1 + 1)) / (tf(qi, D) + k1 × (1 - b + b × |D| / avgdl))
+```
+
+Where:
+- `D` = document
+- `Q` = query
+- `qi` = query term
+- `tf(qi, D)` = frequency of term qi in document D
+- `|D|` = length of document D
+- `avgdl` = average document length
+
+## Domain Configuration
+
+The search engine supports 10 different domains, each with its own CSV file and search configuration.
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:17`:
+
+```python
+CSV_CONFIG = {
+    "style": {
+        "file": "styles.csv",
+        "search_cols": ["Style Category", "Keywords", "Best For", "Type", "AI Prompt Keywords"],
+        "output_cols": ["Style Category", "Type", "Keywords", "Primary Colors", "Effects & Animation", ...]
+    },
+    "color": {
+        "file": "colors.csv",
+        "search_cols": ["Product Type", "Notes"],
+        "output_cols": ["Product Type", "Primary (Hex)", "Secondary (Hex)", ...]
+    },
+    # ... 8 more domains
+}
+```
+
+### Available Domains
+
+| Domain | CSV File | Search Columns | Purpose |
+|--------|----------|----------------|----------|
+| `style` | `styles.csv` | Style Category, Keywords, Best For, AI Prompt Keywords | Find UI styles (67 total) |
+| `color` | `colors.csv` | Product Type, Notes | Find color palettes (96 total) |
+| `typography` | `typography.csv` | Font Pairing Name, Mood/Style Keywords, Best For | Find font pairings (57 total) |
+| `chart` | `charts.csv` | Data Type, Keywords, Best Chart Type | Find chart recommendations (25 types) |
+| `landing` | `landing.csv` | Pattern Name, Keywords, Section Order | Find landing page patterns (24 patterns) |
+| `product` | `products.csv` | Product Type, Keywords, Primary Style | Match product types (100 categories) |
+| `ux` | `ux-guidelines.csv` | Category, Issue, Description | UX best practices (99 guidelines) |
+| `icons` | `icons.csv` | Category, Icon Name, Keywords | Icon recommendations |
+| `react` | `react-performance.csv` | Category, Issue, Keywords | React/Next.js performance |
+| `web` | `web-interface.csv` | Category, Issue, Keywords | Web interface guidelines |
+
+## Auto-Domain Detection
+
+If you don't specify a `--domain` flag, the search engine automatically detects the most relevant domain.
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:190`:
+
+```python
+def detect_domain(query):
+    """Auto-detect the most relevant domain from query"""
+    query_lower = query.lower()
+
+    domain_keywords = {
+        "color": ["color", "palette", "hex", "#", "rgb"],
+        "chart": ["chart", "graph", "visualization", "trend", "bar", "pie"],
+        "landing": ["landing", "page", "cta", "conversion", "hero"],
+        "product": ["saas", "ecommerce", "fintech", "healthcare"],
+        "style": ["style", "design", "ui", "minimalism", "glassmorphism"],
+        # ... more domains
+    }
+
+    scores = {domain: sum(1 for kw in keywords if kw in query_lower) 
+              for domain, keywords in domain_keywords.items()}
+    best = max(scores, key=scores.get)
+    return best if scores[best] > 0 else "style"
+```
+
+**Example:**
+
+```bash
+# Query: "glassmorphism card design"
+# Matches: "style" domain (keywords: glassmorphism, design)
+# Auto-selects: style domain
+
+# Query: "fintech color palette"
+# Matches: "color" domain (keywords: color, palette)
+# Auto-selects: color domain
+```
+
+<Info>
+If no keywords match any domain, it defaults to `style` domain.
+</Info>
+
+## Stack-Specific Search
+
+The search engine also supports **stack-specific guidelines** for 13 different technology stacks.
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:70`:
+
+```python
+STACK_CONFIG = {
+    "html-tailwind": {"file": "stacks/html-tailwind.csv"},
+    "react": {"file": "stacks/react.csv"},
+    "nextjs": {"file": "stacks/nextjs.csv"},
+    "astro": {"file": "stacks/astro.csv"},
+    "vue": {"file": "stacks/vue.csv"},
+    # ... 8 more stacks
+}
+```
+
+All stacks share the same search and output columns:
+
+```python
+_STACK_COLS = {
+    "search_cols": ["Category", "Guideline", "Description", "Do", "Don't"],
+    "output_cols": ["Category", "Guideline", "Description", "Do", "Don't", 
+                    "Code Good", "Code Bad", "Severity", "Docs URL"]
+}
+```
+
+### Stack Search Example
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "form validation" --stack react
+```
+
+Searches through `stacks/react.csv` for React-specific form validation guidelines.
+
+## Search Functions
+
+### Core Search Function
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:165`:
+
+```python
+def _search_csv(filepath, search_cols, output_cols, query, max_results):
+    """Core search function using BM25"""
+    if not filepath.exists():
+        return []
+
+    data = _load_csv(filepath)
+
+    # Build documents from search columns
+    documents = [" ".join(str(row.get(col, "")) for col in search_cols) 
+                 for row in data]
+
+    # BM25 search
+    bm25 = BM25()
+    bm25.fit(documents)
+    ranked = bm25.score(query)
+
+    # Get top results with score > 0
+    results = []
+    for idx, score in ranked[:max_results]:
+        if score > 0:
+            row = data[idx]
+            results.append({col: row.get(col, "") for col in output_cols if col in row})
+
+    return results
+```
+
+**Key points:**
+- Only returns results with score > 0 (must have at least one matching term)
+- Returns only the specified output columns (not all CSV columns)
+- Sorted by relevance (highest BM25 score first)
+
+### Main Search API
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:212`:
+
+```python
+def search(query, domain=None, max_results=MAX_RESULTS):
+    """Main search function with auto-domain detection"""
+    if domain is None:
+        domain = detect_domain(query)
+
+    config = CSV_CONFIG.get(domain, CSV_CONFIG["style"])
+    filepath = DATA_DIR / config["file"]
+
+    if not filepath.exists():
+        return {"error": f"File not found: {filepath}", "domain": domain}
+
+    results = _search_csv(filepath, config["search_cols"], 
+                         config["output_cols"], query, max_results)
+
+    return {
+        "domain": domain,
+        "query": query,
+        "file": config["file"],
+        "count": len(results),
+        "results": results
+    }
+```
+
+## Performance Characteristics
+
+### Time Complexity
+
+- **Index building**: O(n × m) where n = documents, m = average document length
+- **Query scoring**: O(n × q) where n = documents, q = query terms
+- **Overall**: Linear in the number of documents
+
+### Memory Usage
+
+- **Corpus storage**: ~500KB for all CSV files
+- **Index storage**: ~200KB for tokenized corpus and IDF scores
+- **Total**: < 1MB in memory
+
+<Tip>
+The search engine rebuilds the index on every search. This is acceptable because the CSV files are small (~500KB total) and indexing takes < 50ms.
+</Tip>
+
+### Why No Persistent Index?
+
+The search engine doesn't persist the BM25 index to disk because:
+
+1. **Fast rebuild**: Indexing 500KB of CSV data takes < 50ms
+2. **Simplicity**: No cache invalidation or version management needed
+3. **Portability**: Works across all platforms without file system writes
+4. **Fresh results**: Always uses the latest CSV data
+
+## Example Search Flows
+
+### Example 1: Style Search
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "glassmorphism dark mode" --domain style
+```
+
+**Flow:**
+1. Tokenize query: `["glassmorphism", "dark", "mode"]`
+2. Load `styles.csv` (67 rows)
+3. Build BM25 index from search columns: Style Category, Keywords, Best For, Type, AI Prompt Keywords
+4. Score all 67 documents
+5. Return top 3 results with highest BM25 scores
+
+### Example 2: Auto-Domain Detection
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "fintech banking color palette"
+```
+
+**Flow:**
+1. Detect domain from keywords: `color` (matches "color", "palette")
+2. Load `colors.csv` (96 rows)
+3. Build BM25 index from search columns: Product Type, Notes
+4. Score all 96 documents
+5. Return top 3 results
+
+### Example 3: Stack Search
+
+```bash
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "responsive layout grid" --stack html-tailwind
+```
+
+**Flow:**
+1. Load `stacks/html-tailwind.csv`
+2. Build BM25 index from search columns: Category, Guideline, Description, Do, Don't
+3. Score all documents
+4. Return top 3 results with code examples
+
+## Configuration
+
+From `core.py:src/ui-ux-pro-max/scripts/core.py:14`:
+
+```python
+DATA_DIR = Path(__file__).parent.parent / "data"
+MAX_RESULTS = 3
+```
+
+- **DATA_DIR**: Relative path to CSV data files
+- **MAX_RESULTS**: Default number of results to return (can be overridden with `-n` flag)
+
+## See Also
+
+- [Design System Generation](/concepts/design-system-generation) - How search powers design system generation
+- [Reasoning Rules](/concepts/reasoning-rules) - Industry-specific rules that guide search result selection

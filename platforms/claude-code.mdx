@@ -1,0 +1,282 @@
+---
+title: "Claude Code"
+description: "Install UI/UX Pro Max in Claude Code"
+---
+
+Claude Code is the official Claude desktop application with a built-in skill marketplace. UI/UX Pro Max can be installed in two ways:
+
+## Installation Methods
+
+<Tabs>
+  <Tab title="Marketplace (Easiest)">
+    Install directly from the Claude Code skill marketplace:
+
+    ```
+    /plugin marketplace add nextlevelbuilder/ui-ux-pro-max-skill
+    /plugin install ui-ux-pro-max@ui-ux-pro-max-skill
+    ```
+
+    This method automatically downloads and installs the latest version.
+  </Tab>
+  <Tab title="CLI (Recommended)">
+    Install using the CLI for more control:
+
+    ```bash
+    # Install CLI globally
+    npm install -g uipro-cli
+
+    # Go to your project
+    cd /path/to/your/project
+
+    # Install for Claude Code
+    uipro init --ai claude
+    ```
+
+    The CLI creates `.claude/skills/ui-ux-pro-max/` with:
+    - `SKILL.md` - Main skill file with metadata
+    - `data/` - 8 CSV databases (styles, colors, typography, etc.)
+    - `scripts/search.py` - BM25 search engine
+  </Tab>
+</Tabs>
+
+## File Structure
+
+After installation, your project will have:
+
+```
+.claude/
+└── skills/
+    └── ui-ux-pro-max/
+        ├── SKILL.md              # Main skill file
+        ├── data/
+        │   ├── styles.csv        # 67 UI styles
+        │   ├── colors.csv        # 96 color palettes
+        │   ├── typography.csv    # 57 font pairings
+        │   ├── landing.csv       # 24 landing page patterns
+        │   ├── products.csv      # 100 product categories
+        │   ├── charts.csv        # 25 chart types
+        │   ├── ux_guidelines.csv # 99 UX guidelines
+        │   └── stacks/           # Stack-specific guidelines
+        └── scripts/
+            ├── search.py         # CLI search tool
+            ├── core.py           # BM25 search engine
+            └── design_system.py  # Design system generator
+```
+
+## How It Works
+
+### Automatic Activation
+
+UI/UX Pro Max activates automatically when you mention UI/UX-related keywords:
+
+```
+Build a landing page for my SaaS product
+```
+
+No slash commands needed! The skill detects:
+- **Actions:** build, create, design, implement, review, fix, improve, optimize, enhance, refactor
+- **Projects:** website, landing page, dashboard, admin panel, e-commerce, SaaS, portfolio, mobile app
+- **Elements:** button, modal, navbar, sidebar, card, table, form, chart
+- **Styles:** glassmorphism, minimalism, brutalism, dark mode, responsive
+- **Topics:** color palette, accessibility, animation, layout, typography, font pairing
+
+### Design System Generation
+
+When you request UI/UX work, Claude automatically:
+
+1. **Analyzes your request** - Extracts product type, industry, and requirements
+2. **Searches 5 databases in parallel** - Product types, styles, colors, typography, landing patterns
+3. **Runs reasoning engine** - Applies 100 industry-specific rules
+4. **Generates complete design system** - Pattern, style, colors, fonts, effects, anti-patterns
+5. **Implements with best practices** - Follows pre-delivery checklist
+
+### Example Output
+
+```
++----------------------------------------------------------------------------------------+
+|  TARGET: Serenity Spa - RECOMMENDED DESIGN SYSTEM                                      |
++----------------------------------------------------------------------------------------+
+|                                                                                        |
+|  PATTERN: Hero-Centric + Social Proof                                                  |
+|     Conversion: Emotion-driven with trust elements                                     |
+|     CTA: Above fold, repeated after testimonials                                       |
+|                                                                                        |
+|  STYLE: Soft UI Evolution                                                              |
+|     Keywords: Soft shadows, subtle depth, calming, premium feel                        |
+|                                                                                        |
+|  COLORS:                                                                               |
+|     Primary:    #E8B4B8 (Soft Pink)                                                    |
+|     Secondary:  #A8D5BA (Sage Green)                                                   |
+|     CTA:        #D4AF37 (Gold)                                                         |
+|                                                                                        |
+|  TYPOGRAPHY: Cormorant Garamond / Montserrat                                           |
+|     Google Fonts: https://fonts.google.com/...                                         |
++----------------------------------------------------------------------------------------+
+```
+
+## Quick Reference
+
+Claude Code includes a quick reference section in the skill file:
+
+<AccordionGroup>
+  <Accordion title="Search Command">
+    ```bash
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<query>" --domain <domain>
+    ```
+
+    **Available Domains:**
+    - `product` - Product type recommendations
+    - `style` - UI styles (67 total)
+    - `typography` - Font pairings (57 total)
+    - `color` - Color palettes (96 total)
+    - `landing` - Landing page patterns (24 total)
+    - `chart` - Chart types (25 total)
+    - `ux` - UX guidelines (99 total)
+
+    **Stack Search:**
+    ```bash
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "<query>" --stack <stack>
+    ```
+
+    Available stacks: `html-tailwind`, `react`, `nextjs`, `astro`, `vue`, `nuxtjs`, `nuxt-ui`, `svelte`, `swiftui`, `react-native`, `flutter`, `shadcn`, `jetpack-compose`
+  </Accordion>
+  <Accordion title="Design System Generator">
+    ```bash
+    # Generate design system with ASCII output
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "beauty spa" --design-system -p "Serenity Spa"
+
+    # Generate with Markdown output
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "fintech" --design-system -f markdown
+
+    # Persist to files (Master + page overrides)
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "SaaS" --design-system --persist -p "MyApp"
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "SaaS" --design-system --persist -p "MyApp" --page "dashboard"
+    ```
+
+    Creates hierarchical design system:
+    ```
+    design-system/
+    ├── MASTER.md           # Global source of truth
+    └── pages/
+        └── dashboard.md    # Page-specific overrides
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Example Usage
+
+<CodeGroup>
+  ```bash Basic Prompt
+  Build a landing page for my beauty spa
+  ```
+
+  ```bash With Tech Stack
+  Create a Next.js dashboard for healthcare analytics
+  ```
+
+  ```bash With Style Preference
+  Design a glassmorphism portfolio website
+  ```
+
+  ```bash Mobile App
+  Make a React Native e-commerce app with dark mode
+  ```
+</CodeGroup>
+
+## Advanced Features
+
+### shadcn/ui Integration
+
+Claude Code supports integration with the shadcn/ui MCP server for component search:
+
+```
+Find shadcn/ui components for a pricing table
+```
+
+The skill will search the shadcn/ui registry and provide component examples.
+
+### Persistent Design Systems
+
+Create reusable design systems across sessions:
+
+```bash
+# Generate and save to files
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "SaaS dashboard" --design-system --persist -p "MyApp"
+```
+
+This creates `design-system/MASTER.md` that you can reference in future prompts:
+
+```
+Build the checkout page using design-system/MASTER.md
+```
+
+### Multi-Stack Projects
+
+Specify different stacks for different parts of your project:
+
+```
+Build the landing page with Next.js and the admin dashboard with React
+```
+
+## CLI Commands
+
+```bash
+# List available versions
+uipro versions
+
+# Update to latest version
+uipro update
+
+# Install offline (skip GitHub download)
+uipro init --ai claude --offline
+```
+
+## Troubleshooting
+
+<AccordionGroup>
+  <Accordion title="Skill Not Activating">
+    1. Check that `.claude/skills/ui-ux-pro-max/SKILL.md` exists
+    2. Verify the frontmatter has `name: ui-ux-pro-max`
+    3. Try using explicit UI/UX keywords like "build landing page" or "design dashboard"
+    4. Restart Claude Code
+  </Accordion>
+  <Accordion title="Python Not Found">
+    Install Python 3.x:
+
+    ```bash
+    # macOS
+    brew install python3
+
+    # Ubuntu/Debian
+    sudo apt update && sudo apt install python3
+
+    # Windows
+    winget install Python.Python.3.12
+    ```
+  </Accordion>
+  <Accordion title="Search Script Errors">
+    Verify the search script is executable:
+
+    ```bash
+    chmod +x .claude/skills/ui-ux-pro-max/scripts/search.py
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "test" --domain style
+    ```
+  </Accordion>
+</AccordionGroup>
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Getting Started" icon="play" href="/getting-started">
+    Learn the basics of UI/UX Pro Max
+  </Card>
+  <Card title="Design Systems" icon="palette" href="/design-systems">
+    Generate complete design systems
+  </Card>
+  <Card title="UI Styles" icon="paintbrush" href="/ui-styles">
+    Explore 67 UI styles
+  </Card>
+  <Card title="Color Palettes" icon="swatchbook" href="/color-palettes">
+    Browse 96 color palettes
+  </Card>
+</CardGroup>

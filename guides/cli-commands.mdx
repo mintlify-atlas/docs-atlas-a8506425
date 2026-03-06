@@ -1,0 +1,369 @@
+---
+title: CLI Commands
+description: Complete reference for uipro-cli commands and usage patterns
+---
+
+The `uipro-cli` is the official command-line tool for installing and managing UI/UX Pro Max across AI coding assistants.
+
+## Installation
+
+Install the CLI globally via npm:
+
+```bash
+npm install -g uipro-cli
+```
+
+Verify installation:
+
+```bash
+uipro --version
+```
+
+## Commands
+
+### `uipro init`
+
+Install UI/UX Pro Max skill for your AI assistant.
+
+```bash
+uipro init [options]
+```
+
+#### Options
+
+| Flag | Description | Example |
+|------|-------------|----------|
+| `--ai <type>` | Target AI assistant | `uipro init --ai claude` |
+| `--force` | Overwrite existing installation | `uipro init --ai cursor --force` |
+| `--offline` | Skip GitHub download, use bundled assets | `uipro init --ai windsurf --offline` |
+| `--legacy` | Use ZIP-based install (deprecated) | `uipro init --ai kiro --legacy` |
+
+#### Supported AI Assistants
+
+<CodeGroup>
+```bash Claude Code
+uipro init --ai claude
+```
+
+```bash Cursor
+uipro init --ai cursor
+```
+
+```bash Windsurf
+uipro init --ai windsurf
+```
+
+```bash OpenCode
+uipro init --ai opencode
+```
+
+```bash Antigravity
+uipro init --ai antigravity
+```
+
+```bash GitHub Copilot
+uipro init --ai copilot
+```
+
+```bash Kiro
+uipro init --ai kiro
+```
+
+```bash Continue
+uipro init --ai continue
+```
+
+```bash Roo Code
+uipro init --ai roocode
+```
+
+```bash All Assistants
+uipro init --ai all
+```
+</CodeGroup>
+
+#### Interactive Mode
+
+Run without `--ai` flag for interactive selection:
+
+```bash
+uipro init
+```
+
+**Terminal output:**
+```ansi
+╭───────────────────────────────────╮
+│  UI/UX Pro Max Installer          │
+╰───────────────────────────────────╯
+
+✓ Detected: claude, cursor
+? Select AI assistant to install for:
+❯ Claude Code (claude.ai/code)
+  Cursor (cursor.sh)
+  Windsurf (codeium.com/windsurf)
+  OpenCode (opencode.ai)
+  All assistants
+```
+
+### `uipro update`
+
+Update to the latest version of UI/UX Pro Max.
+
+```bash
+uipro update [options]
+```
+
+#### Options
+
+| Flag | Description | Example |
+|------|-------------|----------|
+| `--ai <type>` | Update specific assistant | `uipro update --ai claude` |
+
+**Terminal output:**
+```ansi
+╭───────────────────────────────────╮
+│  UI/UX Pro Max Updater            │
+╰───────────────────────────────────╯
+
+⠋ Checking for updates...
+✓ Latest version: v2.1.0
+
+ℹ Running update (same as init with latest version)...
+
+⠋ Generating skill files from templates...
+✓ Generated from templates!
+
+ℹ Installed folders:
+  + .claude/skills/ui-ux-pro-max
+  + .shared/ui-ux-pro-max
+
+✓ UI/UX Pro Max installed successfully!
+```
+
+### `uipro versions`
+
+List all available versions from GitHub releases.
+
+```bash
+uipro versions
+```
+
+**Terminal output:**
+```ansi
+⠋ Fetching available versions...
+✓ Found 12 version(s)
+
+Available versions:
+
+  * v2.1.0 (Mar 1, 2026) [latest]
+    v2.0.1 (Feb 15, 2026)
+    v2.0.0 (Feb 1, 2026)
+    v1.9.2 (Jan 20, 2026)
+    v1.9.1 (Jan 10, 2026)
+    v1.9.0 (Jan 1, 2026)
+
+Use: uipro init --version <tag> to install a specific version
+```
+
+## Usage Examples
+
+### Fresh Installation
+
+Install for Claude Code:
+
+```bash
+cd /path/to/your/project
+uipro init --ai claude
+```
+
+**Result:**
+- Creates `.claude/skills/ui-ux-pro-max/` with skill files
+- Creates `.shared/ui-ux-pro-max/` with data and scripts
+- Auto-activates on UI/UX prompts
+
+### Update Existing Installation
+
+Update all assistants:
+
+```bash
+uipro update
+```
+
+Update specific assistant:
+
+```bash
+uipro update --ai cursor
+```
+
+### Offline Installation
+
+Install without internet (uses bundled 564KB assets):
+
+```bash
+uipro init --ai windsurf --offline
+```
+
+### Install for Multiple Assistants
+
+Install for all detected assistants at once:
+
+```bash
+uipro init --ai all
+```
+
+**Creates folders for:**
+- `.claude/skills/ui-ux-pro-max/`
+- `.cursor/skills/ui-ux-pro-max/`
+- `.windsurf/skills/ui-ux-pro-max/`
+- `.continue/skills/ui-ux-pro-max/`
+- `.shared/ui-ux-pro-max/` (shared by all)
+
+## Installation Structure
+
+### Template-Based Generation (Default)
+
+By default, `uipro init` uses template generation:
+
+```
+project/
+├── .claude/skills/ui-ux-pro-max/
+│   ├── SKILL.md              # Generated from templates/platforms/claude.json
+│   └── quick-reference.md    # Claude-specific quick reference
+├── .shared/ui-ux-pro-max/
+│   ├── data/                 # CSV databases (symlink)
+│   │   ├── products.csv
+│   │   ├── styles.csv
+│   │   ├── colors.csv
+│   │   ├── typography.csv
+│   │   └── stacks/
+│   │       ├── html-tailwind.csv
+│   │       ├── react.csv
+│   │       └── nextjs.csv
+│   └── scripts/              # Python search engine (symlink)
+│       ├── search.py
+│       ├── core.py
+│       └── design_system.py
+```
+
+### Legacy ZIP-Based Installation
+
+Use `--legacy` flag for old behavior:
+
+```bash
+uipro init --ai claude --legacy
+```
+
+## Error Handling
+
+### GitHub Rate Limit
+
+If you hit GitHub API rate limits:
+
+```ansi
+⠋ Fetching latest release from GitHub...
+⚠ GitHub rate limit reached, using template generation...
+✓ Generated from templates!
+```
+
+**Solution:** Template generation works offline, no action needed.
+
+### Network Errors
+
+If network is unavailable:
+
+```bash
+# Use offline mode
+uipro init --ai claude --offline
+```
+
+### Permission Errors
+
+If installation fails due to permissions:
+
+```bash
+# macOS/Linux: Run with sudo
+sudo npm install -g uipro-cli
+
+# Windows: Run terminal as Administrator
+```
+
+## Uninstallation
+
+To remove UI/UX Pro Max:
+
+```bash
+# Remove skill folders
+rm -rf .claude/skills/ui-ux-pro-max
+rm -rf .shared/ui-ux-pro-max
+
+# Uninstall CLI (optional)
+npm uninstall -g uipro-cli
+```
+
+## Prerequisites
+
+Python 3.x is required for the search engine:
+
+<CodeGroup>
+```bash macOS
+brew install python3
+```
+
+```bash Ubuntu/Debian
+sudo apt update && sudo apt install python3
+```
+
+```powershell Windows
+winget install Python.Python.3.12
+```
+</CodeGroup>
+
+Verify Python installation:
+
+```bash
+python3 --version
+```
+
+## Troubleshooting
+
+### Command Not Found
+
+If `uipro` command is not found after installation:
+
+```bash
+# Check npm global bin path
+npm config get prefix
+
+# Add to PATH (add to ~/.zshrc or ~/.bashrc)
+export PATH="$(npm config get prefix)/bin:$PATH"
+```
+
+### Skill Not Activating
+
+If the skill doesn't activate in your AI assistant:
+
+1. **Restart your AI assistant**
+2. **Check installation folders exist:**
+   ```bash
+   ls -la .claude/skills/ui-ux-pro-max
+   ls -la .shared/ui-ux-pro-max
+   ```
+3. **Verify Python is installed:**
+   ```bash
+   python3 --version
+   ```
+4. **Try explicit prompt:**
+   ```
+   Use UI/UX Pro Max to build a landing page
+   ```
+
+## Next Steps
+
+<CardGroup cols={2}>
+  <Card title="Design System Workflow" icon="palette" href="/guides/design-system-workflow">
+    Learn the complete design system generation workflow
+  </Card>
+  <Card title="Domain Search" icon="magnifying-glass" href="/guides/domain-search">
+    Master domain-specific searches for styles, colors, and typography
+  </Card>
+</CardGroup>

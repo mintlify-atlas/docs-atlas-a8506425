@@ -1,0 +1,379 @@
+---
+title: Development Setup
+description: Set up your local environment for contributing to UI/UX Pro Max
+---
+
+## Prerequisites
+
+Before you begin, ensure you have:
+
+- **Python 3.x** - Required for the search engine (no external packages needed)
+- **Node.js 18+** - For CLI development
+- **Bun** - For building the CLI (optional, can use npm/pnpm)
+- **Git** - For version control
+
+### Check Python Installation
+
+<CodeGroup>
+```bash macOS
+brew install python3
+python3 --version
+```
+
+```bash Ubuntu/Debian
+sudo apt update && sudo apt install python3
+python3 --version
+```
+
+```bash Windows
+winget install Python.Python.3.12
+python3 --version
+```
+</CodeGroup>
+
+### Check Node.js Installation
+
+```bash
+node --version  # Should be 18.x or higher
+npm --version
+```
+
+## Clone the Repository
+
+<Steps>
+  <Step title="Clone and navigate">
+    ```bash
+    git clone https://github.com/nextlevelbuilder/ui-ux-pro-max-skill.git
+    cd ui-ux-pro-max-skill
+    ```
+  </Step>
+
+  <Step title="Understand the structure">
+    The repository has three main areas:
+    
+    ```
+    ui-ux-pro-max-skill/
+    ├── src/ui-ux-pro-max/   # Source of truth (edit here)
+    ├── cli/                 # CLI installer code
+    ├── .claude/             # Local Claude Code testing
+    └── .factory/            # Local Droid (Factory) testing
+    ```
+  </Step>
+
+  <Step title="Verify Python scripts work">
+    ```bash
+    python3 src/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+    ```
+    
+    You should see search results with UI style recommendations.
+  </Step>
+</Steps>
+
+## Local Development Workflow
+
+### Editing Data Files
+
+All CSV databases are in `src/ui-ux-pro-max/data/`:
+
+```bash
+src/ui-ux-pro-max/data/
+├── products.csv         # 100 product types
+├── styles.csv          # 67 UI styles
+├── colors.csv          # 96 color palettes
+├── typography.csv      # 57 font pairings
+├── landing.csv         # 24 landing page patterns
+├── charts.csv          # 25 chart types
+├── ux-guidelines.csv   # 99 UX best practices
+├── ui-reasoning.csv    # 100 reasoning rules
+└── stacks/            # Stack-specific guidelines
+    ├── react.csv
+    ├── nextjs.csv
+    └── ...
+```
+
+**Example: Adding a new UI style**
+
+1. Open `src/ui-ux-pro-max/data/styles.csv`
+2. Add a new row with columns: `Name,Category,Description,Keywords,AIPrompt,Performance,Accessibility`
+3. Test the search:
+   ```bash
+   python3 src/ui-ux-pro-max/scripts/search.py "your new style" --domain style
+   ```
+
+### Editing Search Engine
+
+The search engine is in `src/ui-ux-pro-max/scripts/`:
+
+- **`search.py`** - CLI entry point, argument parsing
+- **`core.py`** - BM25 ranking algorithm, CSV loading
+- **`design_system.py`** - Design system generation logic
+
+**Example: Modifying search ranking**
+
+```python
+# src/ui-ux-pro-max/scripts/core.py
+
+def calculate_bm25_score(query_terms, doc_terms, doc_length, avg_doc_length, N, df):
+    k1 = 1.5  # Increase this to boost term frequency importance
+    b = 0.75  # Increase this to boost document length normalization
+    # ...
+```
+
+### Editing Templates
+
+Templates control how skill files are generated for different AI assistants:
+
+```bash
+src/ui-ux-pro-max/templates/
+├── base/
+│   ├── skill-content.md       # Common content for all platforms
+│   └── quick-reference.md     # Quick reference (Claude only)
+└── platforms/
+    ├── claude.json           # Claude Code config
+    ├── opencode.json         # OpenCode config
+    └── ...
+```
+
+**Example: Editing base content**
+
+```markdown
+<!-- src/ui-ux-pro-max/templates/base/skill-content.md -->
+
+# {{TITLE}}
+
+{{DESCRIPTION}}
+
+## Usage
+
+This {{SKILL_OR_WORKFLOW}} provides design intelligence for building professional UI/UX.
+
+## Search Command
+
+```bash
+python3 {{SCRIPT_PATH}} "<query>" --domain <domain>
+```
+```
+
+**Available placeholders:**
+- `{{TITLE}}` - Skill title
+- `{{DESCRIPTION}}` - Skill description
+- `{{SCRIPT_PATH}}` - Path to search.py
+- `{{SKILL_OR_WORKFLOW}}` - "skill" or "workflow" depending on platform
+- `{{QUICK_REFERENCE}}` - Quick reference section (if enabled)
+
+### Testing with Symlinks
+
+The `.claude/` and `.factory/` directories use symlinks to `src/ui-ux-pro-max/`:
+
+```bash
+# Changes to source are immediately available
+echo "New style,General,Description,..." >> src/ui-ux-pro-max/data/styles.csv
+
+# Test in Claude Code (if installed)
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "new style" --domain style
+
+# Test in Droid/Factory (if installed)
+python3 .factory/skills/ui-ux-pro-max/scripts/search.py "new style" --domain style
+```
+
+<Warning>
+If symlinks are broken, recreate them:
+```bash
+ln -s ../../src/ui-ux-pro-max .claude/skills/ui-ux-pro-max
+ln -s ../../src/ui-ux-pro-max .factory/skills/ui-ux-pro-max
+```
+</Warning>
+
+## CLI Development
+
+### Build the CLI
+
+<Steps>
+  <Step title="Navigate to CLI directory">
+    ```bash
+    cd cli
+    ```
+  </Step>
+
+  <Step title="Install dependencies">
+    ```bash
+    npm install
+    # or
+    bun install
+    ```
+  </Step>
+
+  <Step title="Build the CLI">
+    ```bash
+    bun run build
+    # or
+    npm run build
+    ```
+    
+    This creates `dist/index.js` with all dependencies bundled.
+  </Step>
+
+  <Step title="Test locally">
+    ```bash
+    # Create a test directory
+    mkdir /tmp/test-install
+    cd /tmp/test-install
+    
+    # Run CLI from source with --offline flag
+    node ~/path/to/ui-ux-pro-max-skill/cli/dist/index.js init --ai claude --offline
+    
+    # Verify installation
+    ls -la .claude/skills/ui-ux-pro-max/
+    python3 .claude/skills/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+    ```
+  </Step>
+</Steps>
+
+### CLI Source Code
+
+**Key files:**
+
+- **`cli/src/commands/init.ts`** - Install command logic
+- **`cli/src/utils/template.ts`** - Template rendering engine
+- **`cli/src/types/index.ts`** - TypeScript type definitions
+- **`cli/assets/`** - Bundled copy of src/ui-ux-pro-max/
+
+**Template rendering flow:**
+
+```typescript
+// cli/src/utils/template.ts
+
+// 1. Load platform config
+const config = await loadPlatformConfig('claude');
+// Returns: { platform: 'claude', folderStructure: {...}, sections: {...} }
+
+// 2. Render skill file from template
+const content = await renderSkillFile(config);
+// Replaces {{TITLE}}, {{DESCRIPTION}}, etc.
+
+// 3. Write to target directory
+const skillPath = join('.claude', 'skills', 'ui-ux-pro-max', 'SKILL.md');
+await writeFile(skillPath, content);
+
+// 4. Copy data and scripts
+await copyDataAndScripts('.claude/skills/ui-ux-pro-max/');
+```
+
+## Testing Your Changes
+
+### Test Search Engine
+
+```bash
+# Test domain-specific search
+python3 src/ui-ux-pro-max/scripts/search.py "SaaS" --domain product
+python3 src/ui-ux-pro-max/scripts/search.py "glassmorphism" --domain style
+python3 src/ui-ux-pro-max/scripts/search.py "elegant serif" --domain typography
+
+# Test stack-specific search
+python3 src/ui-ux-pro-max/scripts/search.py "form validation" --stack react
+python3 src/ui-ux-pro-max/scripts/search.py "responsive layout" --stack html-tailwind
+
+# Test design system generation
+python3 src/ui-ux-pro-max/scripts/search.py "beauty spa" --design-system -p "Serenity Spa"
+python3 src/ui-ux-pro-max/scripts/search.py "fintech banking" --design-system -f markdown
+```
+
+### Test CLI Installation
+
+```bash
+# Build CLI
+cd cli && bun run build
+
+# Test in temporary directory
+mkdir /tmp/test-cli && cd /tmp/test-cli
+node ~/path/to/ui-ux-pro-max-skill/cli/dist/index.js init --ai claude --offline
+
+# Verify files were created
+ls -la .claude/skills/ui-ux-pro-max/
+cat .claude/skills/ui-ux-pro-max/SKILL.md
+
+# Test search functionality
+python3 .claude/skills/ui-ux-pro-max/scripts/search.py "test query" --domain style
+```
+
+### Test with AI Assistant
+
+If you have Claude Code, Cursor, or another supported AI assistant:
+
+1. **Install locally:**
+   ```bash
+   cd ~/path/to/your-test-project
+   node ~/path/to/ui-ux-pro-max-skill/cli/dist/index.js init --ai claude --offline
+   ```
+
+2. **Restart your AI assistant**
+
+3. **Test with a prompt:**
+   ```
+   Build a landing page for a beauty spa
+   ```
+
+4. **Verify the AI uses the skill:**
+   - Check if it runs `python3 .claude/skills/ui-ux-pro-max/scripts/search.py`
+   - Check if it generates a design system
+   - Check if the output includes colors, typography, and style recommendations
+
+## Code Style
+
+### Python
+
+- Follow PEP 8 conventions
+- Use type hints where helpful
+- Keep functions focused and testable
+- Add docstrings to complex functions
+
+```python
+def search(query: str, domain: str | None = None, max_results: int = 5) -> list[dict]:
+    """Search the database using BM25 ranking.
+    
+    Args:
+        query: Search query string
+        domain: Optional domain to search (product, style, color, etc.)
+        max_results: Maximum number of results to return
+        
+    Returns:
+        List of matching entries sorted by relevance score
+    """
+    # Implementation...
+```
+
+### TypeScript
+
+- Use TypeScript strict mode
+- Define interfaces for all data structures
+- Prefer `async/await` over promises
+- Use modern ES modules
+
+```typescript
+interface PlatformConfig {
+  platform: string;
+  displayName: string;
+  folderStructure: {
+    root: string;
+    skillPath: string;
+    filename: string;
+  };
+  // ...
+}
+
+export async function loadPlatformConfig(aiType: string): Promise<PlatformConfig> {
+  // Implementation...
+}
+```
+
+## Next Steps
+
+Once you've made your changes:
+
+1. **Sync to CLI assets** - See [Sync Workflow](/contributing/sync-workflow)
+2. **Test thoroughly** - Test search, design system generation, and CLI installation
+3. **Create a pull request** - Follow the Git workflow in [Architecture](/contributing/architecture)
+
+<Warning>
+**Never push directly to `main`**. Always create a feature branch and submit a PR.
+</Warning>
